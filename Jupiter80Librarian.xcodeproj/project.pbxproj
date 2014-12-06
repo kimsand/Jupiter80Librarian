@@ -397,6 +397,7 @@
 				E8E4AB851A1D131C00FCF1B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E8E4AB861A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter80LibrarianTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +406,7 @@
 				E8E4AB881A1D131C00FCF1B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
