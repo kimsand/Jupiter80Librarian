@@ -8,12 +8,6 @@
 
 import Cocoa
 
-enum FileFormat {
-	case Unknown
-	case Jupiter80
-	case Jupiter50
-}
-
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -44,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				if fileData != nil && error == nil {
 					NSLog("file length: %d", fileData!.length)
 
-					SVDUtils.checkValidityOfData(fileData!)
+					let svdFile = SVDFile(fileData: fileData!)
 				} else if error != nil {
 					NSLog("error: %@", error!)
 				}

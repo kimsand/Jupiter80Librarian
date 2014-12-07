@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC65C1A342BC50076FE95 /* ViewController.swift */; };
-		E89EC65F1A342BCF0076FE95 /* SVDUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC65E1A342BCF0076FE95 /* SVDUtils.swift */; };
+		E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6621A34333F0076FE95 /* SVDFile.swift */; };
 		E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */; };
 		E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */; };
 		E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */; };
@@ -27,7 +27,7 @@
 
 /* Begin PBXFileReference section */
 		E89EC65C1A342BC50076FE95 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Controllers/ViewController.swift; sourceTree = "<group>"; };
-		E89EC65E1A342BCF0076FE95 /* SVDUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDUtils.swift; path = Utils/SVDUtils.swift; sourceTree = "<group>"; };
+		E89EC6621A34333F0076FE95 /* SVDFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDFile.swift; path = Model/SVDFile.swift; sourceTree = "<group>"; };
 		E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jupiter80Librarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E4AB6B1A1D131C00FCF1B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,14 +56,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E89EC65A1A342BAD0076FE95 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				E89EC65E1A342BCF0076FE95 /* SVDUtils.swift */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
 		E89EC65B1A342BB40076FE95 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +70,14 @@
 				E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		E89EC6611A34320A0076FE95 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E89EC6621A34333F0076FE95 /* SVDFile.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		E8E4AB5E1A1D131C00FCF1B5 = {
@@ -103,8 +103,8 @@
 			children = (
 				E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */,
 				E89EC65B1A342BB40076FE95 /* Controllers */,
+				E89EC6611A34320A0076FE95 /* Model */,
 				E8E4AB6A1A1D131C00FCF1B5 /* Supporting Files */,
-				E89EC65A1A342BAD0076FE95 /* Utils */,
 				E89EC6601A342C8B0076FE95 /* Views */,
 			);
 			path = Jupiter80Librarian;
@@ -236,8 +236,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */,
-				E89EC65F1A342BCF0076FE95 /* SVDUtils.swift in Sources */,
 				E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */,
+				E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
