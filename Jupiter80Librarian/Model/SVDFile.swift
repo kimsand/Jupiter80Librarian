@@ -15,9 +15,9 @@ enum SVDFileFormat {
 }
 
 private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
-private let kBytesREG = SVDBytes(location: 0xA, bytes: [0x52, 0x45, 0x47])
-private let kBytesJPTR = SVDBytes(location: 0xE, bytes: [0x4A, 0x50, 0x54, 0x52])
-private let kBytesJP50 = SVDBytes(location: 0xE, bytes: [0x4A, 0x50, 0x35, 0x30])
+private let kBytesREG = SVDBytes(location: 0x10, bytes: [0x52, 0x45, 0x47])
+private let kBytesJPTR = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x54, 0x52])
+private let kBytesJP50 = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x35, 0x30])
 private let kBytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
 private let kBytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
 private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
@@ -101,7 +101,8 @@ class SVDFile: NSObject {
 	}
 
 	private func findPartLengths() {
-		let regLengthData = self.svdUtils.dataFromByteStruct(kBytesRegLength)
+		let nrOfRegs = self.svdUtils.numberFromBytes(kBytesRegLength)
 
+		NSLog("Nr of regs: %d", nrOfRegs)
 	}
 }

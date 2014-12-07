@@ -47,4 +47,21 @@ class SVDUtils: NSObject {
 		return byteData.isEqualToData(byteCheck)
 	}
 
+	func numberFromBytes(byteStruct: SVDBytes) -> UInt {
+		let byteData = self.dataFromByteStruct(byteStruct)
+
+		var bytes: [UInt8] = Array(count: byteData.length, repeatedValue: 0x0)
+		byteData.getBytes(&bytes, length: byteData.length)
+
+		var number: UInt = UInt(bytes.last!)
+
+		var iteration = 0
+		var restBytes = bytes[0...bytes.count - 2]
+
+		for byte in restBytes.reverse() {
+			number += UInt(byte) * (2^(8+iteration))
+		}
+
+		return number
+	}
 }
