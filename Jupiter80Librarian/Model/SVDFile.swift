@@ -22,19 +22,31 @@ private let kBytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
 private let kBytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
 private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
 
-private let kBytesRegLength = SVDBytes(location: 0x40, length: 4)
+private let kRegLengthLocation = 0x40
+private let kRegLengthLength = 4
+private let kRegLength = 0x2F4
+private let kRegOffset = 0x50
+private let kLiveLengthLength = 4
+private let kLiveLength = 0x48E
+private let kLiveMetaLength = 0x0c
+private let kToneLengthLength = 4
+private let kToneLength = 0xA8
+private let kToneMetaLength = 0x0c
 
 class SVDFile: NSObject {
 	private let svdUtils: SVDUtils
-	private var fileFormat: SVDFileFormat
-	private var isFileValid: Bool
-	private var headerOffset: Int
+	private var fileFormat: SVDFileFormat = .Unknown
+	private var isFileValid: Bool = false
+	private var headerOffset: Int = 0x0
+	private var regOffset: Int = 0x0
+	private var liveOffset: Int = 0x0
+	private var toneOffset: Int = 0x0
+	var nrOfRegs: Int = 0
+	var nrOfLives: Int = 0
+	var nrOfTones: Int = 0
 
 	init(fileData: NSData) {
 		self.svdUtils = SVDUtils(fileData: fileData)
-		self.fileFormat = .Unknown
-		self.isFileValid = false
-		self.headerOffset = 0x0
 
 		super.init()
 
@@ -101,8 +113,21 @@ class SVDFile: NSObject {
 	}
 
 	private func findPartLengths() {
-		let nrOfRegs = self.svdUtils.numberFromBytes(kBytesRegLength)
+		self.regOffset = kRegOffset + self.headerOffset
+		let nrOfRegsOffset = kRegLengthLocation + self.headerOffset
+		let nrOfRegsBytes = SVDBytes(location: nrOfRegsOffset, length: kRegLengthLength)
+		self.nrOfRegs = self.svdUtils.numberFromBytes(nrOfRegsBytes)
+		let nrOfLivesOffset = kRegOffset + (nrOfRegs * kRegLength)
+		let nrOfLivesBytes = SVDBytes(location: nrOfLivesOffset, length: kLiveLengthLength)
+		self.nrOfLives = self.svdUtils.numberFromBytes(nrOfLivesBytes)
+		self.liveOffset = nrOfLivesOffset + kLiveLengthLength + kLiveMetaLength
+		let nrOfTonesOffset = liveOffset + (nrOfLives * kLiveLength)
+		let nrOfTonesBytes = SVDBytes(location: nrOfTonesOffset, length: kToneLengthLength)
+		self.nrOfTones = self.svdUtils.numberFromBytes(nrOfTonesBytes)
+		self.toneOffset = nrOfTonesOffset + kToneLengthLength + kToneMetaLength
 
 		NSLog("Nr of regs: %d", nrOfRegs)
+		NSLog("Nr of lives: %d", nrOfLives)
+		NSLog("Nr of tones: %d", nrOfTones)
 	}
 }
