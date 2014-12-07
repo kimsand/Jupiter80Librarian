@@ -17,6 +17,19 @@ enum SVDFileFormat {
 struct SVDBytes {
 	let location: Int
 	let bytes: [UInt8]
+	let length: Int
+
+	init(location: Int, bytes: [UInt8]) {
+		self.location = location
+		self.bytes = bytes
+		self.length = self.bytes.count
+	}
+
+	init(location: Int, length: Int) {
+		self.location = location
+		self.length = length
+		self.bytes = []
+	}
 }
 
 private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
@@ -27,7 +40,7 @@ private let kBytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
 private let kBytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
 private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
 
-private let kLocationNrOfRegs = 0x40
+private let kBytesRegLength = SVDBytes(location: 0x40, length: 4)
 
 class SVDFile: NSObject {
 	private var fileData: NSData
@@ -50,12 +63,19 @@ class SVDFile: NSObject {
 		}
 
 		self.findHeaderOffset()
+		self.findPartLengths()
 	}
 
-	private func compareData(byteStruct: SVDBytes) -> Bool {
-		let byteRange = NSRange(location: byteStruct.location, length: byteStruct.bytes.count)
+	func dataFromByteStruct(byteStruct: SVDBytes) -> NSData {
+		let byteRange = NSRange(location: byteStruct.location, length: byteStruct.length)
 		let byteData = self.fileData.subdataWithRange(byteRange)
-		let byteCheck = NSData(bytes: byteStruct.bytes, length: byteStruct.bytes.count)
+
+		return byteData
+	}
+
+	func compareData(byteStruct: SVDBytes) -> Bool {
+		let byteData = self.dataFromByteStruct(byteStruct)
+		let byteCheck = NSData(bytes: byteStruct.bytes, length: byteStruct.length)
 
 		return byteData.isEqualToData(byteCheck)
 	}
@@ -110,5 +130,10 @@ class SVDFile: NSObject {
 		if hasRBNPart {
 			self.headerOffset += 0x10
 		}
+	}
+
+	private func findPartLengths() {
+		let regLengthData = self.dataFromByteStruct(kBytesRegLength)
+
 	}
 }
