@@ -1,5 +1,5 @@
 //
-//  SVDFileModel.swift
+//  SVDFile.swift
 //  Jupiter80Librarian
 //
 //  Created by Kim André Sand on 07/12/14.
@@ -14,24 +14,6 @@ enum SVDFileFormat {
 	case Jupiter50
 }
 
-struct SVDBytes {
-	let location: Int
-	let bytes: [UInt8]
-	let length: Int
-
-	init(location: Int, bytes: [UInt8]) {
-		self.location = location
-		self.bytes = bytes
-		self.length = self.bytes.count
-	}
-
-	init(location: Int, length: Int) {
-		self.location = location
-		self.length = length
-		self.bytes = []
-	}
-}
-
 private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
 private let kBytesREG = SVDBytes(location: 0xA, bytes: [0x52, 0x45, 0x47])
 private let kBytesJPTR = SVDBytes(location: 0xE, bytes: [0x4A, 0x50, 0x54, 0x52])
@@ -43,20 +25,20 @@ private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
 private let kBytesRegLength = SVDBytes(location: 0x40, length: 4)
 
 class SVDFile: NSObject {
-	private var fileData: NSData
+	private let svdUtils: SVDUtils
 	private var fileFormat: SVDFileFormat
 	private var isFileValid: Bool
 	private var headerOffset: Int
 
 	init(fileData: NSData) {
-		self.fileData = fileData
+		self.svdUtils = SVDUtils(fileData: fileData)
 		self.fileFormat = .Unknown
 		self.isFileValid = false
 		self.headerOffset = 0x0
 
 		super.init()
 
-		self.isFileValid = self.checkValidityOfData(self.fileData)
+		self.isFileValid = self.checkValidityOfData(fileData)
 
 		if !self.isFileValid {
 			return;
@@ -66,40 +48,26 @@ class SVDFile: NSObject {
 		self.findPartLengths()
 	}
 
-	func dataFromByteStruct(byteStruct: SVDBytes) -> NSData {
-		let byteRange = NSRange(location: byteStruct.location, length: byteStruct.length)
-		let byteData = self.fileData.subdataWithRange(byteRange)
-
-		return byteData
-	}
-
-	func compareData(byteStruct: SVDBytes) -> Bool {
-		let byteData = self.dataFromByteStruct(byteStruct)
-		let byteCheck = NSData(bytes: byteStruct.bytes, length: byteStruct.length)
-
-		return byteData.isEqualToData(byteCheck)
-	}
-
 	private func checkValidityOfData(fileData: NSData) -> Bool {
 		// Check for string SVD
-		let isSVDFile = self.compareData(kBytesSVD)
+		let isSVDFile = self.svdUtils.compareData(kBytesSVD)
 
 		if !isSVDFile {
 			return false
 		}
 
 		// Check for string REG
-		let isRegFile = self.compareData(kBytesREG)
+		let isRegFile = self.svdUtils.compareData(kBytesREG)
 
 		if isRegFile {
 			// Check for string JPTR
-			let isJupiter80File = self.compareData(kBytesJPTR)
+			let isJupiter80File = self.svdUtils.compareData(kBytesJPTR)
 
 			if isJupiter80File {
 				self.fileFormat = .Jupiter80
 			} else {
 				// Check for string JP50
-				let isJupiter50File = self.compareData(kBytesJP50)
+				let isJupiter50File = self.svdUtils.compareData(kBytesJP50)
 
 				if isJupiter50File {
 					self.fileFormat = .Jupiter50
@@ -113,19 +81,19 @@ class SVDFile: NSObject {
 	}
 
 	private func findHeaderOffset() {
-		let hasVCLPart = self.compareData(kBytesVCL)
+		let hasVCLPart = self.svdUtils.compareData(kBytesVCL)
 
 		if hasVCLPart {
 			self.headerOffset += 0x10
 		}
 
-		let hasSYSPart = self.compareData(kBytesSYS)
+		let hasSYSPart = self.svdUtils.compareData(kBytesSYS)
 
 		if hasSYSPart {
 			self.headerOffset += 0x10
 		}
 
-		let hasRBNPart = self.compareData(kBytesRBN)
+		let hasRBNPart = self.svdUtils.compareData(kBytesRBN)
 
 		if hasRBNPart {
 			self.headerOffset += 0x10
@@ -133,7 +101,7 @@ class SVDFile: NSObject {
 	}
 
 	private func findPartLengths() {
-		let regLengthData = self.dataFromByteStruct(kBytesRegLength)
+		let regLengthData = self.svdUtils.dataFromByteStruct(kBytesRegLength)
 
 	}
 }
