@@ -19,24 +19,37 @@ struct SVDBytes {
 	let bytes: [UInt8]
 }
 
-private let kBytesSVD = SVDBytes(location: 2, bytes: [0x53, 0x56, 0x44])
-private let kBytesREG = SVDBytes(location: 10, bytes: [0x52, 0x45, 0x47])
-private let kBytesJPTR = SVDBytes(location: 14, bytes: [0x4a, 0x50, 0x54, 0x52])
-private let kBytesJP50 = SVDBytes(location: 14, bytes: [0x4a, 0x50, 0x35, 0x30])
+private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
+private let kBytesREG = SVDBytes(location: 0xA, bytes: [0x52, 0x45, 0x47])
+private let kBytesJPTR = SVDBytes(location: 0xE, bytes: [0x4A, 0x50, 0x54, 0x52])
+private let kBytesJP50 = SVDBytes(location: 0xE, bytes: [0x4A, 0x50, 0x35, 0x30])
+private let kBytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
+private let kBytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
+private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
+
+private let kLocationNrOfRegs = 0x40
 
 class SVDFile: NSObject {
 	private var fileData: NSData
 	private var fileFormat: SVDFileFormat
 	private var isFileValid: Bool
+	private var headerOffset: Int
 
 	init(fileData: NSData) {
 		self.fileData = fileData
 		self.fileFormat = .Unknown
 		self.isFileValid = false
+		self.headerOffset = 0x0
 
 		super.init()
 
 		self.isFileValid = self.checkValidityOfData(self.fileData)
+
+		if !self.isFileValid {
+			return;
+		}
+
+		self.findHeaderOffset()
 	}
 
 	private func compareData(byteStruct: SVDBytes) -> Bool {
@@ -77,5 +90,25 @@ class SVDFile: NSObject {
 		}
 
 		return true;
+	}
+
+	private func findHeaderOffset() {
+		let hasVCLPart = self.compareData(kBytesVCL)
+
+		if hasVCLPart {
+			self.headerOffset += 0x10
+		}
+
+		let hasSYSPart = self.compareData(kBytesSYS)
+
+		if hasSYSPart {
+			self.headerOffset += 0x10
+		}
+
+		let hasRBNPart = self.compareData(kBytesRBN)
+
+		if hasRBNPart {
+			self.headerOffset += 0x10
+		}
 	}
 }
