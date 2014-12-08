@@ -83,7 +83,9 @@ class SVDUtils: NSObject {
 	// 00000000 00000000 00000000 00000000 00000000 00111111 10000000 00000000
 	// 00000000 00000000 00000000 00000000 00000000 00000000 01111111 00000000
 
-	func stringFromBytes(byteStruct: SVDBytes) -> String {
+	func unshiftedBytesFromBytes(byteStruct: SVDBytes) -> [NSData] {
+		var dataStream: [NSData] = []
+
 		let byteData = self.dataFromByteStruct(byteStruct)
 
 		let bitmasks: [UInt16] = [0b1111111000000000, 0b0000000111111100, 0b0000001111111000, 0b0000011111110000, 0b0000111111100000, 0b0001111111000000, 0b0011111110000000, 0b0111111100000000]
@@ -94,7 +96,6 @@ class SVDUtils: NSObject {
 		var bitmaskIndex = 0
 
 		for index in 0..<byteStruct.length {
-			//var twoBytes = UnsafePointer<UInt16>(byteData.bytes)[byteIndex]
 			var twoBytes: UInt16 = 0x0
 			byteData.getBytes(&twoBytes, range: NSRange(location: byteIndex, length: 2))
 			twoBytes = twoBytes.bigEndian
@@ -115,11 +116,21 @@ class SVDUtils: NSObject {
 			}
 
 			let data = NSData(bytes: bitsShifted, length: 1)
-			let str = NSString(data: data, encoding: NSASCIIStringEncoding)
-
-			NSLog(str!)
+			dataStream.append(data)
 		}
 
-		return "";
+		return dataStream
+	}
+
+	func stringFromBytes(byteStruct: SVDBytes) -> String {
+		var dataStream = self.unshiftedBytesFromBytes(byteStruct)
+		var dataString: String = ""
+
+		for data in dataStream {
+			let str = NSString(data: data, encoding: NSASCIIStringEncoding)!
+			dataString += str
+		}
+
+		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
 }

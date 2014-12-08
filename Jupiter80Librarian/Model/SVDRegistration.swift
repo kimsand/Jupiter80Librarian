@@ -19,5 +19,7 @@ class SVDRegistration: NSObject {
 
 		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
 		self.regName = self.svdUtils.stringFromBytes(regNameBytes)
+
+		NSLog("Registration name: '%@'", self.regName)
 	}
 }
