@@ -35,15 +35,17 @@ private let kToneMetaLength = 0x0c
 
 class SVDFile: NSObject {
 	private let svdUtils: SVDUtils
-	private var fileFormat: SVDFileFormat = .Unknown
 	private var isFileValid: Bool = false
 	private var headerOffset: Int = 0x0
 	private var regOffset: Int = 0x0
 	private var liveOffset: Int = 0x0
 	private var toneOffset: Int = 0x0
+
+	var fileFormat: SVDFileFormat = .Unknown
 	var nrOfRegs: Int = 0
 	var nrOfLives: Int = 0
 	var nrOfTones: Int = 0
+	var registrations: [SVDRegistration] = []
 
 	init(fileData: NSData) {
 		self.svdUtils = SVDUtils(fileData: fileData)
@@ -58,6 +60,7 @@ class SVDFile: NSObject {
 
 		self.findHeaderOffset()
 		self.findPartLengths()
+		self.findRegistrations()
 	}
 
 	private func checkValidityOfData(fileData: NSData) -> Bool {
@@ -129,5 +132,16 @@ class SVDFile: NSObject {
 		NSLog("Nr of regs: %d", nrOfRegs)
 		NSLog("Nr of lives: %d", nrOfLives)
 		NSLog("Nr of tones: %d", nrOfTones)
+	}
+
+	private func findRegistrations() {
+		var regCount = 0
+
+		for index in 0..<self.nrOfRegs {
+			var regBytes = SVDBytes(location: self.regOffset + (kRegLength * index), length: kRegLength)
+
+			let registration = SVDRegistration(svdUtils: self.svdUtils, regBytes: regBytes)
+			self.registrations.append(registration)
+		}
 	}
 }
