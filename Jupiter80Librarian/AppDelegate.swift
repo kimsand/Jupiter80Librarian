@@ -27,13 +27,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		let status = openPanel.runModal()
 
+		var fileURL: NSURL?
+
 		switch(status) {
 		case NSFileHandlingPanelOKButton:
-			if let fileURL = openPanel.URLs.first? as? NSURL {
-				NSLog("fileURL: %@", fileURL)
+			fileURL = openPanel.URLs.first? as? NSURL
+			openPanel.close()
+		default:
+			return
+		}
+
+		// Give the open dialog time to close to avoid it staying open on breakpoints
+		dispatch_after(dispatch_time(
+			DISPATCH_TIME_NOW,
+			Int64(0.2 * Double(NSEC_PER_SEC))
+			), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+			if fileURL != nil {
+				NSLog("fileURL: %@", fileURL!)
 
 				var error: NSError?
-				let fileData = NSData(contentsOfURL: fileURL, options: nil, error: &error)
+				let fileData = NSData(contentsOfURL: fileURL!, options: nil, error: &error)
 
 				if fileData != nil && error == nil {
 					NSLog("file length: %d", fileData!.length)
@@ -43,10 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					NSLog("error: %@", error!)
 				}
 			}
-		default:
-			return
-		}
+		})
 	}
-
 }
 
