@@ -11,14 +11,14 @@ import Cocoa
 private let kRegNameLength = 0x10
 
 class SVDRegistration: NSObject {
-	private let svdUtils: SVDUtils
+	private let svdFile: SVDFile
 	var regName: String = ""
 
-	init(svdUtils: SVDUtils, regBytes: SVDBytes) {
-		self.svdUtils = svdUtils
+	init(svdFile: SVDFile, regBytes: SVDBytes) {
+		self.svdFile = svdFile
 
 		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
-		self.regName = self.svdUtils.stringFromBytes(regNameBytes)
+		self.regName = self.svdFile.stringFromBytes(regNameBytes)
 
 		NSLog("Registration name: '%@'", self.regName)
 	}
