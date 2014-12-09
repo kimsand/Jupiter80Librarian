@@ -58,11 +58,14 @@ class SVDFile: NSObject {
 	var headerOffset: Int = 0x0
 
 	var fileFormat: SVDFileFormat = .Unknown
+
 	var nrOfRegs: Int = 0
 	var nrOfLives: Int = 0
 	var nrOfTones: Int = 0
+
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
+	var tones: [SVDTone] = []
 
 	init(fileData: NSData) {
 		self.fileData = fileData
@@ -79,6 +82,7 @@ class SVDFile: NSObject {
 		self.findPartLengths()
 		self.findRegistrations()
 		self.findLiveSets()
+		self.findTones()
 	}
 
 	private func checkValidityOfData(fileData: NSData) -> Bool {
@@ -169,6 +173,16 @@ class SVDFile: NSObject {
 
 			let liveSet = SVDLiveSet(svdFile: self, liveBytes: liveBytes)
 			self.liveSets.append(liveSet)
+		}
+	}
+
+	private func findTones() {
+		for index in 0..<self.nrOfTones {
+			var toneBytes = self.toneBytes
+			toneBytes.location += (toneBytes.length * index)
+
+			let tone = SVDTone(svdFile: self, toneBytes: toneBytes)
+			self.tones.append(tone)
 		}
 	}
 
