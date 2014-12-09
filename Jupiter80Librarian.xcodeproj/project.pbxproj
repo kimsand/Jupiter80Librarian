@@ -10,6 +10,7 @@
 		E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC65C1A342BC50076FE95 /* ViewController.swift */; };
 		E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6621A34333F0076FE95 /* SVDFile.swift */; };
 		E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */; };
+		E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */; };
 		E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */; };
 		E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */; };
 		E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 		E89EC65C1A342BC50076FE95 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Controllers/ViewController.swift; sourceTree = "<group>"; };
 		E89EC6621A34333F0076FE95 /* SVDFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDFile.swift; path = Model/SVDFile.swift; sourceTree = "<group>"; };
 		E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDRegistration.swift; path = Model/SVDRegistration.swift; sourceTree = "<group>"; };
+		E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDLiveSet.swift; path = Model/SVDLiveSet.swift; sourceTree = "<group>"; };
 		E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jupiter80Librarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E4AB6B1A1D131C00FCF1B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				E89EC6621A34333F0076FE95 /* SVDFile.swift */,
 				E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */,
+				E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */,
+				E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */,
 				E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */,
 				E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */,
 				E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */,

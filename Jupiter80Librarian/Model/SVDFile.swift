@@ -54,13 +54,15 @@ class SVDFile: NSObject {
 	private let fileData: NSData
 
 	private var isFileValid: Bool = false
-	private var headerOffset: Int = 0x0
+
+	var headerOffset: Int = 0x0
 
 	var fileFormat: SVDFileFormat = .Unknown
 	var nrOfRegs: Int = 0
 	var nrOfLives: Int = 0
 	var nrOfTones: Int = 0
 	var registrations: [SVDRegistration] = []
+	var liveSets: [SVDLiveSet] = []
 
 	init(fileData: NSData) {
 		self.fileData = fileData
@@ -76,6 +78,7 @@ class SVDFile: NSObject {
 		self.findHeaderOffset()
 		self.findPartLengths()
 		self.findRegistrations()
+		self.findLiveSets()
 	}
 
 	private func checkValidityOfData(fileData: NSData) -> Bool {
@@ -138,11 +141,11 @@ class SVDFile: NSObject {
 
 		self.nrOfLivesBytes.location = self.regBytes.location + (self.nrOfRegs * self.regBytes.length)
 		self.nrOfLives = self.numberFromBytes(nrOfLivesBytes)
-		self.liveBytes.location = self.nrOfLivesBytes.location + self.liveBytes.length + liveMetaLength
+		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + liveMetaLength
 
 		self.nrOfTonesBytes.location = self.liveBytes.location + (self.nrOfLives * self.liveBytes.length)
 		self.nrOfTones = self.numberFromBytes(nrOfTonesBytes)
-		self.toneBytes.location = self.nrOfTonesBytes.location + self.toneBytes.length + toneMetaLength
+		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + toneMetaLength
 
 		NSLog("Nr of regs: %d", self.nrOfRegs)
 		NSLog("Nr of lives: %d", self.nrOfLives)
@@ -150,14 +153,22 @@ class SVDFile: NSObject {
 	}
 
 	private func findRegistrations() {
-		var regCount = 0
-
 		for index in 0..<self.nrOfRegs {
 			var regBytes = self.regBytes
 			regBytes.location += (regBytes.length * index)
 
 			let registration = SVDRegistration(svdFile: self, regBytes: regBytes)
 			self.registrations.append(registration)
+		}
+	}
+
+	private func findLiveSets() {
+		for index in 0..<self.nrOfLives {
+			var liveBytes = self.liveBytes
+			liveBytes.location += (liveBytes.length * index)
+
+			let liveSet = SVDLiveSet(svdFile: self, liveBytes: liveBytes)
+			self.liveSets.append(liveSet)
 		}
 	}
 
