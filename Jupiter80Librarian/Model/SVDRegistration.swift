@@ -19,11 +19,11 @@ private let regPartTypeAcoustic4 = 0x5A
 private let regPartTypeAcoustic5 = 0x5C
 private let regPartTypeDrumset1 = 0x56
 private let regPartTypeDrumset2 = 0xD6
+private let kRegNameLength = 0x10
 
 class SVDRegistration: NSObject {
 	private let svdFile: SVDFile
 
-	private let regNameLength = 0x10
 	private var regUpperBytes = SVDBytes(location: 0x85, length: 0x2)
 	private var regLowerBytes = SVDBytes(location: 0x8C, length: 0x2)
 	private var regSoloBytes = SVDBytes(location: 0x93, length: 0x2)
@@ -41,7 +41,7 @@ class SVDRegistration: NSObject {
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int) {
 		self.svdFile = svdFile
 
-		let regNameBytes = SVDBytes(location: regBytes.location, length: self.regNameLength)
+		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
 		self.regName = self.svdFile.stringFromBytes(regNameBytes)
 
 		self.regUpperBytes.location += regBytes.location - regBytesOffset

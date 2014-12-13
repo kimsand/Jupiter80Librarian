@@ -8,10 +8,15 @@
 
 import Cocoa
 
+private let kLiveNameLength = 0x10
+
 class SVDLiveSet: NSObject {
 	private let svdFile: SVDFile
 
-	private let liveNameLength = 0x10
+	private var liveLayer1Bytes = SVDBytes(location: 0x19F, length: 0x3)
+	private var liveLayer2Bytes = SVDBytes(location: 0x1C5, length: 0x3)
+	private var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
+	private var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
 
 	var liveName: String
 	var registrations: [SVDRegistration] = []
@@ -19,11 +24,33 @@ class SVDLiveSet: NSObject {
 	init(svdFile: SVDFile, liveBytes: SVDBytes) {
 		self.svdFile = svdFile
 
-		let liveNameBytes = SVDBytes(location: liveBytes.location, length: self.liveNameLength)
+		let liveNameBytes = SVDBytes(location: liveBytes.location, length: kLiveNameLength)
 		self.liveName = self.svdFile.stringFromBytes(liveNameBytes)
-	}
+
+		self.liveLayer1Bytes.location += liveBytes.location
+		self.liveLayer2Bytes.location += liveBytes.location
+		self.liveLayer3Bytes.location += liveBytes.location
+		self.liveLayer4Bytes.location += liveBytes.location
+}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
 		self.registrations.append(svdRegistration)
+	}
+
+	func findDependencies() {
+		let liveLayer1MetaData = self.svdFile.unshiftedBytesFromBytes(self.liveLayer1Bytes)
+		let liveLayer2MetaData = self.svdFile.unshiftedBytesFromBytes(self.liveLayer2Bytes)
+		let liveLayer3MetaData = self.svdFile.unshiftedBytesFromBytes(self.liveLayer3Bytes)
+		let liveLayer4MetaData = self.svdFile.unshiftedBytesFromBytes(self.liveLayer4Bytes)
+
+		let liveLayer1LocationData = liveLayer1MetaData.subdataWithRange(NSRange(location: 1, length: 2))
+		let liveLayer2LocationData = liveLayer2MetaData.subdataWithRange(NSRange(location: 1, length: 2))
+		let liveLayer3LocationData = liveLayer3MetaData.subdataWithRange(NSRange(location: 1, length: 2))
+		let liveLayer4LocationData = liveLayer4MetaData.subdataWithRange(NSRange(location: 1, length: 2))
+
+		let liveLayer1Location = svdFile.numberFromData(liveLayer1LocationData)
+		let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData)
+		let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData)
+		let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData)
 	}
 }

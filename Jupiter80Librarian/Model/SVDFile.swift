@@ -32,18 +32,18 @@ enum SVDFileFormat {
 	case Jupiter50
 }
 
+private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
+private let kBytesREG = SVDBytes(location: 0x10, bytes: [0x52, 0x45, 0x47])
+private let kBytesJPTR = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x54, 0x52])
+private let kBytesJP50 = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x35, 0x30])
+private let kBytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
+private let kBytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
+private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
+
+private let kLiveMetaLength = 0x0c
+private let kToneMetaLength = 0x0c
+
 class SVDFile: NSObject {
-	private let bytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
-	private let bytesREG = SVDBytes(location: 0x10, bytes: [0x52, 0x45, 0x47])
-	private let bytesJPTR = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x54, 0x52])
-	private let bytesJP50 = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x35, 0x30])
-	private let bytesVCL = SVDBytes(location: 0x40, bytes: [0x56, 0x43, 0x4C])
-	private let bytesSYS = SVDBytes(location: 0x50, bytes: [0x53, 0x59, 0x53])
-	private let bytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
-
-	private let liveMetaLength = 0x0c
-	private let toneMetaLength = 0x0c
-
 	private var nrOfRegsBytes = SVDBytes(location: 0x40, length: 0x4)
 	private var regBytes = SVDBytes(location: 0x50, length: 0x2F4)
 	private var nrOfLivesBytes = SVDBytes(location: 0x0, length: 0x4)
@@ -84,31 +84,35 @@ class SVDFile: NSObject {
 		self.findLiveSets()
 		self.findTones()
 
-		for svdReg in registrations {
+		for svdReg in self.registrations {
 			svdReg.findDependencies()
+		}
+
+		for svdLive in self.liveSets {
+			svdLive.findDependencies()
 		}
 	}
 
 	private func checkValidityOfData(fileData: NSData) -> Bool {
 		// Check for string SVD
-		let isSVDFile = self.compareData(bytesSVD)
+		let isSVDFile = self.compareData(kBytesSVD)
 
 		if !isSVDFile {
 			return false
 		}
 
 		// Check for string REG
-		let isRegFile = self.compareData(bytesREG)
+		let isRegFile = self.compareData(kBytesREG)
 
 		if isRegFile {
 			// Check for string JPTR
-			let isJupiter80File = self.compareData(bytesJPTR)
+			let isJupiter80File = self.compareData(kBytesJPTR)
 
 			if isJupiter80File {
 				self.fileFormat = .Jupiter80
 			} else {
 				// Check for string JP50
-				let isJupiter50File = self.compareData(bytesJP50)
+				let isJupiter50File = self.compareData(kBytesJP50)
 
 				if isJupiter50File {
 					self.fileFormat = .Jupiter50
@@ -122,19 +126,19 @@ class SVDFile: NSObject {
 	}
 
 	private func findHeaderOffset() {
-		let hasVCLPart = self.compareData(bytesVCL)
+		let hasVCLPart = self.compareData(kBytesVCL)
 
 		if hasVCLPart {
 			self.headerOffset += 0x10
 		}
 
-		let hasSYSPart = self.compareData(bytesSYS)
+		let hasSYSPart = self.compareData(kBytesSYS)
 
 		if hasSYSPart {
 			self.headerOffset += 0x10
 		}
 
-		let hasRBNPart = self.compareData(bytesRBN)
+		let hasRBNPart = self.compareData(kBytesRBN)
 
 		if hasRBNPart {
 			self.headerOffset += 0x10
@@ -149,11 +153,11 @@ class SVDFile: NSObject {
 
 		self.nrOfLivesBytes.location = self.regBytes.location + (self.nrOfRegs * self.regBytes.length)
 		self.nrOfLives = self.numberFromBytes(nrOfLivesBytes)
-		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + liveMetaLength
+		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + kLiveMetaLength
 
 		self.nrOfTonesBytes.location = self.liveBytes.location + (self.nrOfLives * self.liveBytes.length)
 		self.nrOfTones = self.numberFromBytes(nrOfTonesBytes)
-		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + toneMetaLength
+		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + kToneMetaLength
 
 		NSLog("Nr of regs: %d", self.nrOfRegs)
 		NSLog("Nr of lives: %d", self.nrOfLives)
