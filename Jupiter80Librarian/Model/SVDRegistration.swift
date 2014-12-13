@@ -8,17 +8,6 @@
 
 import Cocoa
 
-private let regPartTypeLiveset1 = 0xD4
-private let regPartTypeLiveset2 = 0x54
-private let regPartTypeSynth1 = 0xDD
-private let regPartTypeSynth2 = 0x5D
-private let regPartTypeAcoustic1 = 0xD9
-private let regPartTypeAcoustic2 = 0x59
-private let regPartTypeAcoustic3 = 0xDA
-private let regPartTypeAcoustic4 = 0x5A
-private let regPartTypeAcoustic5 = 0x5C
-private let regPartTypeDrumset1 = 0x56
-private let regPartTypeDrumset2 = 0xD6
 private let kRegNameLength = 0x10
 
 class SVDRegistration: NSObject {
@@ -37,6 +26,10 @@ class SVDRegistration: NSObject {
 	var regName: String
 	var upperLiveSet: SVDLiveSet!
 	var lowerLiveSet: SVDLiveSet!
+	var soloToneType: SVDPartType!
+	var percToneType: SVDPartType!
+	var soloTone: SVDTone?
+	var percTone: SVDTone?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int) {
 		self.svdFile = svdFile
@@ -72,5 +65,18 @@ class SVDRegistration: NSObject {
 
 		self.upperLiveSet.addDependencyToRegistration(self)
 		self.lowerLiveSet.addDependencyToRegistration(self)
+
+		let soloToneType = self.svdFile.partTypeFromBytes(self.regSoloTypeBytes)
+		let percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
+
+		if soloToneType == .Synth {
+			self.soloTone = svdFile.tones[soloToneLocation]
+			self.soloTone?.addDependencyToRegistration(self)
+		}
+
+		if percToneType == .Synth {
+			self.percTone = svdFile.tones[percToneLocation]
+			self.percTone?.addDependencyToRegistration(self)
+		}
 	}
 }

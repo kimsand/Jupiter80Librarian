@@ -14,13 +14,16 @@ class SVDTone: NSObject {
 	private let toneNameLength = 0x0C
 
 	var toneName: String
+	var registrations: [SVDRegistration] = []
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes) {
 		self.svdFile = svdFile
 
 		let toneNameBytes = SVDBytes(location: toneBytes.location, length: self.toneNameLength)
 		self.toneName = self.svdFile.stringFromBytes(toneNameBytes)
+	}
 
-		NSLog("Tone name: '%@'", self.toneName)
+	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
+		self.registrations.append(svdRegistration)
 	}
 }

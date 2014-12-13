@@ -32,6 +32,14 @@ enum SVDFileFormat {
 	case Jupiter50
 }
 
+enum SVDPartType {
+	case Unknown
+	case LiveSet
+	case Synth
+	case Acoustic
+	case DrumSet
+}
+
 private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
 private let kBytesREG = SVDBytes(location: 0x10, bytes: [0x52, 0x45, 0x47])
 private let kBytesJPTR = SVDBytes(location: 0x14, bytes: [0x4A, 0x50, 0x54, 0x52])
@@ -42,6 +50,18 @@ private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
 
 private let kLiveMetaLength = 0x0c
 private let kToneMetaLength = 0x0c
+
+private let kPartTypeLiveset1 = 0xD4
+private let kPartTypeLiveset2 = 0x54
+private let kPartTypeSynth1 = 0xDD
+private let kPartTypeSynth2 = 0x5D
+private let kPartTypeAcoustic1 = 0xD9
+private let kPartTypeAcoustic2 = 0x59
+private let kPartTypeAcoustic3 = 0xDA
+private let kPartTypeAcoustic4 = 0x5A
+private let kPartTypeAcoustic5 = 0x5C
+private let kPartTypeDrumset1 = 0x56
+private let kPartTypeDrumset2 = 0xD6
 
 class SVDFile: NSObject {
 	private var nrOfRegsBytes = SVDBytes(location: 0x40, length: 0x4)
@@ -309,5 +329,39 @@ class SVDFile: NSObject {
 		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)!
 
 		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+	}
+
+	func partTypeFromBytes(byteStruct: SVDBytes) -> SVDPartType {
+		let partTypeData = self.dataFromByteStruct(byteStruct)
+
+		let partType: SVDPartType = self.partTypeFromData(partTypeData)
+
+		return partType
+	}
+
+	func partTypeFromData(byteData: NSData) -> SVDPartType {
+		var partType = SVDPartType.Unknown
+
+		var partByte: Int = 0x0
+		byteData.getBytes(&partByte)
+
+		if partByte == kPartTypeSynth1
+			|| partByte == kPartTypeSynth2 {
+				partType = .Synth
+		} else if partByte == kPartTypeAcoustic1
+			|| partByte == kPartTypeAcoustic2
+			|| partByte == kPartTypeAcoustic3
+			|| partByte == kPartTypeAcoustic4
+			|| partByte == kPartTypeAcoustic5 {
+				partType = .Acoustic
+		} else if partByte == kPartTypeDrumset1
+			|| partByte == kPartTypeDrumset2 {
+				partType = .DrumSet
+		} else if partByte == kPartTypeLiveset1
+			|| partByte == kPartTypeLiveset2 {
+				partType = .LiveSet
+		}
+
+		return partType
 	}
 }
