@@ -161,7 +161,7 @@ class SVDFile: NSObject {
 			var regBytes = self.regBytes
 			regBytes.location += (regBytes.length * index)
 
-			let registration = SVDRegistration(svdFile: self, regBytes: regBytes)
+			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location)
 			self.registrations.append(registration)
 		}
 	}
@@ -236,13 +236,15 @@ class SVDFile: NSObject {
 	// 00000000 00000000 00000000 00000000 00000000 00111111 10000000 00000000
 	// 00000000 00000000 00000000 00000000 00000000 00000000 01111111 00000000
 
-	func unshiftedBytesFromBytes(byteStruct: SVDBytes) -> [NSData] {
-		var dataStream: [NSData] = []
+	func unshiftedBytesFromBytes(byteStruct: SVDBytes) -> NSData {
+		var unshiftedBytes: [UInt8] = []
 
 		let byteData = self.dataFromByteStruct(byteStruct)
 
+		// Bitmasks to cycle through in order to retrieve the unshifted bytes
 		let bitmasks: [UInt16] = [0b1111111000000000, 0b0000000111111100, 0b0000001111111000, 0b0000011111110000, 0b0000111111100000, 0b0001111111000000, 0b0011111110000000, 0b0111111100000000]
 
+		// Bit shifts to cycle through to shift the extracted bits into their correct positions
 		let shiftbits: [UInt16] = [9, 2, 3, 4, 5, 6, 7, 8]
 
 		var byteIndex = 0
@@ -268,21 +270,21 @@ class SVDFile: NSObject {
 				byteIndex++
 			}
 
-			let data = NSData(bytes: bitsShifted, length: 1)
-			dataStream.append(data)
+			// Store the one unshifted byte extracted from the two shifted bytes
+			let oneByteData = NSData(bytes: bitsShifted, length: 1)
+			var oneByte: UInt8 = 0x0
+			oneByteData.getBytes(&oneByte)
+			unshiftedBytes.append(oneByte)
 		}
 
-		return dataStream
+		let unshiftedData = NSData(bytes: unshiftedBytes, length: unshiftedBytes.count)
+
+		return unshiftedData
 	}
 
 	func stringFromBytes(byteStruct: SVDBytes) -> String {
-		var dataStream = self.unshiftedBytesFromBytes(byteStruct)
-		var dataString: String = ""
-
-		for data in dataStream {
-			let str = NSString(data: data, encoding: NSASCIIStringEncoding)!
-			dataString += str
-		}
+		var data = self.unshiftedBytesFromBytes(byteStruct)
+		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)!
 
 		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
