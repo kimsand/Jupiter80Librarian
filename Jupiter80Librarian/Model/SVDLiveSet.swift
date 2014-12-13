@@ -20,6 +20,14 @@ class SVDLiveSet: NSObject {
 
 	var liveName: String
 	var registrations: [SVDRegistration] = []
+	var layer1ToneType: SVDPartType!
+	var layer2ToneType: SVDPartType!
+	var layer3ToneType: SVDPartType!
+	var layer4ToneType: SVDPartType!
+	var layer1Tone: SVDTone?
+	var layer2Tone: SVDTone?
+	var layer3Tone: SVDTone?
+	var layer4Tone: SVDTone?
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes) {
 		self.svdFile = svdFile
@@ -31,7 +39,7 @@ class SVDLiveSet: NSObject {
 		self.liveLayer2Bytes.location += liveBytes.location
 		self.liveLayer3Bytes.location += liveBytes.location
 		self.liveLayer4Bytes.location += liveBytes.location
-}
+	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
 		self.registrations.append(svdRegistration)
@@ -52,5 +60,35 @@ class SVDLiveSet: NSObject {
 		let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData)
 		let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData)
 		let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData)
+
+		let liveLayer1TypeData = liveLayer1MetaData.subdataWithRange(NSRange(location: 0, length: 1))
+		let liveLayer2TypeData = liveLayer2MetaData.subdataWithRange(NSRange(location: 0, length: 1))
+		let liveLayer3TypeData = liveLayer3MetaData.subdataWithRange(NSRange(location: 0, length: 1))
+		let liveLayer4TypeData = liveLayer4MetaData.subdataWithRange(NSRange(location: 0, length: 1))
+
+		self.layer1ToneType = self.svdFile.partTypeFromData(liveLayer1TypeData)
+		self.layer2ToneType = self.svdFile.partTypeFromData(liveLayer2TypeData)
+		self.layer3ToneType = self.svdFile.partTypeFromData(liveLayer3TypeData)
+		self.layer4ToneType = self.svdFile.partTypeFromData(liveLayer4TypeData)
+
+		if self.layer1ToneType! == .Synth {
+			self.layer1Tone = svdFile.tones[liveLayer1Location]
+			self.layer1Tone?.addDependencyToLiveSet(self)
+		}
+
+		if self.layer2ToneType! == .Synth {
+			self.layer2Tone = svdFile.tones[liveLayer2Location]
+			self.layer2Tone?.addDependencyToLiveSet(self)
+		}
+
+		if self.layer3ToneType! == .Synth {
+			self.layer3Tone = svdFile.tones[liveLayer3Location]
+			self.layer3Tone?.addDependencyToLiveSet(self)
+		}
+
+		if self.layer4ToneType! == .Synth {
+			self.layer4Tone = svdFile.tones[liveLayer4Location]
+			self.layer4Tone?.addDependencyToLiveSet(self)
+		}
 	}
 }

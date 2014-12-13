@@ -66,15 +66,15 @@ class SVDRegistration: NSObject {
 		self.upperLiveSet.addDependencyToRegistration(self)
 		self.lowerLiveSet.addDependencyToRegistration(self)
 
-		let soloToneType = self.svdFile.partTypeFromBytes(self.regSoloTypeBytes)
-		let percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
+		self.soloToneType = self.svdFile.partTypeFromBytes(self.regSoloTypeBytes)
+		self.percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
 
-		if soloToneType == .Synth {
+		if self.soloToneType! == .Synth {
 			self.soloTone = svdFile.tones[soloToneLocation]
 			self.soloTone?.addDependencyToRegistration(self)
 		}
 
-		if percToneType == .Synth {
+		if self.percToneType! == .Synth {
 			self.percTone = svdFile.tones[percToneLocation]
 			self.percTone?.addDependencyToRegistration(self)
 		}

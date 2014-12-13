@@ -15,6 +15,7 @@ class SVDTone: NSObject {
 
 	var toneName: String
 	var registrations: [SVDRegistration] = []
+	var liveSets: [SVDLiveSet] = []
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes) {
 		self.svdFile = svdFile
@@ -25,5 +26,9 @@ class SVDTone: NSObject {
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
 		self.registrations.append(svdRegistration)
+	}
+
+	func addDependencyToLiveSet(svdLiveSet: SVDLiveSet) {
+		self.liveSets.append(svdLiveSet)
 	}
 }
