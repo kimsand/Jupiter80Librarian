@@ -8,6 +8,18 @@
 
 import Cocoa
 
+private let regPartTypeLiveset1 = 0xD4
+private let regPartTypeLiveset2 = 0x54
+private let regPartTypeSynth1 = 0xDD
+private let regPartTypeSynth2 = 0x5D
+private let regPartTypeAcoustic1 = 0xD9
+private let regPartTypeAcoustic2 = 0x59
+private let regPartTypeAcoustic3 = 0xDA
+private let regPartTypeAcoustic4 = 0x5A
+private let regPartTypeAcoustic5 = 0x5C
+private let regPartTypeDrumset1 = 0x56
+private let regPartTypeDrumset2 = 0xD6
+
 class SVDRegistration: NSObject {
 	private let svdFile: SVDFile
 
@@ -22,19 +34,9 @@ class SVDRegistration: NSObject {
 	private var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
 	private var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
 
-	private var regPartTypeLiveset1 = 0xD4
-	private var regPartTypeLiveset2 = 0x54
-	private var regPartTypeSynth1 = 0xDD
-	private var regPartTypeSynth2 = 0x5D
-	private var regPartTypeAcoustic1 = 0xD9
-	private var regPartTypeAcoustic2 = 0x59
-	private var regPartTypeAcoustic3 = 0xDA
-	private var regPartTypeAcoustic4 = 0x5A
-	private var regPartTypeAcoustic5 = 0x5C
-	private var regPartTypeDrumset1 = 0x56
-	private var regPartTypeDrumset2 = 0xD6
-
 	var regName: String
+	var upperLiveSet: SVDLiveSet!
+	var lowerLiveSet: SVDLiveSet!
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int) {
 		self.svdFile = svdFile
@@ -51,27 +53,24 @@ class SVDRegistration: NSObject {
 		self.regLowerTypeBytes.location += regBytes.location - regBytesOffset
 		self.regSoloTypeBytes.location += regBytes.location - regBytesOffset
 		self.regPercTypeBytes.location += regBytes.location - regBytesOffset
-
-		super.init()
-
-		let upperLiveSetLocation = self.regPartLocationForRegPartBytes(self.regUpperBytes)
-		let lowerLiveSetLocation = self.regPartLocationForRegPartBytes(self.regLowerBytes)
-		let soloToneLocation = self.regPartLocationForRegPartBytes(self.regSoloBytes)
-		let percToneLocation = self.regPartLocationForRegPartBytes(self.regPercBytes)
 	}
 
-	func regPartLocationForRegPartBytes(regPartBytes: SVDBytes) -> NSData {
+	private func regPartLocationForRegPartBytes(regPartBytes: SVDBytes) -> NSData {
 		let regPartLocation = self.svdFile.unshiftedBytesFromBytes(regPartBytes)
 
 		return regPartLocation
 	}
-/*
-	func regPartNameForRegPartTypeBytes(regPartTypeBytes: SVDBytes) -> String {
-		let regPartType = self.svdFile.dataFromByteStruct(regPartTypeBytes)
-		let regPartName
-	}
-*/
-	func regPartNameForRegPartType(regPartType: NSData) {
 
+	func findDependencies() {
+		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes)
+		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
+		let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes)
+		let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes)
+
+		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
+		self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
+
+		self.upperLiveSet.addDependencyToRegistration(self)
+		self.lowerLiveSet.addDependencyToRegistration(self)
 	}
 }

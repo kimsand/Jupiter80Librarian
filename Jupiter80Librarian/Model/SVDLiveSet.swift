@@ -14,11 +14,16 @@ class SVDLiveSet: NSObject {
 	private let liveNameLength = 0x10
 
 	var liveName: String
+	var registrations: [SVDRegistration] = []
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes) {
 		self.svdFile = svdFile
 
 		let liveNameBytes = SVDBytes(location: liveBytes.location, length: self.liveNameLength)
 		self.liveName = self.svdFile.stringFromBytes(liveNameBytes)
+	}
+
+	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
+		self.registrations.append(svdRegistration)
 	}
 }

@@ -83,6 +83,10 @@ class SVDFile: NSObject {
 		self.findRegistrations()
 		self.findLiveSets()
 		self.findTones()
+
+		for svdReg in registrations {
+			svdReg.findDependencies()
+		}
 	}
 
 	private func checkValidityOfData(fileData: NSData) -> Bool {
@@ -203,6 +207,20 @@ class SVDFile: NSObject {
 	func numberFromBytes(byteStruct: SVDBytes) -> Int {
 		let byteData = self.dataFromByteStruct(byteStruct)
 
+		let number = self.numberFromData(byteData)
+
+		return number
+	}
+
+	func numberFromShiftedBytes(byteStruct: SVDBytes) -> Int {
+		let byteData = self.unshiftedBytesFromBytes(byteStruct)
+
+		let number = self.numberFromData(byteData)
+
+		return number
+	}
+
+	func numberFromData(byteData: NSData) -> Int {
 		var bytes: [UInt8] = Array(count: byteData.length, repeatedValue: 0x0)
 		byteData.getBytes(&bytes, length: byteData.length)
 
