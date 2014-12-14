@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC65C1A342BC50076FE95 /* ViewController.swift */; };
+		E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */; };
+		E82402481A3D7DF000FA4F09 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402461A3D7DF000FA4F09 /* Model.swift */; };
 		E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6621A34333F0076FE95 /* SVDFile.swift */; };
 		E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */; };
 		E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */; };
@@ -29,7 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E89EC65C1A342BC50076FE95 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Controllers/ViewController.swift; sourceTree = "<group>"; };
+		E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationsListViewController.swift; path = Controllers/RegistrationsListViewController.swift; sourceTree = "<group>"; };
+		E82402461A3D7DF000FA4F09 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Model.swift; path = Model/Model.swift; sourceTree = "<group>"; };
 		E89EC6621A34333F0076FE95 /* SVDFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDFile.swift; path = Model/SVDFile.swift; sourceTree = "<group>"; };
 		E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDRegistration.swift; path = Model/SVDRegistration.swift; sourceTree = "<group>"; };
 		E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDLiveSet.swift; path = Model/SVDLiveSet.swift; sourceTree = "<group>"; };
@@ -65,7 +67,7 @@
 		E89EC65B1A342BB40076FE95 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E89EC65C1A342BC50076FE95 /* ViewController.swift */,
+				E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -81,9 +83,10 @@
 		E89EC6611A34320A0076FE95 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E82402461A3D7DF000FA4F09 /* Model.swift */,
 				E89EC6621A34333F0076FE95 /* SVDFile.swift */,
-				E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */,
 				E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */,
+				E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */,
 				E8B2BF4D1A3794CA00FC669D /* SVDTone.swift */,
 			);
 			name = Model;
@@ -244,12 +247,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E89EC65D1A342BC50076FE95 /* ViewController.swift in Sources */,
 				E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */,
 				E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */,
 				E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */,
+				E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */,
 				E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */,
 				E8B2BF4E1A3794CA00FC669D /* SVDTone.swift in Sources */,
+				E82402481A3D7DF000FA4F09 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

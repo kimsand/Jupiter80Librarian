@@ -10,8 +10,10 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+	var model: Model?
+
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
-		// Insert code here to initialize your application
+		self.model = Model.singleton
 	}
 
 	func applicationWillTerminate(aNotification: NSNotification) {
@@ -52,6 +54,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					NSLog("file length: %d", fileData!.length)
 
 					let svdFile = SVDFile(fileData: fileData!)
+					self.model!.openedSVDFile = svdFile
+
+					NSNotificationCenter.defaultCenter().postNotificationName("svdFileDidUpdate", object: nil)
 				} else if error != nil {
 					NSLog("error: %@", error!)
 				}
@@ -59,4 +64,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		})
 	}
 }
-
