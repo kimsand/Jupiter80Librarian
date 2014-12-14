@@ -10,6 +10,12 @@ import Cocoa
 
 class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var tableView: NSTableView!
+	@IBOutlet var orderColumn: NSTableColumn!
+	@IBOutlet var nameColumn: NSTableColumn!
+	@IBOutlet var upperColumn: NSTableColumn!
+	@IBOutlet var lowerColumn: NSTableColumn!
+	@IBOutlet var soloColumn: NSTableColumn!
+	@IBOutlet var percColumn: NSTableColumn!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
@@ -36,15 +42,31 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	}
 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		// Retrieve to get the @"MyView" from the pool or,
+		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		var result = tableView.makeViewWithIdentifier("RegListCell", owner:self) as NSTableCellView
+		result.textField?.stringValue = ""
 
-		// Set the stringValue of the cell's text field to the nameArray value at row
 		let svdReg = self.svdFile!.registrations[row]
-		result.textField?.stringValue = svdReg.regName
 
-		// Return the result
+		if tableColumn == self.nameColumn {
+			result.textField?.stringValue = svdReg.regName
+		} else if tableColumn == self.orderColumn {
+			result.textField?.stringValue = "\(row + 1)"
+		} else if tableColumn == self.upperColumn {
+			result.textField?.stringValue = svdReg.upperLiveSet.liveName
+		} else if tableColumn == self.lowerColumn {
+			result.textField?.stringValue = svdReg.lowerLiveSet.liveName
+		} else if tableColumn == self.soloColumn {
+			if svdReg.soloTone != nil {
+				result.textField?.stringValue = svdReg.soloTone!.toneName
+			}
+		} else if tableColumn == self.percColumn {
+			if svdReg.percTone != nil {
+				result.textField?.stringValue = svdReg.percTone!.toneName
+			}
+		}
+
 		return result
 	}
 }
