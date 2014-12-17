@@ -317,14 +317,14 @@ class SVDFile: NSObject {
 		self.regBytes.location += self.headerOffset
 		self.nrOfRegsBytes.location += self.headerOffset
 
-		self.nrOfRegs = self.numberFromBytes(self.nrOfRegsBytes, nrOfBits: 8)
+		self.nrOfRegs = self.numberFromBytes(self.nrOfRegsBytes)
 
 		self.nrOfLivesBytes.location = self.regBytes.location + (self.nrOfRegs * self.regBytes.length)
-		self.nrOfLives = self.numberFromBytes(self.nrOfLivesBytes, nrOfBits: 8)
+		self.nrOfLives = self.numberFromBytes(self.nrOfLivesBytes)
 		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + kLiveMetaLength
 
 		self.nrOfTonesBytes.location = self.liveBytes.location + (self.nrOfLives * self.liveBytes.length)
-		self.nrOfTones = self.numberFromBytes(self.nrOfTonesBytes, nrOfBits: 8)
+		self.nrOfTones = self.numberFromBytes(self.nrOfTonesBytes)
 		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + kToneMetaLength
 
 		NSLog("Nr of regs: %d", self.nrOfRegs)
@@ -376,18 +376,18 @@ class SVDFile: NSObject {
 		return byteData.isEqualToData(byteCheck)
 	}
 
-	func numberFromBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
+	func numberFromBytes(byteStruct: SVDBytes) -> Int {
 		let byteData = self.dataFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData, nrOfBits:nrOfBits)
+		let number = self.numberFromData(byteData, nrOfBits:8)
 
 		return number
 	}
 
-	func numberFromShiftedBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
+	func numberFromShiftedBytes(byteStruct: SVDBytes) -> Int {
 		let byteData = self.unshiftedBytesFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData, nrOfBits:nrOfBits)
+		let number = self.numberFromData(byteData, nrOfBits:7)
 
 		return number
 	}

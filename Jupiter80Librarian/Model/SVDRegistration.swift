@@ -57,8 +57,8 @@ class SVDRegistration: NSObject {
 	}
 
 	func findDependencies() {
-		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes, nrOfBits: 7)
-		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes, nrOfBits: 7)
+		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes)
+		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
 
 		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
 		self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
@@ -70,7 +70,7 @@ class SVDRegistration: NSObject {
 		self.percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
 
 		if self.soloToneType! == .Synth {
-			let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes, nrOfBits: 7)
+			let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes)
 
 			self.soloTone = svdFile.tones[soloToneLocation]
 			self.soloTone?.addDependencyToRegistration(self)
@@ -79,7 +79,7 @@ class SVDRegistration: NSObject {
 		}
 
 		if self.percToneType! == .Synth {
-			let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes, nrOfBits: 7)
+			let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes)
 
 			self.percTone = svdFile.tones[percToneLocation]
 			self.percTone?.addDependencyToRegistration(self)
