@@ -1,29 +1,29 @@
 //
-//  RegistrationsListViewController.swift
+//  LiveSetsListViewController.swift
 //  Jupiter80Librarian
 //
-//  Created by Kim André Sand on 14/12/14.
+//  Created by Kim André Sand on 17/12/14.
 //  Copyright (c) 2014 Kim André Sand. All rights reserved.
 //
 
 import Cocoa
 
-class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class LiveSetsListViewController: NSViewController {
 	@IBOutlet var tableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
-	@IBOutlet var upperColumn: NSTableColumn!
-	@IBOutlet var lowerColumn: NSTableColumn!
-	@IBOutlet var soloColumn: NSTableColumn!
-	@IBOutlet var percColumn: NSTableColumn!
+	@IBOutlet var layer1Column: NSTableColumn!
+	@IBOutlet var layer2Column: NSTableColumn!
+	@IBOutlet var layer3Column: NSTableColumn!
+	@IBOutlet var layer4Column: NSTableColumn!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
 
-    override func viewDidLoad() {
+	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
-        super.viewDidLoad()
+		super.viewDidLoad()
 
 		self.svdFile = self.model.openedSVDFile
 		self.tableView.reloadData()
@@ -33,7 +33,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		var nrOfRows = 0
 
 		if self.svdFile != nil {
-			nrOfRows = self.svdFile!.registrations.count
+			nrOfRows = self.svdFile!.liveSets.count
 		}
 
 		return nrOfRows
@@ -48,34 +48,44 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdReg = self.svdFile!.registrations[row]
+		let svdLive = self.svdFile!.liveSets[row]
 
 		if tableColumn == self.nameColumn {
-			columnValue = svdReg.regName
-			textColor = self.textColorForRegistrationName(columnValue)
+			columnValue = svdLive.liveName
+			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.orderColumn {
 			columnValue = "\(row + 1)"
-		} else if tableColumn == self.upperColumn {
-			columnValue = svdReg.upperLiveSet.liveName
-			textColor = self.textColorForLiveSetName(columnValue)
-		} else if tableColumn == self.lowerColumn {
-			columnValue = svdReg.lowerLiveSet.liveName
-			textColor = self.textColorForLiveSetName(columnValue)
-		} else if tableColumn == self.soloColumn {
-			if svdReg.soloTone != nil {
-				columnValue = svdReg.soloTone!.toneName
+		} else if tableColumn == self.layer1Column {
+			if svdLive.layer1Tone != nil {
+				columnValue = svdLive.layer1Tone!.toneName
 				textColor = self.textColorForToneName(columnValue)
-			} else if svdReg.soloName != nil {
-				columnValue = svdReg.soloName!
-				textColor = self.textColorForPartType(svdReg.soloToneType!)
+			} else if svdLive.layer1Name != nil {
+				columnValue = svdLive.layer1Name!
+				textColor = self.textColorForPartType(svdLive.layer1ToneType!)
 			}
-		} else if tableColumn == self.percColumn {
-			if svdReg.percTone != nil {
-				columnValue = svdReg.percTone!.toneName
+		} else if tableColumn == self.layer2Column {
+			if svdLive.layer2Tone != nil {
+				columnValue = svdLive.layer2Tone!.toneName
 				textColor = self.textColorForToneName(columnValue)
-			} else if svdReg.percName != nil {
-				columnValue = svdReg.percName!
-				textColor = self.textColorForPartType(svdReg.percToneType!)
+			} else if svdLive.layer2Name != nil {
+				columnValue = svdLive.layer2Name!
+				textColor = self.textColorForPartType(svdLive.layer2ToneType!)
+			}
+		} else if tableColumn == self.layer3Column {
+			if svdLive.layer3Tone != nil {
+				columnValue = svdLive.layer3Tone!.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if svdLive.layer3Name != nil {
+				columnValue = svdLive.layer3Name!
+				textColor = self.textColorForPartType(svdLive.layer3ToneType!)
+			}
+		} else if tableColumn == self.layer4Column {
+			if svdLive.layer4Tone != nil {
+				columnValue = svdLive.layer4Tone!.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if svdLive.layer4Name != nil {
+				columnValue = svdLive.layer4Name!
+				textColor = self.textColorForPartType(svdLive.layer4ToneType!)
 			}
 		}
 
@@ -112,19 +122,9 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func textColorForLiveSetName(liveName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
-		if self.isInitSound == true || liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForRegistrationName(regName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
 		self.isInitSound = false
 
-		if regName == "INIT REGIST" {
+		if liveName == "INIT LIVESET" {
 			textColor = .lightGrayColor()
 			self.isInitSound = true
 		}

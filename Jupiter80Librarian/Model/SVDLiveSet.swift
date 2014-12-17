@@ -20,14 +20,18 @@ class SVDLiveSet: NSObject {
 
 	var liveName: String
 	var registrations: [SVDRegistration] = []
-	var layer1ToneType: SVDPartType!
-	var layer2ToneType: SVDPartType!
-	var layer3ToneType: SVDPartType!
-	var layer4ToneType: SVDPartType!
 	var layer1Tone: SVDTone?
 	var layer2Tone: SVDTone?
 	var layer3Tone: SVDTone?
 	var layer4Tone: SVDTone?
+	var layer1ToneType: SVDPartType!
+	var layer2ToneType: SVDPartType!
+	var layer3ToneType: SVDPartType!
+	var layer4ToneType: SVDPartType!
+	var layer1Name: String?
+	var layer2Name: String?
+	var layer3Name: String?
+	var layer4Name: String?
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes) {
 		self.svdFile = svdFile
@@ -56,11 +60,6 @@ class SVDLiveSet: NSObject {
 		let liveLayer3LocationData = liveLayer3MetaData.subdataWithRange(NSRange(location: 1, length: 2))
 		let liveLayer4LocationData = liveLayer4MetaData.subdataWithRange(NSRange(location: 1, length: 2))
 
-		let liveLayer1Location = svdFile.numberFromData(liveLayer1LocationData, nrOfBits: 7)
-		let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData, nrOfBits: 7)
-		let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData, nrOfBits: 7)
-		let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData, nrOfBits: 7)
-
 		let liveLayer1TypeData = liveLayer1MetaData.subdataWithRange(NSRange(location: 0, length: 1))
 		let liveLayer2TypeData = liveLayer2MetaData.subdataWithRange(NSRange(location: 0, length: 1))
 		let liveLayer3TypeData = liveLayer3MetaData.subdataWithRange(NSRange(location: 0, length: 1))
@@ -72,23 +71,35 @@ class SVDLiveSet: NSObject {
 		self.layer4ToneType = self.svdFile.partTypeFromData(liveLayer4TypeData)
 
 		if self.layer1ToneType! == .Synth {
+			let liveLayer1Location = svdFile.numberFromData(liveLayer1LocationData, nrOfBits: 7)
 			self.layer1Tone = svdFile.tones[liveLayer1Location]
 			self.layer1Tone?.addDependencyToLiveSet(self)
+		} else {
+			self.layer1Name = svdFile.partNameFromData(liveLayer1LocationData, partType: self.layer1ToneType)
 		}
 
 		if self.layer2ToneType! == .Synth {
+			let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData, nrOfBits: 7)
 			self.layer2Tone = svdFile.tones[liveLayer2Location]
 			self.layer2Tone?.addDependencyToLiveSet(self)
+		} else {
+			self.layer2Name = svdFile.partNameFromData(liveLayer2LocationData, partType: self.layer2ToneType)
 		}
 
 		if self.layer3ToneType! == .Synth {
+			let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData, nrOfBits: 7)
 			self.layer3Tone = svdFile.tones[liveLayer3Location]
 			self.layer3Tone?.addDependencyToLiveSet(self)
+		} else {
+			self.layer3Name = svdFile.partNameFromData(liveLayer3LocationData, partType: self.layer3ToneType)
 		}
 
 		if self.layer4ToneType! == .Synth {
+			let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData, nrOfBits: 7)
 			self.layer4Tone = svdFile.tones[liveLayer4Location]
 			self.layer4Tone?.addDependencyToLiveSet(self)
+		} else {
+			self.layer4Name = svdFile.partNameFromData(liveLayer4LocationData, partType: self.layer4ToneType)
 		}
 	}
 }

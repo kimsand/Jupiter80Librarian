@@ -75,7 +75,7 @@ class SVDRegistration: NSObject {
 			self.soloTone = svdFile.tones[soloToneLocation]
 			self.soloTone?.addDependencyToRegistration(self)
 		} else {
-			self.soloName = svdFile.partNameFromBytes(self.regSoloBytes, type: self.soloToneType)
+			self.soloName = svdFile.partNameFromShiftedBytes(self.regSoloBytes, partType: self.soloToneType)
 		}
 
 		if self.percToneType! == .Synth {
@@ -84,7 +84,7 @@ class SVDRegistration: NSObject {
 			self.percTone = svdFile.tones[percToneLocation]
 			self.percTone?.addDependencyToRegistration(self)
 		} else {
-			self.percName = svdFile.partNameFromBytes(self.regPercBytes, type: self.percToneType)
+			self.percName = svdFile.partNameFromShiftedBytes(self.regPercBytes, partType: self.percToneType)
 		}
 	}
 }

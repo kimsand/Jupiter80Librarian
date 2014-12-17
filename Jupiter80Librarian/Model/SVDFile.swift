@@ -491,8 +491,14 @@ class SVDFile: NSObject {
 	func partMapKeyFromShiftedBytes(byteStruct: SVDBytes, location: Int) -> String {
 		var data = self.unshiftedBytesFromBytes(byteStruct)
 
+		let partMapKey = self.partMapKeyFromData(data, location: location)
+
+		return partMapKey
+	}
+
+	func partMapKeyFromData(byteData: NSData, location: Int) -> String {
 		var byteArray = [UInt8](count: 2, repeatedValue: 0x0)
-		data.getBytes(&byteArray, range: NSRange(location: location, length: 2))
+		byteData.getBytes(&byteArray, range: NSRange(location: location, length: 2))
 
 		let value1 = byteArray[0]
 		let value2 = byteArray[1]
@@ -550,14 +556,28 @@ class SVDFile: NSObject {
 		return partType
 	}
 
-	func partNameFromBytes(byteStruct: SVDBytes, type:SVDPartType) -> String {
+	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType) -> String {
 		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
 
+		var partName = self.partNameFromPartKey(partKey, partType: partType)
+
+		return partName
+	}
+
+	func partNameFromData(byteData: NSData, partType: SVDPartType) -> String {
+		let partKey = self.partMapKeyFromData(byteData, location: 0)
+
+		var partName = self.partNameFromPartKey(partKey, partType: partType)
+
+		return partName
+	}
+
+	func partNameFromPartKey(partKey: String, partType: SVDPartType) -> String {
 		var partName: String?
 
-		if type == .Acoustic {
+		if partType == .Acoustic {
 			partName = kPartMapAcoustic[partKey]
-		} else if type == .DrumSet {
+		} else if partType == .DrumSet {
 			partName = kPartMapDrumSet[partKey]
 		}
 
