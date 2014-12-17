@@ -19,6 +19,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
+	var isInitReg = false
 
     override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -46,7 +47,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier("RegListCell", owner:self) as NSTableCellView
+		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
 		var columnValue: String = ""
@@ -92,7 +93,9 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
 		var textColor = NSColor.blackColor()
 
-		if partType == .Acoustic {
+		if self.isInitReg == true {
+			textColor = .lightGrayColor()
+		} else if partType == .Acoustic {
 			textColor = .purpleColor()
 		} else if partType == .DrumSet {
 			textColor = .blueColor()
@@ -104,7 +107,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func textColorForToneName(toneName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
-		if toneName == "INIT SYNTH" {
+		if self.isInitReg == true || toneName == "INIT SYNTH" {
 			textColor = .lightGrayColor()
 		}
 
@@ -114,7 +117,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func textColorForLiveSetName(liveName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
-		if liveName == "INIT LIVESET" {
+		if self.isInitReg == true || liveName == "INIT LIVESET" {
 			textColor = .lightGrayColor()
 		}
 
@@ -124,8 +127,11 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func textColorForRegistrationName(regName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
+		self.isInitReg = false
+
 		if regName == "INIT REGIST" {
 			textColor = .lightGrayColor()
+			self.isInitReg = true
 		}
 
 		return textColor

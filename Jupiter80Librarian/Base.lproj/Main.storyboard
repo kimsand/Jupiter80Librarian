@@ -185,7 +185,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="RegListCell" width="32" minWidth="10" maxWidth="3.4028234663852886e+38" id="iSA-ug-Ybs">
+                                                <tableColumn identifier="RegListOrderCell" width="32" minWidth="10" maxWidth="3.4028234663852886e+38" id="iSA-ug-Ybs">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="#">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +198,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListCell" id="3NN-m4-q3Q">
+                                                        <tableCellView identifier="RegListOrderCell" id="3NN-m4-q3Q">
                                                             <rect key="frame" x="1" y="1" width="32" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -223,7 +223,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListCell" width="120" minWidth="40" maxWidth="1000" id="aLg-Z9-J8h">
+                                                <tableColumn identifier="RegListNameCell" width="120" minWidth="40" maxWidth="1000" id="aLg-Z9-J8h">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Registration name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -236,7 +236,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListCell" id="26H-w1-eEU">
+                                                        <tableCellView identifier="RegListNameCell" id="26H-w1-eEU">
                                                             <rect key="frame" x="36" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -264,7 +264,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="XLo-3x-p7D">
+                                                <tableColumn identifier="RegListUpperCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="XLo-3x-p7D">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Upper Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -277,7 +277,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListCell" id="oJM-Kj-0z1">
+                                                        <tableCellView identifier="RegListUpperCell" id="oJM-Kj-0z1">
                                                             <rect key="frame" x="159" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -302,7 +302,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="ait-WL-OKP">
+                                                <tableColumn identifier="RegListLowerCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="ait-WL-OKP">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Lower Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -315,7 +315,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListCell" id="Z8e-pL-diL">
+                                                        <tableCellView identifier="RegListLowerCell" id="Z8e-pL-diL">
                                                             <rect key="frame" x="282" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -340,7 +340,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="J36-ND-y2m">
+                                                <tableColumn identifier="RegListSoloCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="J36-ND-y2m">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Solo Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -353,7 +353,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="BY0-gN-Ktu">
+                                                        <tableCellView identifier="RegListSoloCell" id="BY0-gN-Ktu">
                                                             <rect key="frame" x="405" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -378,7 +378,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="n7b-jU-j6k">
+                                                <tableColumn identifier="RegListPercCell" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="n7b-jU-j6k">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Perc Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -391,7 +391,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="DgF-Os-LTs">
+                                                        <tableCellView identifier="RegListPercCell" id="DgF-Os-LTs">
                                                             <rect key="frame" x="528" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
