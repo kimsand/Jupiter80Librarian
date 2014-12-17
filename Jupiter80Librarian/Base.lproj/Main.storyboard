@@ -142,13 +142,14 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Tab View Controller-->
+        <!--List Tab View Controller-->
         <scene sceneID="VTu-cm-Pgj">
             <objects>
-                <tabViewController selectedTabViewItemIndex="0" id="SLb-HG-aUL" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" id="SLb-HG-aUL" customClass="ListTabViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="Registrations" identifier="" id="uac-fx-EqK"/>
                         <tabViewItem label="Live Sets" identifier="" id="Cqe-dd-WM4"/>
+                        <tabViewItem label="Tones" id="35v-JW-GI2"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="P28-Ay-ov4">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -157,8 +158,12 @@
                         <tabViewItems/>
                     </tabView>
                     <connections>
+                        <outlet property="liveTabViewItem" destination="Cqe-dd-WM4" id="NsL-ad-IKi"/>
+                        <outlet property="regTabViewItem" destination="uac-fx-EqK" id="gRN-ZG-yDR"/>
+                        <outlet property="toneTabViewItem" destination="35v-JW-GI2" id="itI-K2-82T"/>
                         <segue destination="3Ww-72-gvd" kind="relationship" relationship="tabItems" id="Xyv-zW-Qmm"/>
                         <segue destination="dEo-n4-BPa" kind="relationship" relationship="tabItems" id="f4o-h6-piQ"/>
+                        <segue destination="Itn-By-bsi" kind="relationship" relationship="tabItems" id="fBZ-bA-tGh"/>
                     </connections>
                 </tabViewController>
                 <customObject id="F88-ur-DeA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -472,7 +477,20 @@
                 </viewController>
                 <customObject id="aJS-Cy-PZA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1061" y="739"/>
+            <point key="canvasLocation" x="789" y="739"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Tye-xE-s0W">
+            <objects>
+                <viewController id="Itn-By-bsi" sceneMemberID="viewController">
+                    <view key="view" id="XEr-KP-Wlw">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1290" y="734"/>
         </scene>
     </scenes>
 </document>

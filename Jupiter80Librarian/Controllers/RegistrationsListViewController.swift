@@ -26,14 +26,6 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
         super.viewDidLoad()
 	}
 
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
-
-			self.tableView.reloadData()
-		}
-	}
-
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
@@ -135,5 +127,13 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		}
 
 		return textColor
+	}
+
+	func svdFileDidUpdate(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.svdFile = self.model.openedSVDFile
+
+			self.tableView.reloadData()
+		}
 	}
 }
