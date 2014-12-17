@@ -33,7 +33,7 @@ class SVDLiveSet: NSObject {
 		self.svdFile = svdFile
 
 		let liveNameBytes = SVDBytes(location: liveBytes.location, length: kLiveNameLength)
-		self.liveName = self.svdFile.stringFromBytes(liveNameBytes)
+		self.liveName = self.svdFile.stringFromShiftedBytes(liveNameBytes)
 
 		self.liveLayer1Bytes.location += liveBytes.location
 		self.liveLayer2Bytes.location += liveBytes.location
@@ -56,10 +56,10 @@ class SVDLiveSet: NSObject {
 		let liveLayer3LocationData = liveLayer3MetaData.subdataWithRange(NSRange(location: 1, length: 2))
 		let liveLayer4LocationData = liveLayer4MetaData.subdataWithRange(NSRange(location: 1, length: 2))
 
-		let liveLayer1Location = svdFile.numberFromData(liveLayer1LocationData)
-		let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData)
-		let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData)
-		let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData)
+		let liveLayer1Location = svdFile.numberFromData(liveLayer1LocationData, nrOfBits: 7)
+		let liveLayer2Location = svdFile.numberFromData(liveLayer2LocationData, nrOfBits: 7)
+		let liveLayer3Location = svdFile.numberFromData(liveLayer3LocationData, nrOfBits: 7)
+		let liveLayer4Location = svdFile.numberFromData(liveLayer4LocationData, nrOfBits: 7)
 
 		let liveLayer1TypeData = liveLayer1MetaData.subdataWithRange(NSRange(location: 0, length: 1))
 		let liveLayer2TypeData = liveLayer2MetaData.subdataWithRange(NSRange(location: 0, length: 1))

@@ -26,9 +26,11 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	}
 
 	func svdFileDidUpdate(notification: NSNotification) {
-		self.svdFile = self.model.openedSVDFile
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.svdFile = self.model.openedSVDFile
 
-		self.tableView.reloadData()
+			self.tableView.reloadData()
+		}
 	}
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -45,28 +47,87 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		var result = tableView.makeViewWithIdentifier("RegListCell", owner:self) as NSTableCellView
-		result.textField?.stringValue = ""
+		result.textField?.textColor = NSColor.blackColor()
+
+		var columnValue: String = ""
+		var textColor = NSColor.blackColor()
 
 		let svdReg = self.svdFile!.registrations[row]
 
 		if tableColumn == self.nameColumn {
-			result.textField?.stringValue = svdReg.regName
+			columnValue = svdReg.regName
+			textColor = self.textColorForRegistrationName(columnValue)
 		} else if tableColumn == self.orderColumn {
-			result.textField?.stringValue = "\(row + 1)"
+			columnValue = "\(row + 1)"
 		} else if tableColumn == self.upperColumn {
-			result.textField?.stringValue = svdReg.upperLiveSet.liveName
+			columnValue = svdReg.upperLiveSet.liveName
+			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.lowerColumn {
-			result.textField?.stringValue = svdReg.lowerLiveSet.liveName
+			columnValue = svdReg.lowerLiveSet.liveName
+			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.soloColumn {
 			if svdReg.soloTone != nil {
-				result.textField?.stringValue = svdReg.soloTone!.toneName
+				columnValue = svdReg.soloTone!.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if svdReg.soloName != nil {
+				columnValue = svdReg.soloName!
+				textColor = self.textColorForPartType(svdReg.soloToneType!)
 			}
 		} else if tableColumn == self.percColumn {
 			if svdReg.percTone != nil {
-				result.textField?.stringValue = svdReg.percTone!.toneName
+				columnValue = svdReg.percTone!.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if svdReg.percName != nil {
+				columnValue = svdReg.percName!
+				textColor = self.textColorForPartType(svdReg.percToneType!)
 			}
 		}
 
+		result.textField?.stringValue = columnValue
+		result.textField?.textColor = textColor
+
 		return result
+	}
+
+	func textColorForPartType(partType: SVDPartType) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if partType == .Acoustic {
+			textColor = .purpleColor()
+		} else if partType == .DrumSet {
+			textColor = .blueColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForToneName(toneName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if toneName == "INIT SYNTH" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForLiveSetName(liveName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if liveName == "INIT LIVESET" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForRegistrationName(regName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if regName == "INIT REGIST" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
 	}
 }

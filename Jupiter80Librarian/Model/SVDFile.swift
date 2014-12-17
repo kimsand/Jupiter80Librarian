@@ -8,6 +8,154 @@
 
 import Cocoa
 
+let kPartMapAcoustic = [
+	"67 1": "Concert Grand",
+	"67 2": "Grand Piano1",
+	"67 3": "Grand Piano2",
+	"67 4": "Grand Piano3",
+	"67 5": "Mellow Piano",
+	"67 6": "Bright Piano",
+	"67 7": "Upright Piano",
+	"67 8": "Concert Mono",
+	"67 9": "Honky-tonk",
+	"64 5": "Pure Vintage EP1",
+	"65 5": "Pure Vintage EP2",
+	"66 5": "Pure Wurly",
+	//"67 5": "Pure Vintage EP3",
+	"68 5": "Tined EP1",
+	"69 5": "Tined EP2",
+	"70 5": "Old Hammer EP",
+	"71 5": "Dyno Piano",
+	"64 8": "Clav CB Flat",
+	"65 8": "Clav CA Flat",
+	"66 8": "Clav CB Medium",
+	//"67 8": "Clav CA Medium",
+	"68 8": "Clav CB Brillia",
+	"69 8": "Clav CA Brillia",
+	"70 8": "Clav CB Combo",
+	"71 8": "Clav CA Combo",
+	"64 12": "Vibraphone",
+	"64 13": "Marimba",
+	"64 22": "French Accordion",
+	"65 22": "ItalianAccordion",
+	"64 23": "Harmonica",
+	"64 24": "Bandoneon",
+	"64 25": "Nylon Guitar",
+	"65 25": "Flamenco Guitar",
+	"64 26": "SteelStr Guitar",
+	"64 33": "Acoustic Bass",
+	"64 34": "Fingered Bass",
+	"65 34": "Fingered Bass 2",
+	"64 35": "Picked Bass",
+	"65 35": "Picked Bass 2",
+	"64 36": "Fretless Bass",
+	"64 41": "Violin",
+	"65 41": "Violin 2",
+	"64 42": "Viola",
+	"64 43": "Cello",
+	"65 43": "Cello 2",
+	"64 44": "Contrabass",
+	"64 47": "Harp",
+	"64 48": "Timpani",
+	"64 49": "Strings",
+	"64 57": "Trumpet",
+	"66 57": "Flugel Horn",
+	"64 58": "Trombone",
+	"65 58": "Trombone 2",
+	"66 58": "Bass Trombone",
+	"64 60": "Mute Trumpet",
+	"64 61": "French Horn",
+	"64 65": "Soprano Sax",
+	"64 66": "Alto Sax",
+	"64 67": "Tenor Sax",
+	"64 68": "Baritone Sax",
+	"64 69": "Oboe",
+	"64 70": "English Horn",
+	"64 71": "Bassoon",
+	"64 72": "Clarinet",
+	"65 72": "Bass Clarinet",
+	"64 73": "Piccolo",
+	"64 74": "Flute",
+	"65 74": "Flute 2",
+	"64 76": "Pan Flute",
+	"64 78": "Shakuhachi",
+	"65 78": "Ryuteki",
+	"64 105": "Sitar",
+	"64 110": "Uilleann Pipes",
+	"65 111": "Erhu",
+	"66 111": "Sarangi",
+	"64 115": "Steel Drums",
+	"80 12": "APS Vibraphone",
+	"80 13": "APS Marimba",
+	"80 22": "APS Accordion",
+	"80 23": "APS Harmonica",
+	"80 24": "APS Bandoneon",
+	"80 25": "APS Nylon Guitar",
+	"80 26": "APS SteelStr Gt.",
+	"80 33": "APS Acoustic Bs.",
+	"80 34": "APS Fingered Bs.",
+	"80 35": "APS Picked Bass",
+	"80 36": "APS Fretless Bs.",
+	"80 41": "APS Violin",
+	"80 42": "APS Viola",
+	"80 43": "APS Cello",
+	"80 44": "APS Contrabass",
+	"80 47": "APS Harp",
+	"80 48": "APS Timpani",
+	"80 49": "APS Strings",
+	"80 57": "APS Trumpet",
+	"80 58": "APS Trombone",
+	"80 60": "APS Mute Trumpet",
+	"80 61": "APS French Horn",
+	"80 65": "APS Soprano Sax",
+	"80 66": "APS Alto Sax",
+	"80 67": "APS Tenor Sax",
+	"80 68": "APS Baritone Sax",
+	"80 69": "APS Oboe",
+	"80 70": "APS English Horn",
+	"80 71": "APS Bassoon",
+	"80 72": "APS Clarinet",
+	"80 73": "APS Piccolo",
+	"80 74": "APS Flute",
+	"80 76": "APS Pan Flute",
+	"80 78": "APS Shakuhachi",
+	"81 78": "APS Ryuteki",
+	"80 105": "APS Sitar",
+	"80 110": "APS UilleannPipe",
+	"81 111": "APS Erhu",
+	"82 111": "APS Sarangi",
+	"80 115": "APS Steel Drums",
+	"0 1": "TW Organ"
+]
+
+let kPartMapDrumSet = [
+	"64 1": "Standard 1",
+	"64 2": "Standard 2",
+	"64 3": "Standard 3",
+	"64 4": "Power Kit",
+	"64 5": "Jazz Kit",
+	"64 6": "Brush Kit",
+	"64 7": "Orchestra",
+	"64 8": "SFX",
+	"64 9": "Machine Kit",
+	"64 10": "R&B T-Analog",
+	"64 11": "R&B Mini Kit",
+	"64 12": "HipHop Kit",
+	"64 13": "R&B Kit",
+	"64 14": "Dance Kit 1",
+	"64 15": "Dance Kit 2",
+	"64 16": "Dance Kit 3",
+	"64 17": "Dance Kit 4",
+	"65 1": "Drum Set",
+	"65 2": "Latin Set",
+	"65 3": "Clap&TR-808",
+	"65 4": "Hit&Scratch",
+	"65 5": "Zap&DigiVox",
+	"65 6": "Jazz Scat",
+	"65 7": "Orchestra 1",
+	"65 8": "Orchestra 2"
+]
+
 struct SVDBytes {
 	var location: Int
 	var bytes: [UInt8]
@@ -169,14 +317,14 @@ class SVDFile: NSObject {
 		self.regBytes.location += self.headerOffset
 		self.nrOfRegsBytes.location += self.headerOffset
 
-		self.nrOfRegs = self.numberFromBytes(self.nrOfRegsBytes)
+		self.nrOfRegs = self.numberFromBytes(self.nrOfRegsBytes, nrOfBits: 8)
 
 		self.nrOfLivesBytes.location = self.regBytes.location + (self.nrOfRegs * self.regBytes.length)
-		self.nrOfLives = self.numberFromBytes(nrOfLivesBytes)
+		self.nrOfLives = self.numberFromBytes(self.nrOfLivesBytes, nrOfBits: 8)
 		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + kLiveMetaLength
 
 		self.nrOfTonesBytes.location = self.liveBytes.location + (self.nrOfLives * self.liveBytes.length)
-		self.nrOfTones = self.numberFromBytes(nrOfTonesBytes)
+		self.nrOfTones = self.numberFromBytes(self.nrOfTonesBytes, nrOfBits: 8)
 		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + kToneMetaLength
 
 		NSLog("Nr of regs: %d", self.nrOfRegs)
@@ -189,7 +337,7 @@ class SVDFile: NSObject {
 			var regBytes = self.regBytes
 			regBytes.location += (regBytes.length * index)
 
-			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location)
+			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location - self.headerOffset)
 			self.registrations.append(registration)
 		}
 	}
@@ -214,7 +362,7 @@ class SVDFile: NSObject {
 		}
 	}
 
-	func dataFromByteStruct(byteStruct: SVDBytes) -> NSData {
+	func dataFromBytes(byteStruct: SVDBytes) -> NSData {
 		let byteRange = NSRange(location: byteStruct.location, length: byteStruct.length)
 		let byteData = self.fileData.subdataWithRange(byteRange)
 
@@ -222,29 +370,29 @@ class SVDFile: NSObject {
 	}
 
 	func compareData(byteStruct: SVDBytes) -> Bool {
-		let byteData = self.dataFromByteStruct(byteStruct)
+		let byteData = self.dataFromBytes(byteStruct)
 		let byteCheck = NSData(bytes: byteStruct.bytes, length: byteStruct.length)
 
 		return byteData.isEqualToData(byteCheck)
 	}
 
-	func numberFromBytes(byteStruct: SVDBytes) -> Int {
-		let byteData = self.dataFromByteStruct(byteStruct)
+	func numberFromBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
+		let byteData = self.dataFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData)
+		let number = self.numberFromData(byteData, nrOfBits:nrOfBits)
 
 		return number
 	}
 
-	func numberFromShiftedBytes(byteStruct: SVDBytes) -> Int {
+	func numberFromShiftedBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
 		let byteData = self.unshiftedBytesFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData)
+		let number = self.numberFromData(byteData, nrOfBits:nrOfBits)
 
 		return number
 	}
 
-	func numberFromData(byteData: NSData) -> Int {
+	func numberFromData(byteData: NSData, nrOfBits: Int) -> Int {
 		var bytes: [UInt8] = Array(count: byteData.length, repeatedValue: 0x0)
 		byteData.getBytes(&bytes, length: byteData.length)
 
@@ -254,7 +402,9 @@ class SVDFile: NSObject {
 		var restBytes = bytes[0...bytes.count - 2]
 
 		for byte in restBytes.reverse() {
-			number += Int(byte) * (2^(8+iteration))
+			let convertedNumber = Int(byte) * Int(pow(Double(2), Double(nrOfBits + iteration)))
+			number += convertedNumber
+			iteration++
 		}
 
 		return number
@@ -281,7 +431,7 @@ class SVDFile: NSObject {
 	func unshiftedBytesFromBytes(byteStruct: SVDBytes) -> NSData {
 		var unshiftedBytes: [UInt8] = []
 
-		let byteData = self.dataFromByteStruct(byteStruct)
+		let byteData = self.dataFromBytes(byteStruct)
 
 		// Bitmasks to cycle through in order to retrieve the unshifted bytes
 		let bitmasks: [UInt16] = [0b1111111000000000, 0b0000000111111100, 0b0000001111111000, 0b0000011111110000, 0b0000111111100000, 0b0001111111000000, 0b0011111110000000, 0b0111111100000000]
@@ -324,15 +474,50 @@ class SVDFile: NSObject {
 		return unshiftedData
 	}
 
-	func stringFromBytes(byteStruct: SVDBytes) -> String {
+	func stringFromShiftedBytes(byteStruct: SVDBytes) -> String {
 		var data = self.unshiftedBytesFromBytes(byteStruct)
+
+		let dataString = self.stringFromData(data)
+
+		return dataString
+	}
+
+	func stringFromData(data: NSData) -> String {
 		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)!
 
 		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
 
+	func partMapKeyFromShiftedBytes(byteStruct: SVDBytes, location: Int) -> String {
+		var data = self.unshiftedBytesFromBytes(byteStruct)
+
+		var byteArray = [UInt8](count: 2, repeatedValue: 0x0)
+		data.getBytes(&byteArray, range: NSRange(location: location, length: 2))
+
+		let value1 = byteArray[0]
+		let value2 = byteArray[1]
+
+		let partMapKey = NSString(format: "%d %d", value1, value2 + 1) as String
+
+		return partMapKey
+	}
+
+	func hexStringFromShiftedBytes(byteStruct: SVDBytes) -> String {
+		var data = self.unshiftedBytesFromBytes(byteStruct)
+
+		var byteArray = [UInt8](count: data.length, repeatedValue: 0x0)
+		data.getBytes(&byteArray, length:data.length)
+
+		var hexString = "" as String
+		for value in byteArray {
+			hexString += NSString(format: "%2X", value) as String
+		}
+
+		return hexString
+	}
+
 	func partTypeFromBytes(byteStruct: SVDBytes) -> SVDPartType {
-		let partTypeData = self.dataFromByteStruct(byteStruct)
+		let partTypeData = self.dataFromBytes(byteStruct)
 
 		let partType: SVDPartType = self.partTypeFromData(partTypeData)
 
@@ -343,7 +528,7 @@ class SVDFile: NSObject {
 		var partType = SVDPartType.Unknown
 
 		var partByte: Int = 0x0
-		byteData.getBytes(&partByte)
+		byteData.getBytes(&partByte, length: 1)
 
 		if partByte == kPartTypeSynth1
 			|| partByte == kPartTypeSynth2 {
@@ -363,5 +548,23 @@ class SVDFile: NSObject {
 		}
 
 		return partType
+	}
+
+	func partNameFromBytes(byteStruct: SVDBytes, type:SVDPartType) -> String {
+		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
+
+		var partName: String?
+
+		if type == .Acoustic {
+			partName = kPartMapAcoustic[partKey]
+		} else if type == .DrumSet {
+			partName = kPartMapDrumSet[partKey]
+		}
+
+		if partName == nil {
+			partName = ""
+		}
+
+		return partName!
 	}
 }

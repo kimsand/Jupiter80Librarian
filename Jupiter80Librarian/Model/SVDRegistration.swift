@@ -30,12 +30,14 @@ class SVDRegistration: NSObject {
 	var percToneType: SVDPartType!
 	var soloTone: SVDTone?
 	var percTone: SVDTone?
+	var soloName: String?
+	var percName: String?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int) {
 		self.svdFile = svdFile
 
 		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
-		self.regName = self.svdFile.stringFromBytes(regNameBytes)
+		self.regName = self.svdFile.stringFromShiftedBytes(regNameBytes)
 
 		self.regUpperBytes.location += regBytes.location - regBytesOffset
 		self.regLowerBytes.location += regBytes.location - regBytesOffset
@@ -55,10 +57,8 @@ class SVDRegistration: NSObject {
 	}
 
 	func findDependencies() {
-		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes)
-		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
-		let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes)
-		let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes)
+		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes, nrOfBits: 7)
+		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes, nrOfBits: 7)
 
 		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
 		self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
@@ -70,13 +70,21 @@ class SVDRegistration: NSObject {
 		self.percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
 
 		if self.soloToneType! == .Synth {
+			let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes, nrOfBits: 7)
+
 			self.soloTone = svdFile.tones[soloToneLocation]
 			self.soloTone?.addDependencyToRegistration(self)
+		} else {
+			self.soloName = svdFile.partNameFromBytes(self.regSoloBytes, type: self.soloToneType)
 		}
 
 		if self.percToneType! == .Synth {
+			let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes, nrOfBits: 7)
+
 			self.percTone = svdFile.tones[percToneLocation]
 			self.percTone?.addDependencyToRegistration(self)
+		} else {
+			self.percName = svdFile.partNameFromBytes(self.regPercBytes, type: self.percToneType)
 		}
 	}
 }

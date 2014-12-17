@@ -21,7 +21,7 @@ class SVDTone: NSObject {
 		self.svdFile = svdFile
 
 		let toneNameBytes = SVDBytes(location: toneBytes.location, length: self.toneNameLength)
-		self.toneName = self.svdFile.stringFromBytes(toneNameBytes)
+		self.toneName = self.svdFile.stringFromShiftedBytes(toneNameBytes)
 	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
