@@ -183,12 +183,32 @@ enum SVDFileFormat {
 	case Jupiter50
 }
 
-enum SVDPartType {
+enum SVDPartTypeMainType {
 	case Unknown
 	case LiveSet
 	case Synth
 	case Acoustic
 	case DrumSet
+}
+
+enum SVDPartTypeSubType {
+	case Unknown
+	case LiveSet1
+	case LiveSet2
+	case Synth1
+	case Synth2
+	case AcousticPiano
+	case Acoustic1
+	case Acoustic2
+	case Acoustic3
+	case Acoustic4
+	case DrumSet1
+	case DrumSet2
+}
+
+struct SVDPartType {
+	let mainType: SVDPartTypeMainType
+	let subType: SVDPartTypeSubType
 }
 
 private let kBytesSVD = SVDBytes(location: 0x2, bytes: [0x53, 0x56, 0x44])
@@ -202,8 +222,8 @@ private let kBytesRBN = SVDBytes(location: 0x60, bytes: [0x52, 0x42, 0x4E])
 private let kLiveMetaLength = 0x0c
 private let kToneMetaLength = 0x0c
 
-private let kPartTypeLiveset1 = 0xD4
-private let kPartTypeLiveset2 = 0x54
+private let kPartTypeLiveSet1 = 0xD4
+private let kPartTypeLiveSet2 = 0x54
 private let kPartTypeSynth1 = 0xDD
 private let kPartTypeSynth2 = 0x5D
 private let kPartTypeAcousticPiano = 0x5A // MSB: 90
@@ -211,8 +231,8 @@ private let kPartTypeAcoustic1 = 0x59 // MSB: 89
 private let kPartTypeAcoustic2 = 0xD9
 private let kPartTypeAcoustic3 = 0xDA
 private let kPartTypeAcoustic4 = 0x5C
-private let kPartTypeDrumset1 = 0x56
-private let kPartTypeDrumset2 = 0xD6
+private let kPartTypeDrumSet1 = 0x56
+private let kPartTypeDrumSet2 = 0xD6
 
 class SVDFile: NSObject {
 	private var nrOfRegsBytes = SVDBytes(location: 0x40, length: 0x4)
@@ -525,66 +545,87 @@ class SVDFile: NSObject {
 		return hexString
 	}
 
-	func partTypeAndByteFromBytes(byteStruct: SVDBytes) -> (partType: SVDPartType, partByte: Int) {
+	func partTypeFromBytes(byteStruct: SVDBytes) -> SVDPartType {
 		let partTypeData = self.dataFromBytes(byteStruct)
 
-		let partTypeAndByte = self.partTypeAndByteFromData(partTypeData)
+		let partType = self.partTypeFromData(partTypeData)
 
-		return partTypeAndByte
+		return partType
 	}
 
-	func partTypeAndByteFromData(byteData: NSData) -> (partType: SVDPartType, partByte: Int) {
-		var partType = SVDPartType.Unknown
+	func partTypeFromData(byteData: NSData) -> SVDPartType {
+		var mainType = SVDPartTypeMainType.Unknown
+		var subType = SVDPartTypeSubType.Unknown
 
 		var partByte: Int = 0x0
 		byteData.getBytes(&partByte, length: 1)
 
-		if partByte == kPartTypeSynth1
-			|| partByte == kPartTypeSynth2 {
-				partType = .Synth
-		} else if partByte == kPartTypeAcousticPiano
-			|| partByte == kPartTypeAcoustic1
-			|| partByte == kPartTypeAcoustic2
-			|| partByte == kPartTypeAcoustic3
-			|| partByte == kPartTypeAcoustic4 {
-				partType = .Acoustic
-		} else if partByte == kPartTypeDrumset1
-			|| partByte == kPartTypeDrumset2 {
-				partType = .DrumSet
-		} else if partByte == kPartTypeLiveset1
-			|| partByte == kPartTypeLiveset2 {
-				partType = .LiveSet
+		if partByte == kPartTypeSynth1 {
+			mainType = .Synth
+			subType = .Synth1
+		} else if partByte == kPartTypeSynth2 {
+			mainType = .Synth
+			subType = .Synth2
+		} else if partByte == kPartTypeAcousticPiano {
+			mainType = .Acoustic
+			subType = .AcousticPiano
+		} else if partByte == kPartTypeAcoustic1 {
+			mainType = .Acoustic
+			subType = .Acoustic1
+		} else if partByte == kPartTypeAcoustic2 {
+			mainType = .Acoustic
+			subType = .Acoustic2
+		} else if partByte == kPartTypeAcoustic3 {
+			mainType = .Acoustic
+			subType = .Acoustic3
+		} else if partByte == kPartTypeAcoustic4 {
+			mainType = .Acoustic
+			subType = .Acoustic4
+		} else if partByte == kPartTypeDrumSet1 {
+			mainType = .DrumSet
+			subType = .DrumSet1
+		} else if partByte == kPartTypeDrumSet2 {
+			mainType = .DrumSet
+			subType = .DrumSet2
+		} else if partByte == kPartTypeLiveSet1 {
+			mainType = .LiveSet
+			subType = .LiveSet1
+		} else if partByte == kPartTypeLiveSet2 {
+			mainType = .LiveSet
+			subType = .LiveSet2
 		}
 
-		return (partType, partByte)
+		let partType = SVDPartType(mainType: mainType, subType: subType)
+
+		return partType
 	}
 
-	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType, partByte: Int) -> String {
+	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType) -> String {
 		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType, partByte: partByte)
+		var partName = self.partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}
 
-	func partNameFromData(byteData: NSData, partType: SVDPartType, partByte: Int) -> String {
+	func partNameFromData(byteData: NSData, partType: SVDPartType) -> String {
 		let partKey = self.partMapKeyFromData(byteData, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType, partByte: partByte)
+		var partName = self.partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}
 
-	func partNameFromPartKey(partKey: String, partType: SVDPartType, partByte: Int) -> String {
+	func partNameFromPartKey(partKey: String, partType: SVDPartType) -> String {
 		var partName: String?
 
-		if partType == .Acoustic {
-			if partByte == kPartTypeAcousticPiano {
+		if partType.mainType == .Acoustic {
+			if partType.subType == .AcousticPiano {
 				partName = kPartMapAcousticPianos[partKey]
 			} else {
 				partName = kPartMapAcoustic[partKey]
 			}
-		} else if partType == .DrumSet {
+		} else if partType.mainType == .DrumSet {
 			partName = kPartMapDrumSet[partKey]
 		}
 

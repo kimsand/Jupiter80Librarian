@@ -51,13 +51,11 @@ class SVDLiveSet: NSObject {
 		let layerMetaData = self.svdFile.unshiftedBytesFromBytes(layerBytes)
 		let layerLocationData = layerMetaData.subdataWithRange(NSRange(location: 1, length: 2))
 		let layerTypeData = layerMetaData.subdataWithRange(NSRange(location: 0, length: 1))
-		let layerToneTypeAndByte = self.svdFile.partTypeAndByteFromData(layerTypeData)
-		let layerToneType = layerToneTypeAndByte.partType
-		let layerToneByte = layerToneTypeAndByte.partByte
+		let layerToneType = self.svdFile.partTypeFromData(layerTypeData)
 
 		self.layerToneTypes.append(layerToneType)
 
-		if layerToneType == .Synth {
+		if layerToneType.mainType == .Synth {
 			let layerLocation = svdFile.numberFromData(layerLocationData, nrOfBits: 7)
 			let layerTone = svdFile.tones[layerLocation]
 			self.layerTones.append(layerTone)
@@ -66,7 +64,7 @@ class SVDLiveSet: NSObject {
 			layerTone.addDependencyToLiveSet(self)
 		} else {
 			self.layerTones.append(nil)
-			let layerName = svdFile.partNameFromData(layerLocationData, partType: layerToneType, partByte: layerToneByte)
+			let layerName = svdFile.partNameFromData(layerLocationData, partType: layerToneType)
 
 			self.layerNames.append(layerName)
 		}

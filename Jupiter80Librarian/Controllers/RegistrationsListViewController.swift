@@ -90,9 +90,9 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 		if self.isInitSound == true {
 			textColor = .lightGrayColor()
-		} else if partType == .Acoustic {
+		} else if partType.mainType == .Acoustic {
 			textColor = .purpleColor()
-		} else if partType == .DrumSet {
+		} else if partType.mainType == .DrumSet {
 			textColor = .blueColor()
 		}
 

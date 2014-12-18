@@ -96,9 +96,9 @@ class LiveSetsListViewController: NSViewController {
 
 		if self.isInitSound == true {
 			textColor = .lightGrayColor()
-		} else if partType == .Acoustic {
+		} else if partType.mainType == .Acoustic {
 			textColor = .purpleColor()
-		} else if partType == .DrumSet {
+		} else if partType.mainType == .DrumSet {
 			textColor = .blueColor()
 		}
 
