@@ -55,37 +55,33 @@ class LiveSetsListViewController: NSViewController {
 			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.orderColumn {
 			columnValue = "\(row + 1)"
-		} else if tableColumn == self.layer1Column {
-			if svdLive.layer1Tone != nil {
-				columnValue = svdLive.layer1Tone!.toneName
-				textColor = self.textColorForToneName(columnValue)
-			} else if svdLive.layer1Name != nil {
-				columnValue = svdLive.layer1Name!
-				textColor = self.textColorForPartType(svdLive.layer1ToneType!)
+		} else if tableColumn == self.layer1Column
+			|| tableColumn == self.layer2Column
+			|| tableColumn == self.layer3Column
+			|| tableColumn == self.layer4Column
+		{
+			var layerNr: Int
+
+			if tableColumn == self.layer1Column {
+				layerNr = 0
+			} else if tableColumn == self.layer2Column {
+				layerNr = 1
+			} else if tableColumn == self.layer3Column {
+				layerNr = 2
+			} else {
+				layerNr = 3
 			}
-		} else if tableColumn == self.layer2Column {
-			if svdLive.layer2Tone != nil {
-				columnValue = svdLive.layer2Tone!.toneName
+
+			let layerToneType: SVDPartType = svdLive.layerToneTypes[layerNr]
+			let layerTone: SVDTone? = svdLive.layerTones[layerNr]
+			let layerName: String? = svdLive.layerNames[layerNr]
+
+			if layerTone != nil {
+				columnValue = layerTone!.toneName
 				textColor = self.textColorForToneName(columnValue)
-			} else if svdLive.layer2Name != nil {
-				columnValue = svdLive.layer2Name!
-				textColor = self.textColorForPartType(svdLive.layer2ToneType!)
-			}
-		} else if tableColumn == self.layer3Column {
-			if svdLive.layer3Tone != nil {
-				columnValue = svdLive.layer3Tone!.toneName
-				textColor = self.textColorForToneName(columnValue)
-			} else if svdLive.layer3Name != nil {
-				columnValue = svdLive.layer3Name!
-				textColor = self.textColorForPartType(svdLive.layer3ToneType!)
-			}
-		} else if tableColumn == self.layer4Column {
-			if svdLive.layer4Tone != nil {
-				columnValue = svdLive.layer4Tone!.toneName
-				textColor = self.textColorForToneName(columnValue)
-			} else if svdLive.layer4Name != nil {
-				columnValue = svdLive.layer4Name!
-				textColor = self.textColorForPartType(svdLive.layer4ToneType!)
+			} else if layerName != nil {
+				columnValue = layerName!
+				textColor = self.textColorForPartType(layerToneType)
 			}
 		}
 

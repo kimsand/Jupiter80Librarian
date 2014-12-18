@@ -8,7 +8,7 @@
 
 import Cocoa
 
-let kPartMapAcoustic = [
+let kPartMapAcousticPianos = [
 	"67 1": "Concert Grand",
 	"67 2": "Grand Piano1",
 	"67 3": "Grand Piano2",
@@ -17,11 +17,14 @@ let kPartMapAcoustic = [
 	"67 6": "Bright Piano",
 	"67 7": "Upright Piano",
 	"67 8": "Concert Mono",
-	"67 9": "Honky-tonk",
+	"67 9": "Honky-tonk"
+]
+
+let kPartMapAcoustic = [
 	"64 5": "Pure Vintage EP1",
 	"65 5": "Pure Vintage EP2",
 	"66 5": "Pure Wurly",
-	//"67 5": "Pure Vintage EP3",
+	"67 5": "Pure Vintage EP3",
 	"68 5": "Tined EP1",
 	"69 5": "Tined EP2",
 	"70 5": "Old Hammer EP",
@@ -29,7 +32,7 @@ let kPartMapAcoustic = [
 	"64 8": "Clav CB Flat",
 	"65 8": "Clav CA Flat",
 	"66 8": "Clav CB Medium",
-	//"67 8": "Clav CA Medium",
+	"67 8": "Clav CA Medium",
 	"68 8": "Clav CB Brillia",
 	"69 8": "Clav CA Brillia",
 	"70 8": "Clav CB Combo",
@@ -203,11 +206,11 @@ private let kPartTypeLiveset1 = 0xD4
 private let kPartTypeLiveset2 = 0x54
 private let kPartTypeSynth1 = 0xDD
 private let kPartTypeSynth2 = 0x5D
-private let kPartTypeAcoustic1 = 0xD9
-private let kPartTypeAcoustic2 = 0x59
+private let kPartTypeAcousticPiano = 0x5A // MSB: 90
+private let kPartTypeAcoustic1 = 0x59 // MSB: 89
+private let kPartTypeAcoustic2 = 0xD9
 private let kPartTypeAcoustic3 = 0xDA
-private let kPartTypeAcoustic4 = 0x5A
-private let kPartTypeAcoustic5 = 0x5C
+private let kPartTypeAcoustic4 = 0x5C
 private let kPartTypeDrumset1 = 0x56
 private let kPartTypeDrumset2 = 0xD6
 
@@ -522,15 +525,15 @@ class SVDFile: NSObject {
 		return hexString
 	}
 
-	func partTypeFromBytes(byteStruct: SVDBytes) -> SVDPartType {
+	func partTypeAndByteFromBytes(byteStruct: SVDBytes) -> (partType: SVDPartType, partByte: Int) {
 		let partTypeData = self.dataFromBytes(byteStruct)
 
-		let partType: SVDPartType = self.partTypeFromData(partTypeData)
+		let partTypeAndByte = self.partTypeAndByteFromData(partTypeData)
 
-		return partType
+		return partTypeAndByte
 	}
 
-	func partTypeFromData(byteData: NSData) -> SVDPartType {
+	func partTypeAndByteFromData(byteData: NSData) -> (partType: SVDPartType, partByte: Int) {
 		var partType = SVDPartType.Unknown
 
 		var partByte: Int = 0x0
@@ -539,11 +542,11 @@ class SVDFile: NSObject {
 		if partByte == kPartTypeSynth1
 			|| partByte == kPartTypeSynth2 {
 				partType = .Synth
-		} else if partByte == kPartTypeAcoustic1
+		} else if partByte == kPartTypeAcousticPiano
+			|| partByte == kPartTypeAcoustic1
 			|| partByte == kPartTypeAcoustic2
 			|| partByte == kPartTypeAcoustic3
-			|| partByte == kPartTypeAcoustic4
-			|| partByte == kPartTypeAcoustic5 {
+			|| partByte == kPartTypeAcoustic4 {
 				partType = .Acoustic
 		} else if partByte == kPartTypeDrumset1
 			|| partByte == kPartTypeDrumset2 {
@@ -553,30 +556,34 @@ class SVDFile: NSObject {
 				partType = .LiveSet
 		}
 
-		return partType
+		return (partType, partByte)
 	}
 
-	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType) -> String {
+	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType, partByte: Int) -> String {
 		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType)
+		var partName = self.partNameFromPartKey(partKey, partType: partType, partByte: partByte)
 
 		return partName
 	}
 
-	func partNameFromData(byteData: NSData, partType: SVDPartType) -> String {
+	func partNameFromData(byteData: NSData, partType: SVDPartType, partByte: Int) -> String {
 		let partKey = self.partMapKeyFromData(byteData, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType)
+		var partName = self.partNameFromPartKey(partKey, partType: partType, partByte: partByte)
 
 		return partName
 	}
 
-	func partNameFromPartKey(partKey: String, partType: SVDPartType) -> String {
+	func partNameFromPartKey(partKey: String, partType: SVDPartType, partByte: Int) -> String {
 		var partName: String?
 
 		if partType == .Acoustic {
-			partName = kPartMapAcoustic[partKey]
+			if partByte == kPartTypeAcousticPiano {
+				partName = kPartMapAcousticPianos[partKey]
+			} else {
+				partName = kPartMapAcoustic[partKey]
+			}
 		} else if partType == .DrumSet {
 			partName = kPartMapDrumSet[partKey]
 		}
