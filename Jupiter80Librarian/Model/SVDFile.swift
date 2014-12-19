@@ -201,7 +201,7 @@ enum SVDPartTypeSubType {
 	case Acoustic1
 	case Acoustic2
 	case Acoustic3
-	case Acoustic4
+	case AcousticTWOrgan
 	case DrumSet1
 	case DrumSet2
 }
@@ -230,7 +230,7 @@ private let kPartTypeAcousticPiano = 0x5A // MSB: 90
 private let kPartTypeAcoustic1 = 0x59 // MSB: 89
 private let kPartTypeAcoustic2 = 0xD9
 private let kPartTypeAcoustic3 = 0xDA
-private let kPartTypeAcoustic4 = 0x5C
+private let kPartTypeAcousticTWOrgan = 0x5C
 private let kPartTypeDrumSet1 = 0x56
 private let kPartTypeDrumSet2 = 0xD6
 
@@ -578,9 +578,9 @@ class SVDFile: NSObject {
 		} else if partByte == kPartTypeAcoustic3 {
 			mainType = .Acoustic
 			subType = .Acoustic3
-		} else if partByte == kPartTypeAcoustic4 {
+		} else if partByte == kPartTypeAcousticTWOrgan {
 			mainType = .Acoustic
-			subType = .Acoustic4
+			subType = .AcousticTWOrgan
 		} else if partByte == kPartTypeDrumSet1 {
 			mainType = .DrumSet
 			subType = .DrumSet1
