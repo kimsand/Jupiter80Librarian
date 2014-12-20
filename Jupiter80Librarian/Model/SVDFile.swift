@@ -8,157 +8,6 @@
 
 import Cocoa
 
-let kPartMapAcousticPianos = [
-	"67 1": "Concert Grand",
-	"67 2": "Grand Piano1",
-	"67 3": "Grand Piano2",
-	"67 4": "Grand Piano3",
-	"67 5": "Mellow Piano",
-	"67 6": "Bright Piano",
-	"67 7": "Upright Piano",
-	"67 8": "Concert Mono",
-	"67 9": "Honky-tonk"
-]
-
-let kPartMapAcoustic = [
-	"64 5": "Pure Vintage EP1",
-	"65 5": "Pure Vintage EP2",
-	"66 5": "Pure Wurly",
-	"67 5": "Pure Vintage EP3",
-	"68 5": "Tined EP1",
-	"69 5": "Tined EP2",
-	"70 5": "Old Hammer EP",
-	"71 5": "Dyno Piano",
-	"64 8": "Clav CB Flat",
-	"65 8": "Clav CA Flat",
-	"66 8": "Clav CB Medium",
-	"67 8": "Clav CA Medium",
-	"68 8": "Clav CB Brillia",
-	"69 8": "Clav CA Brillia",
-	"70 8": "Clav CB Combo",
-	"71 8": "Clav CA Combo",
-	"64 12": "Vibraphone",
-	"64 13": "Marimba",
-	"64 22": "French Accordion",
-	"65 22": "ItalianAccordion",
-	"64 23": "Harmonica",
-	"64 24": "Bandoneon",
-	"64 25": "Nylon Guitar",
-	"65 25": "Flamenco Guitar",
-	"64 26": "SteelStr Guitar",
-	"64 33": "Acoustic Bass",
-	"64 34": "Fingered Bass",
-	"65 34": "Fingered Bass 2",
-	"64 35": "Picked Bass",
-	"65 35": "Picked Bass 2",
-	"64 36": "Fretless Bass",
-	"64 41": "Violin",
-	"65 41": "Violin 2",
-	"64 42": "Viola",
-	"64 43": "Cello",
-	"65 43": "Cello 2",
-	"64 44": "Contrabass",
-	"64 47": "Harp",
-	"64 48": "Timpani",
-	"64 49": "Strings",
-	"64 57": "Trumpet",
-	"66 57": "Flugel Horn",
-	"64 58": "Trombone",
-	"65 58": "Trombone 2",
-	"66 58": "Bass Trombone",
-	"64 60": "Mute Trumpet",
-	"64 61": "French Horn",
-	"64 65": "Soprano Sax",
-	"64 66": "Alto Sax",
-	"64 67": "Tenor Sax",
-	"64 68": "Baritone Sax",
-	"64 69": "Oboe",
-	"64 70": "English Horn",
-	"64 71": "Bassoon",
-	"64 72": "Clarinet",
-	"65 72": "Bass Clarinet",
-	"64 73": "Piccolo",
-	"64 74": "Flute",
-	"65 74": "Flute 2",
-	"64 76": "Pan Flute",
-	"64 78": "Shakuhachi",
-	"65 78": "Ryuteki",
-	"64 105": "Sitar",
-	"64 110": "Uilleann Pipes",
-	"65 111": "Erhu",
-	"66 111": "Sarangi",
-	"64 115": "Steel Drums",
-	"80 12": "APS Vibraphone",
-	"80 13": "APS Marimba",
-	"80 22": "APS Accordion",
-	"80 23": "APS Harmonica",
-	"80 24": "APS Bandoneon",
-	"80 25": "APS Nylon Guitar",
-	"80 26": "APS SteelStr Gt.",
-	"80 33": "APS Acoustic Bs.",
-	"80 34": "APS Fingered Bs.",
-	"80 35": "APS Picked Bass",
-	"80 36": "APS Fretless Bs.",
-	"80 41": "APS Violin",
-	"80 42": "APS Viola",
-	"80 43": "APS Cello",
-	"80 44": "APS Contrabass",
-	"80 47": "APS Harp",
-	"80 48": "APS Timpani",
-	"80 49": "APS Strings",
-	"80 57": "APS Trumpet",
-	"80 58": "APS Trombone",
-	"80 60": "APS Mute Trumpet",
-	"80 61": "APS French Horn",
-	"80 65": "APS Soprano Sax",
-	"80 66": "APS Alto Sax",
-	"80 67": "APS Tenor Sax",
-	"80 68": "APS Baritone Sax",
-	"80 69": "APS Oboe",
-	"80 70": "APS English Horn",
-	"80 71": "APS Bassoon",
-	"80 72": "APS Clarinet",
-	"80 73": "APS Piccolo",
-	"80 74": "APS Flute",
-	"80 76": "APS Pan Flute",
-	"80 78": "APS Shakuhachi",
-	"81 78": "APS Ryuteki",
-	"80 105": "APS Sitar",
-	"80 110": "APS UilleannPipe",
-	"81 111": "APS Erhu",
-	"82 111": "APS Sarangi",
-	"80 115": "APS Steel Drums",
-	"0 1": "TW Organ"
-]
-
-let kPartMapDrumSet = [
-	"64 1": "Standard 1",
-	"64 2": "Standard 2",
-	"64 3": "Standard 3",
-	"64 4": "Power Kit",
-	"64 5": "Jazz Kit",
-	"64 6": "Brush Kit",
-	"64 7": "Orchestra",
-	"64 8": "SFX",
-	"64 9": "Machine Kit",
-	"64 10": "R&B T-Analog",
-	"64 11": "R&B Mini Kit",
-	"64 12": "HipHop Kit",
-	"64 13": "R&B Kit",
-	"64 14": "Dance Kit 1",
-	"64 15": "Dance Kit 2",
-	"64 16": "Dance Kit 3",
-	"64 17": "Dance Kit 4",
-	"65 1": "Drum Set",
-	"65 2": "Latin Set",
-	"65 3": "Clap&TR-808",
-	"65 4": "Hit&Scratch",
-	"65 5": "Zap&DigiVox",
-	"65 6": "Jazz Scat",
-	"65 7": "Orchestra 1",
-	"65 8": "Orchestra 2"
-]
-
 struct SVDBytes {
 	var location: Int
 	var bytes: [UInt8]
@@ -553,6 +402,35 @@ class SVDFile: NSObject {
 		}
 
 		return hexString
+	}
+
+	func pcmMapKeyFromNibbleBytes(byteStruct: SVDBytes) -> String {
+		var data = self.dataFromBytes(byteStruct)
+
+		var byteArray = [UInt8](count: 2, repeatedValue: 0x0)
+		data.getBytes(&byteArray, length:2)
+
+		var hexString = "" as String
+		for value in byteArray {
+			hexString += NSString(format: "%02X", value) as String
+		}
+
+		// Remove last nibble which belongs to the next byte
+		hexString = hexString.substringToIndex(hexString.endIndex.predecessor())
+
+		return hexString
+	}
+
+	func pcmNameFromNibbleBytes(byteStruct: SVDBytes) -> String {
+		let pcmKey = self.pcmMapKeyFromNibbleBytes(byteStruct)
+
+		var pcmName = kPCMMap[pcmKey]
+
+		if pcmName == nil {
+			pcmName = ""
+		}
+
+		return pcmName!
 	}
 
 	func partTypeFromBytes(byteStruct: SVDBytes) -> SVDPartType {

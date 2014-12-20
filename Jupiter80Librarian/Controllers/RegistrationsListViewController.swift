@@ -59,8 +59,15 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			columnValue = svdReg.upperLiveSet.liveName
 			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.lowerColumn {
-			columnValue = svdReg.lowerLiveSet.liveName
-			textColor = self.textColorForLiveSetName(columnValue)
+			if self.svdFile != nil {
+				if self.svdFile!.fileFormat == .Jupiter80 {
+					columnValue = svdReg.lowerLiveSet.liveName
+					textColor = self.textColorForLiveSetName(columnValue)
+				} else {
+					columnValue = "NOT USED"
+					textColor = NSColor.lightGrayColor()
+				}
+			}
 		} else if tableColumn == self.soloColumn {
 			if svdReg.soloTone != nil {
 				columnValue = svdReg.soloTone!.toneName

@@ -61,10 +61,16 @@ class SVDRegistration: NSObject {
 		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
 
 		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
-		self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
+
+		if self.svdFile.fileFormat == .Jupiter80 {
+			self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
+		}
 
 		self.upperLiveSet.addDependencyToRegistration(self)
-		self.lowerLiveSet.addDependencyToRegistration(self)
+
+		if self.svdFile.fileFormat == .Jupiter80 {
+			self.lowerLiveSet.addDependencyToRegistration(self)
+		}
 
 		self.soloToneType = self.svdFile.partTypeFromBytes(self.regSoloTypeBytes)
 		self.percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)

@@ -27,13 +27,16 @@ class SVDTone: NSObject {
 	private var partial1OscTypeBytes = SVDBytes(location: 0x1E, length: 0x1)
 	private var partial2OscTypeBytes = SVDBytes(location: 0x4C, length: 0x1)
 	private var partial3OscTypeBytes = SVDBytes(location: 0x7A, length: 0x1)
+	private var partial1PCMBytes = SVDBytes(location: 0x45, length: 0x2)
+	private var partial2PCMBytes = SVDBytes(location: 0x73, length: 0x2)
+	private var partial3PCMBytes = SVDBytes(location: 0xA1, length: 0x2)
 
 	var toneName: String
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
 
 	var partialOscTypes: [SVDOscType] = []
-	var partialNames: [String?] = []
+	var partialNames: [String] = []
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes) {
 		self.svdFile = svdFile
@@ -45,11 +48,15 @@ class SVDTone: NSObject {
 		self.partial2OscTypeBytes.location += toneBytes.location
 		self.partial3OscTypeBytes.location += toneBytes.location
 
+		self.partial1PCMBytes.location += toneBytes.location
+		self.partial2PCMBytes.location += toneBytes.location
+		self.partial3PCMBytes.location += toneBytes.location
+
 		super.init()
 
-		self.findPartialTypeFromBytes(self.partial1OscTypeBytes)
-		self.findPartialTypeFromBytes(self.partial2OscTypeBytes)
-		self.findPartialTypeFromBytes(self.partial3OscTypeBytes)
+		self.findPartialsFromBytes(self.partial1OscTypeBytes, pcmBytes: self.partial1PCMBytes)
+		self.findPartialsFromBytes(self.partial2OscTypeBytes, pcmBytes: self.partial2PCMBytes)
+		self.findPartialsFromBytes(self.partial3OscTypeBytes, pcmBytes: self.partial3PCMBytes)
 	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
@@ -60,11 +67,17 @@ class SVDTone: NSObject {
 		self.liveSets.append(svdLiveSet)
 	}
 
-	func findPartialTypeFromBytes(byteStruct: SVDBytes) {
+	func findPartialsFromBytes(byteStruct: SVDBytes, pcmBytes: SVDBytes) {
 		let oscType = self.oscTypeFromBytes(byteStruct)
 		self.partialOscTypes.append(oscType)
 
-		let partialName = self.partialNameFromOscType(oscType)
+		var partialName: String
+		if oscType == .PCM {
+			partialName = self.svdFile.pcmNameFromNibbleBytes(pcmBytes)
+		} else {
+			partialName = self.partialNameFromOscType(oscType)
+		}
+
 		self.partialNames.append(partialName)
 	}
 

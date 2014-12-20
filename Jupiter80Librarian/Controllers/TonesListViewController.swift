@@ -18,6 +18,7 @@ class TonesListViewController: NSViewController {
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
+	var isInitSound = false
 
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -67,7 +68,9 @@ class TonesListViewController: NSViewController {
 				partialNr = 2
 			}
 
-			columnValue = svdTone.partialNames[partialNr]!
+			columnValue = svdTone.partialNames[partialNr]
+			let oscType = svdTone.partialOscTypes[partialNr]
+			textColor = self.textColorForOscType(oscType)
 		}
 
 		result.textField?.stringValue = columnValue
@@ -79,8 +82,25 @@ class TonesListViewController: NSViewController {
 	func textColorForToneName(toneName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
+		self.isInitSound = false
+
 		if toneName == "INIT SYNTH" {
 			textColor = .lightGrayColor()
+			self.isInitSound = true
+		}
+
+		return textColor
+	}
+
+	func textColorForOscType(oscType: SVDOscType) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true {
+			textColor = .lightGrayColor()
+		} else if oscType == .PCM {
+			textColor = .purpleColor()
+		} else {
+			textColor = .blueColor()
 		}
 
 		return textColor
