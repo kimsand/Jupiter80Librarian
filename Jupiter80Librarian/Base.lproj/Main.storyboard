@@ -764,11 +764,11 @@
             <objects>
                 <viewController id="Itn-By-bsi" customClass="TonesListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="XEr-KP-Wlw">
-                        <rect key="frame" x="0.0" y="0.0" width="303" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="637" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoQ-09-3wC">
-                                <rect key="frame" x="0.0" y="0.0" width="303" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="637" height="300"/>
                                 <clipView key="contentView" id="Akp-OT-UiV">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -818,7 +818,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListNameCell" width="253" minWidth="120" maxWidth="1000" id="WQJ-pd-UlD" userLabel="Tone Name">
+                                                <tableColumn identifier="ToneListNameCell" width="120" minWidth="120" maxWidth="1000" id="WQJ-pd-UlD" userLabel="Tone Name">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Tone Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -832,11 +832,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="ToneListNameCell" id="CDt-HL-GTv">
-                                                            <rect key="frame" x="46" y="1" width="253" height="17"/>
+                                                            <rect key="frame" x="46" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0Zq-cV-zVL">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="253" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="NSg-Iy-L2q">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -852,6 +852,120 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="0Zq-cV-zVL" id="5jU-yi-lqh"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                                <tableColumn identifier="ToneListPartial1Cell" width="122" minWidth="120" maxWidth="3.4028234663852886e+38" id="pj9-Z8-6AR" userLabel="Partial 1">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 1">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="EXg-O7-Hv3">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="ToneListPartial1Cell" id="GCl-yi-J38">
+                                                            <rect key="frame" x="169" y="1" width="122" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="f8n-3H-f0n">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="h5a-xJ-Uuj">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="f8n-3H-f0n" firstAttribute="top" secondItem="GCl-yi-J38" secondAttribute="top" id="AS7-uF-vIs"/>
+                                                                <constraint firstAttribute="trailing" secondItem="f8n-3H-f0n" secondAttribute="trailing" constant="2" id="BF2-bE-JOy"/>
+                                                                <constraint firstAttribute="bottom" secondItem="f8n-3H-f0n" secondAttribute="bottom" id="DYj-pj-H9c"/>
+                                                                <constraint firstItem="f8n-3H-f0n" firstAttribute="leading" secondItem="GCl-yi-J38" secondAttribute="leading" constant="2" id="b7R-Hy-kw7"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="f8n-3H-f0n" id="sKY-9P-eNL"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                                <tableColumn identifier="ToneListPartial2Cell" width="122" minWidth="120" maxWidth="3.4028234663852886e+38" id="nlc-sQ-s3u" userLabel="Partial 2">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 2">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="UQn-Xu-xG4">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="ToneListPartial2Cell" id="fPw-VZ-Zn4">
+                                                            <rect key="frame" x="294" y="1" width="122" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="FBM-Gb-zsN">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="EA5-0z-gNY">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="FBM-Gb-zsN" firstAttribute="leading" secondItem="fPw-VZ-Zn4" secondAttribute="leading" constant="2" id="94h-BY-TaC"/>
+                                                                <constraint firstAttribute="bottom" secondItem="FBM-Gb-zsN" secondAttribute="bottom" id="AJn-Rk-65Q"/>
+                                                                <constraint firstItem="FBM-Gb-zsN" firstAttribute="top" secondItem="fPw-VZ-Zn4" secondAttribute="top" id="BLZ-4l-bHu"/>
+                                                                <constraint firstAttribute="trailing" secondItem="FBM-Gb-zsN" secondAttribute="trailing" constant="2" id="Ec8-3T-yS2"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="FBM-Gb-zsN" id="Xvd-QT-Iuj"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                                <tableColumn identifier="ToneListPartial3Cell" width="122" minWidth="120" maxWidth="3.4028234663852886e+38" id="eNw-Nr-ncT" userLabel="Partial 3">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 3">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="6jw-PN-Umr">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="ToneListPartial3Cell" id="kVX-p7-XDc">
+                                                            <rect key="frame" x="419" y="1" width="122" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HMz-KT-Fm3">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qOM-01-Lch">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="HMz-KT-Fm3" secondAttribute="trailing" constant="2" id="3Ub-X7-VMF"/>
+                                                                <constraint firstItem="HMz-KT-Fm3" firstAttribute="top" secondItem="kVX-p7-XDc" secondAttribute="top" id="6de-7Y-2hn"/>
+                                                                <constraint firstItem="HMz-KT-Fm3" firstAttribute="leading" secondItem="kVX-p7-XDc" secondAttribute="leading" constant="2" id="eII-xA-S0h"/>
+                                                                <constraint firstAttribute="bottom" secondItem="HMz-KT-Fm3" secondAttribute="bottom" id="uot-g0-7Oa"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="HMz-KT-Fm3" id="glF-mi-ELo"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -889,12 +1003,15 @@
                     <connections>
                         <outlet property="nameColumn" destination="WQJ-pd-UlD" id="MQN-tC-b7z"/>
                         <outlet property="orderColumn" destination="sbJ-Hb-YgZ" id="ZYe-2a-Igm"/>
+                        <outlet property="partial1Column" destination="pj9-Z8-6AR" id="gRa-nA-RoN"/>
+                        <outlet property="partial2Column" destination="nlc-sQ-s3u" id="Kcu-pV-r8g"/>
+                        <outlet property="partial3Column" destination="eNw-Nr-ncT" id="4X3-zZ-7bb"/>
                         <outlet property="tableView" destination="aAC-VF-slb" id="fL8-nb-cNn"/>
                     </connections>
                 </viewController>
                 <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="438.5" y="1379"/>
+            <point key="canvasLocation" x="605.5" y="1379"/>
         </scene>
     </scenes>
 </document>

@@ -497,6 +497,16 @@ class SVDFile: NSObject {
 		return unshiftedData
 	}
 
+	func unshiftedNumberFromBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
+		let byteData = self.dataFromBytes(byteStruct)
+
+		var oneByte: UInt8 = 0x0
+		byteData.getBytes(&oneByte, range: NSRange(location: 0, length: 1))
+		let bitsShifted = [oneByte >> (8 - nrOfBits)]
+
+		return Int(bitsShifted.first!)
+	}
+
 	func stringFromShiftedBytes(byteStruct: SVDBytes) -> String {
 		var data = self.unshiftedBytesFromBytes(byteStruct)
 

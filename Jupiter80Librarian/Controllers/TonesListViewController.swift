@@ -12,6 +12,9 @@ class TonesListViewController: NSViewController {
 	@IBOutlet var tableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
+	@IBOutlet var partial1Column: NSTableColumn!
+	@IBOutlet var partial2Column: NSTableColumn!
+	@IBOutlet var partial3Column: NSTableColumn!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
@@ -50,6 +53,21 @@ class TonesListViewController: NSViewController {
 			textColor = self.textColorForToneName(columnValue)
 		} else if tableColumn == self.orderColumn {
 			columnValue = "\(row + 1)"
+		} else if tableColumn == self.partial1Column
+			|| tableColumn == self.partial2Column
+			|| tableColumn == self.partial3Column
+		{
+			var partialNr: Int
+
+			if tableColumn == self.partial1Column {
+				partialNr = 0
+			} else if tableColumn == self.partial2Column {
+				partialNr = 1
+			} else {
+				partialNr = 2
+			}
+
+			columnValue = svdTone.partialNames[partialNr]!
 		}
 
 		result.textField?.stringValue = columnValue

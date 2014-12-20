@@ -8,20 +8,48 @@
 
 import Cocoa
 
+enum SVDOscType {
+	case Unknown
+	case Saw
+	case Square
+	case Pulse
+	case Triangle
+	case Sine
+	case Noise
+	case SuperSaw
+	case PCM
+}
+
 class SVDTone: NSObject {
 	private let svdFile: SVDFile
 
 	private let toneNameLength = 0x0C
+	private var partial1OscTypeBytes = SVDBytes(location: 0x1E, length: 0x1)
+	private var partial2OscTypeBytes = SVDBytes(location: 0x4C, length: 0x1)
+	private var partial3OscTypeBytes = SVDBytes(location: 0x7A, length: 0x1)
 
 	var toneName: String
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
+
+	var partialOscTypes: [SVDOscType] = []
+	var partialNames: [String?] = []
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes) {
 		self.svdFile = svdFile
 
 		let toneNameBytes = SVDBytes(location: toneBytes.location, length: self.toneNameLength)
 		self.toneName = self.svdFile.stringFromShiftedBytes(toneNameBytes)
+
+		self.partial1OscTypeBytes.location += toneBytes.location
+		self.partial2OscTypeBytes.location += toneBytes.location
+		self.partial3OscTypeBytes.location += toneBytes.location
+
+		super.init()
+
+		self.findPartialTypeFromBytes(self.partial1OscTypeBytes)
+		self.findPartialTypeFromBytes(self.partial2OscTypeBytes)
+		self.findPartialTypeFromBytes(self.partial3OscTypeBytes)
 	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
@@ -30,5 +58,51 @@ class SVDTone: NSObject {
 
 	func addDependencyToLiveSet(svdLiveSet: SVDLiveSet) {
 		self.liveSets.append(svdLiveSet)
+	}
+
+	func findPartialTypeFromBytes(byteStruct: SVDBytes) {
+		let oscType = self.oscTypeFromBytes(byteStruct)
+		self.partialOscTypes.append(oscType)
+
+		let partialName = self.partialNameFromOscType(oscType)
+		self.partialNames.append(partialName)
+	}
+
+	func oscTypeFromBytes(byteStruct: SVDBytes) -> SVDOscType {
+		let number = self.svdFile.unshiftedNumberFromBytes(byteStruct, nrOfBits: 3)
+
+		var oscType: SVDOscType
+
+		switch number {
+		case 0: oscType = .Saw
+		case 1: oscType = .Square
+		case 2: oscType = .Pulse
+		case 3: oscType = .Triangle
+		case 4: oscType = .Sine
+		case 5: oscType = .Noise
+		case 6: oscType = .SuperSaw
+		case 7: oscType = .PCM
+		default: oscType = .Unknown
+		}
+
+		return oscType
+	}
+
+	func partialNameFromOscType(oscType: SVDOscType) -> String {
+		var name: String
+
+		switch oscType {
+		case .Saw: name = "Saw"
+		case .Square: name = "Square"
+		case .Pulse: name = "Pulse"
+		case .Triangle: name = "Triangle"
+		case .Sine: name = "Sine"
+		case .Noise: name = "Noise"
+		case .SuperSaw: name = "SuperSaw"
+		case .PCM: name = "PCM"
+		default: name = "Unknown"
+		}
+
+		return name
 	}
 }
