@@ -11,6 +11,7 @@ import Cocoa
 private let sharedInstance = Model()
 
 class Model: NSObject {
+	var fileName: String?
 	var openedSVDFile: SVDFile?
 
 	class var singleton: Model {
