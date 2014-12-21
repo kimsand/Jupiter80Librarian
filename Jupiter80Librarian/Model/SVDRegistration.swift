@@ -23,6 +23,7 @@ class SVDRegistration: NSObject {
 	private var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
 	private var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
 
+	var orderNr: Int
 	var regName: String
 	var upperLiveSet: SVDLiveSet!
 	var lowerLiveSet: SVDLiveSet!
@@ -33,8 +34,10 @@ class SVDRegistration: NSObject {
 	var soloName: String?
 	var percName: String?
 
-	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int) {
+	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int, orderNr: Int) {
 		self.svdFile = svdFile
+
+		self.orderNr = orderNr
 
 		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
 		self.regName = self.svdFile.stringFromShiftedBytes(regNameBytes)

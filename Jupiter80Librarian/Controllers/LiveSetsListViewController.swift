@@ -19,6 +19,7 @@ class LiveSetsListViewController: NSViewController {
 
 	@IBOutlet var regsTableView: NSTableView!
 	@IBOutlet var regNameColumn: NSTableColumn!
+	@IBOutlet var regOrderColumn: NSTableColumn!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
@@ -95,8 +96,9 @@ class LiveSetsListViewController: NSViewController {
 			}
 		} else if tableView == self.regsTableView {
 			if tableColumn == self.regNameColumn {
-				let registration = self.registrations[row]
-				columnValue = registration.regName
+				columnValue = self.registrations[row].regName
+			} else if tableColumn == self.regOrderColumn {
+				columnValue = "\(self.registrations[row].orderNr)"
 			}
 		}
 
@@ -120,7 +122,7 @@ class LiveSetsListViewController: NSViewController {
 			}
 
 			var regList = regSet.allObjects as NSArray
-			let sortDesc = NSSortDescriptor(key: "regName", ascending: true)
+			let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 			regList = regList.sortedArrayUsingDescriptors([sortDesc])
 
 			self.registrations.removeAll(keepCapacity: true)

@@ -210,7 +210,7 @@ class SVDFile: NSObject {
 			var regBytes = self.regBytes
 			regBytes.location += (regBytes.length * index)
 
-			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location - self.headerOffset)
+			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location - self.headerOffset, orderNr: index + 1)
 			self.registrations.append(registration)
 		}
 	}
