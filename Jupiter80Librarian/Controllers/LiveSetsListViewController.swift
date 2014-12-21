@@ -124,7 +124,11 @@ class LiveSetsListViewController: NSViewController {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
 			let svdLive = self.svdFile!.liveSets[index]
 
-			regSet.addObjectsFromArray(svdLive.registrations)
+			for reg in svdLive.registrations {
+				if reg.regName != "INIT REGIST" {
+					regSet.addObject(reg)
+				}
+			}
 		}
 
 		var regList = regSet.allObjects as NSArray
