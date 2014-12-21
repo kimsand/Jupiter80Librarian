@@ -110,15 +110,23 @@ class LiveSetsListViewController: NSViewController {
 		let tableView = aNotification.object as NSTableView
 
 		if tableView == self.livesTableView {
-			self.registrations.removeAll(keepCapacity: true)
+			var regSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
 
 			tableView.selectedRowIndexes.enumerateIndexesUsingBlock {
 				(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
 				let svdLive = self.svdFile!.liveSets[index]
 
-				for registration in svdLive.registrations {
-					self.registrations.append(registration)
-				}
+				regSet.addObjectsFromArray(svdLive.registrations)
+			}
+
+			var regList = regSet.allObjects as NSArray
+			let sortDesc = NSSortDescriptor(key: "regName", ascending: true)
+			regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+			self.registrations.removeAll(keepCapacity: true)
+
+			for reg in regList {
+				self.registrations.append(reg as SVDRegistration)
 			}
 
 			self.regsTableView.reloadData()
