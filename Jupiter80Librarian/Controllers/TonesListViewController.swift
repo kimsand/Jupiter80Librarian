@@ -24,6 +24,8 @@ class TonesListViewController: NSViewController {
 	@IBOutlet var liveNameColumn: NSTableColumn!
 	@IBOutlet var liveOrderColumn: NSTableColumn!
 
+	@IBOutlet var livesRegsCheckButton: NSButton!
+
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
@@ -114,41 +116,53 @@ class TonesListViewController: NSViewController {
 		let tableView = aNotification.object as NSTableView
 
 		if tableView == self.tonesTableView {
-			var regSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
-			var liveSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
-
-			tableView.selectedRowIndexes.enumerateIndexesUsingBlock {
-				(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-				let svdTone = self.svdFile!.tones[index]
-
-				regSet.addObjectsFromArray(svdTone.registrations)
-				liveSet.addObjectsFromArray(svdTone.liveSets)
-			}
-
-			let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-
-			var regList = regSet.allObjects as NSArray
-			regList = regList.sortedArrayUsingDescriptors([sortDesc])
-
-			var liveList = liveSet.allObjects as NSArray
-			liveList = liveList.sortedArrayUsingDescriptors([sortDesc])
-
-			self.registrations.removeAll(keepCapacity: true)
-
-			for reg in regList {
-				self.registrations.append(reg as SVDRegistration)
-			}
-
-			self.regsTableView.reloadData()
-
-			self.liveSets.removeAll(keepCapacity: true)
-
-			for live in liveList {
-				self.liveSets.append(live as SVDLiveSet)
-			}
-
-			self.livesTableView.reloadData()
+			self.buildDependencyList()
 		}
+	}
+
+	func buildDependencyList() {
+		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
+		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+		var liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
+
+		selectedRowIndexes.enumerateIndexesUsingBlock {
+			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
+			let svdTone = self.svdFile!.tones[index]
+
+			regSet.addObjectsFromArray(svdTone.registrations)
+			liveSet.addObjectsFromArray(svdTone.liveSets)
+
+			// If selected, also add registrations from live sets using the tone
+			if self.livesRegsCheckButton.state == NSOnState {
+				for live in svdTone.liveSets {
+					regSet.addObjectsFromArray(live.registrations)
+				}
+			}
+		}
+
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+
+		var regList = regSet.allObjects as NSArray
+		regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+		var liveList = liveSet.allObjects as NSArray
+		liveList = liveList.sortedArrayUsingDescriptors([sortDesc])
+
+		self.registrations.removeAll(keepCapacity: true)
+
+		for reg in regList {
+			self.registrations.append(reg as SVDRegistration)
+		}
+
+		self.regsTableView.reloadData()
+
+		self.liveSets.removeAll(keepCapacity: true)
+
+		for live in liveList {
+			self.liveSets.append(live as SVDLiveSet)
+		}
+
+		self.livesTableView.reloadData()
 	}
 
 	func textColorForToneName(toneName: String) -> NSColor {
@@ -176,6 +190,10 @@ class TonesListViewController: NSViewController {
 		}
 
 		return textColor
+	}
+
+	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
+		self.buildDependencyList()
 	}
 
 	func svdFileDidUpdate(notification: NSNotification) {

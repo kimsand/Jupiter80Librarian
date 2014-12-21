@@ -112,27 +112,32 @@ class LiveSetsListViewController: NSViewController {
 		let tableView = aNotification.object as NSTableView
 
 		if tableView == self.livesTableView {
-			var regSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
-
-			tableView.selectedRowIndexes.enumerateIndexesUsingBlock {
-				(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-				let svdLive = self.svdFile!.liveSets[index]
-
-				regSet.addObjectsFromArray(svdLive.registrations)
-			}
-
-			var regList = regSet.allObjects as NSArray
-			let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-			regList = regList.sortedArrayUsingDescriptors([sortDesc])
-
-			self.registrations.removeAll(keepCapacity: true)
-
-			for reg in regList {
-				self.registrations.append(reg as SVDRegistration)
-			}
-
-			self.regsTableView.reloadData()
+			self.buildDependencyList()
 		}
+	}
+
+	func buildDependencyList() {
+		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
+		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+
+		selectedRowIndexes.enumerateIndexesUsingBlock {
+			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
+			let svdLive = self.svdFile!.liveSets[index]
+
+			regSet.addObjectsFromArray(svdLive.registrations)
+		}
+
+		var regList = regSet.allObjects as NSArray
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+		regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+		self.registrations.removeAll(keepCapacity: true)
+
+		for reg in regList {
+			self.registrations.append(reg as SVDRegistration)
+		}
+
+		self.regsTableView.reloadData()
 	}
 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
