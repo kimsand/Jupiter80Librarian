@@ -9,30 +9,40 @@
 import Cocoa
 
 class TonesListViewController: NSViewController {
-	@IBOutlet var tableView: NSTableView!
+	@IBOutlet var tonesTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var partial1Column: NSTableColumn!
 	@IBOutlet var partial2Column: NSTableColumn!
 	@IBOutlet var partial3Column: NSTableColumn!
 
+	@IBOutlet var regsTableView: NSTableView!
+	@IBOutlet var regNameColumn: NSTableColumn!
+	@IBOutlet var regOrderColumn: NSTableColumn!
+
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
+
+	var registrations: [SVDRegistration] = []
 
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
 
 		self.svdFile = self.model.openedSVDFile
-		self.tableView.reloadData()
+		self.tonesTableView.reloadData()
 	}
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
-		if self.svdFile != nil {
-			nrOfRows = self.svdFile!.tones.count
+		if tableView == self.tonesTableView {
+			if self.svdFile != nil {
+				nrOfRows = self.svdFile!.tones.count
+			}
+		} else if tableView == self.regsTableView {
+			nrOfRows = self.registrations.count
 		}
 
 		return nrOfRows
@@ -49,34 +59,69 @@ class TonesListViewController: NSViewController {
 
 		let svdTone = self.svdFile!.tones[row]
 
-		if tableColumn == self.nameColumn {
-			columnValue = svdTone.toneName
-			textColor = self.textColorForToneName(columnValue)
-		} else if tableColumn == self.orderColumn {
-			columnValue = "\(row + 1)"
-		} else if tableColumn == self.partial1Column
-			|| tableColumn == self.partial2Column
-			|| tableColumn == self.partial3Column
-		{
-			var partialNr: Int
+		if tableView == self.tonesTableView {
+			if tableColumn == self.nameColumn {
+				columnValue = svdTone.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if tableColumn == self.orderColumn {
+				columnValue = "\(row + 1)"
+			} else if tableColumn == self.partial1Column
+				|| tableColumn == self.partial2Column
+				|| tableColumn == self.partial3Column
+			{
+				var partialNr: Int
 
-			if tableColumn == self.partial1Column {
-				partialNr = 0
-			} else if tableColumn == self.partial2Column {
-				partialNr = 1
-			} else {
-				partialNr = 2
+				if tableColumn == self.partial1Column {
+					partialNr = 0
+				} else if tableColumn == self.partial2Column {
+					partialNr = 1
+				} else {
+					partialNr = 2
+				}
+
+				columnValue = svdTone.partialNames[partialNr]
+				let oscType = svdTone.partialOscTypes[partialNr]
+				textColor = self.textColorForOscType(oscType)
 			}
-
-			columnValue = svdTone.partialNames[partialNr]
-			let oscType = svdTone.partialOscTypes[partialNr]
-			textColor = self.textColorForOscType(oscType)
+		} else if tableView == self.regsTableView {
+			if tableColumn == self.regNameColumn {
+				columnValue = self.registrations[row].regName
+			} else if tableColumn == self.regOrderColumn {
+				columnValue = "\(self.registrations[row].orderNr)"
+			}
 		}
 
 		result.textField?.stringValue = columnValue
 		result.textField?.textColor = textColor
 
 		return result
+	}
+
+	func tableViewSelectionDidChange(aNotification: NSNotification) {
+		let tableView = aNotification.object as NSTableView
+
+		if tableView == self.tonesTableView {
+			var regSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
+
+			tableView.selectedRowIndexes.enumerateIndexesUsingBlock {
+				(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
+				let svdTone = self.svdFile!.tones[index]
+
+				regSet.addObjectsFromArray(svdTone.registrations)
+			}
+
+			var regList = regSet.allObjects as NSArray
+			let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+			regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+			self.registrations.removeAll(keepCapacity: true)
+
+			for reg in regList {
+				self.registrations.append(reg as SVDRegistration)
+			}
+
+			self.regsTableView.reloadData()
+		}
 	}
 
 	func textColorForToneName(toneName: String) -> NSColor {
@@ -110,7 +155,7 @@ class TonesListViewController: NSViewController {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			self.svdFile = self.model.openedSVDFile
 
-			self.tableView.reloadData()
+			self.tonesTableView.reloadData()
 		}
 	}
 }

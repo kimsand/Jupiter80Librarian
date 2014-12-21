@@ -18,14 +18,17 @@ class SVDLiveSet: NSObject {
 	private var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
 	private var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
 
+	var orderNr: Int
 	var liveName: String
 	var registrations: [SVDRegistration] = []
 	var layerToneTypes: [SVDPartType] = []
 	var layerTones: [SVDTone?] = []
 	var layerNames: [String?] = []
 
-	init(svdFile: SVDFile, liveBytes: SVDBytes) {
+	init(svdFile: SVDFile, liveBytes: SVDBytes, orderNr: Int) {
 		self.svdFile = svdFile
+
+		self.orderNr = orderNr
 
 		let liveNameBytes = SVDBytes(location: liveBytes.location, length: kLiveNameLength)
 		self.liveName = self.svdFile.stringFromShiftedBytes(liveNameBytes)

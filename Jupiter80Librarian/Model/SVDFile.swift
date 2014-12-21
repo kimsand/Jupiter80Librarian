@@ -220,7 +220,7 @@ class SVDFile: NSObject {
 			var liveBytes = self.liveBytes
 			liveBytes.location += (liveBytes.length * index)
 
-			let liveSet = SVDLiveSet(svdFile: self, liveBytes: liveBytes)
+			let liveSet = SVDLiveSet(svdFile: self, liveBytes: liveBytes, orderNr: index + 1)
 			self.liveSets.append(liveSet)
 		}
 	}
