@@ -20,10 +20,15 @@ class TonesListViewController: NSViewController {
 	@IBOutlet var regNameColumn: NSTableColumn!
 	@IBOutlet var regOrderColumn: NSTableColumn!
 
+	@IBOutlet var livesTableView: NSTableView!
+	@IBOutlet var liveNameColumn: NSTableColumn!
+	@IBOutlet var liveOrderColumn: NSTableColumn!
+
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
 
+	var liveSets: [SVDLiveSet] = []
 	var registrations: [SVDRegistration] = []
 
 	override func viewDidLoad() {
@@ -43,6 +48,8 @@ class TonesListViewController: NSViewController {
 			}
 		} else if tableView == self.regsTableView {
 			nrOfRows = self.registrations.count
+		} else if tableView == self.livesTableView {
+			nrOfRows = self.liveSets.count
 		}
 
 		return nrOfRows
@@ -89,6 +96,12 @@ class TonesListViewController: NSViewController {
 			} else if tableColumn == self.regOrderColumn {
 				columnValue = "\(self.registrations[row].orderNr)"
 			}
+		} else if tableView == self.livesTableView {
+			if tableColumn == self.liveNameColumn {
+				columnValue = self.liveSets[row].liveName
+			} else if tableColumn == self.liveOrderColumn {
+				columnValue = "\(self.liveSets[row].orderNr)"
+			}
 		}
 
 		result.textField?.stringValue = columnValue
@@ -102,17 +115,23 @@ class TonesListViewController: NSViewController {
 
 		if tableView == self.tonesTableView {
 			var regSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
+			var liveSet = NSMutableSet(capacity: tableView.selectedRowIndexes.count)
 
 			tableView.selectedRowIndexes.enumerateIndexesUsingBlock {
 				(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
 				let svdTone = self.svdFile!.tones[index]
 
 				regSet.addObjectsFromArray(svdTone.registrations)
+				liveSet.addObjectsFromArray(svdTone.liveSets)
 			}
 
-			var regList = regSet.allObjects as NSArray
 			let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+
+			var regList = regSet.allObjects as NSArray
 			regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+			var liveList = liveSet.allObjects as NSArray
+			liveList = liveList.sortedArrayUsingDescriptors([sortDesc])
 
 			self.registrations.removeAll(keepCapacity: true)
 
@@ -121,6 +140,14 @@ class TonesListViewController: NSViewController {
 			}
 
 			self.regsTableView.reloadData()
+
+			self.liveSets.removeAll(keepCapacity: true)
+
+			for live in liveList {
+				self.liveSets.append(live as SVDLiveSet)
+			}
+
+			self.livesTableView.reloadData()
 		}
 	}
 
