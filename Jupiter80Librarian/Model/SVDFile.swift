@@ -138,6 +138,7 @@ class SVDFile: NSObject {
 		let isSVDFile = self.compareData(kBytesSVD)
 
 		if !isSVDFile {
+			NSNotificationCenter.defaultCenter().postNotificationName("svdFileIsInvalid", object: nil)
 			return false
 		}
 

@@ -11,6 +11,7 @@ import Cocoa
 class ListWindowController: NSWindowController {
     override func windowDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileWasChosen:", name: "svdFileWasChosen", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileIsInvalid:", name: "svdFileIsInvalid", object: nil)
 
 		super.windowDidLoad()
 
@@ -21,6 +22,14 @@ class ListWindowController: NSWindowController {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			if Model.singleton.fileName != nil {
 				self.window!.title = Model.singleton.fileName
+			}
+		}
+	}
+
+	func svdFileIsInvalid(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			if Model.singleton.fileName != nil {
+				self.window!.title = "Not a valid Jupiter-80/50 SVD file"
 			}
 		}
 	}
