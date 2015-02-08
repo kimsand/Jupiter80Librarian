@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
     </dependencies>
@@ -190,7 +190,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="RegListOrderCell" width="42" minWidth="42" maxWidth="3.4028234663852886e+38" id="iSA-ug-Ybs" userLabel="Order">
+                                                <tableColumn identifier="RegListOrderCell" width="42" minWidth="42" maxWidth="42" id="iSA-ug-Ybs" userLabel="Order">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -228,7 +228,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListNameCell" width="122" minWidth="120" maxWidth="1000" id="aLg-Z9-J8h">
+                                                <tableColumn identifier="RegListNameCell" width="120" minWidth="120" maxWidth="120" id="aLg-Z9-J8h">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Registration Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -242,10 +242,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="RegListNameCell" id="26H-w1-eEU">
-                                                            <rect key="frame" x="46" y="1" width="122" height="17"/>
+                                                            <rect key="frame" x="46" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OPk-Ax-Bp6">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OPk-Ax-Bp6">
                                                                     <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="6lz-GA-IX2">
                                                                         <font key="font" metaFont="system"/>
@@ -269,7 +269,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListUpperCell" width="120" minWidth="120" maxWidth="3.4028234663852886e+38" id="XLo-3x-p7D">
+                                                <tableColumn identifier="RegListUpperCell" width="120" minWidth="120" maxWidth="120" id="XLo-3x-p7D">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Upper Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -307,7 +307,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListLowerCell" width="120" minWidth="120" maxWidth="3.4028234663852886e+38" id="ait-WL-OKP">
+                                                <tableColumn identifier="RegListLowerCell" width="120" minWidth="120" maxWidth="120" id="ait-WL-OKP">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Lower Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -345,7 +345,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListSoloCell" width="120" minWidth="120" maxWidth="3.4028234663852886e+38" id="J36-ND-y2m">
+                                                <tableColumn identifier="RegListSoloCell" width="120" minWidth="120" maxWidth="120" id="J36-ND-y2m">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Solo Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -383,7 +383,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListPercCell" width="120" minWidth="120" maxWidth="3.4028234663852886e+38" id="n7b-jU-j6k">
+                                                <tableColumn identifier="RegListPercCell" width="120" minWidth="120" maxWidth="120" id="n7b-jU-j6k">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Perc Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -840,7 +840,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="APp-18-bhH">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="APp-18-bhH">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -849,7 +849,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsy-kW-jef">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lsy-kW-jef">
                                 <rect key="frame" x="657" y="304" width="170" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Live Sets used by:" id="zAF-W8-WQd">
                                     <font key="font" metaFont="cellTitle"/>
@@ -907,7 +907,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="ToneListOrderCell" width="42" minWidth="42" maxWidth="1000" id="sbJ-Hb-YgZ" userLabel="Order">
+                                                <tableColumn identifier="ToneListOrderCell" width="42" minWidth="42" maxWidth="42" id="sbJ-Hb-YgZ" userLabel="Order">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -945,7 +945,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListNameCell" width="120" minWidth="120" maxWidth="1000" id="WQJ-pd-UlD" userLabel="Tone Name">
+                                                <tableColumn identifier="ToneListNameCell" width="120" minWidth="120" maxWidth="120" id="WQJ-pd-UlD" userLabel="Tone Name">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Tone Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -983,7 +983,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial1Cell" width="122" minWidth="120" maxWidth="3.4028234663852886e+38" id="pj9-Z8-6AR" userLabel="Partial 1">
+                                                <tableColumn identifier="ToneListPartial1Cell" width="120" minWidth="120" maxWidth="120" id="pj9-Z8-6AR" userLabel="Partial 1">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 1">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -997,10 +997,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="ToneListPartial1Cell" id="GCl-yi-J38">
-                                                            <rect key="frame" x="169" y="1" width="122" height="17"/>
+                                                            <rect key="frame" x="169" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="f8n-3H-f0n">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f8n-3H-f0n">
                                                                     <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="h5a-xJ-Uuj">
                                                                         <font key="font" metaFont="system"/>
@@ -1021,7 +1021,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial2Cell" width="122" minWidth="120" maxWidth="3.4028234663852886e+38" id="nlc-sQ-s3u" userLabel="Partial 2">
+                                                <tableColumn identifier="ToneListPartial2Cell" width="120" minWidth="120" maxWidth="120" id="nlc-sQ-s3u" userLabel="Partial 2">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 2">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1035,10 +1035,10 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="ToneListPartial2Cell" id="fPw-VZ-Zn4">
-                                                            <rect key="frame" x="294" y="1" width="122" height="17"/>
+                                                            <rect key="frame" x="292" y="1" width="120" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="FBM-Gb-zsN">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FBM-Gb-zsN">
                                                                     <rect key="frame" x="0.0" y="0.0" width="122" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="EA5-0z-gNY">
                                                                         <font key="font" metaFont="system"/>
@@ -1059,7 +1059,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial3Cell" width="120" minWidth="120" maxWidth="3.4028234663852886e+38" id="eNw-Nr-ncT" userLabel="Partial 3">
+                                                <tableColumn identifier="ToneListPartial3Cell" width="120" minWidth="120" maxWidth="120" id="eNw-Nr-ncT" userLabel="Partial 3">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 3">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1110,7 +1110,7 @@
                                     <rect key="frame" x="1" y="116.86059832572937" width="235.5" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="hgI-A8-j55">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="hgI-A8-j55">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1122,7 +1122,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TUi-q8-sDY">
                                 <rect key="frame" x="476" y="341" width="145" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Tones used by:" id="92k-aK-fLU">
-                                    <font key="font" metaFont="titleBar" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -1139,7 +1139,7 @@
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4FU-Nw-3iK" userLabel="Registration Dependencies Scroll View">
                                 <rect key="frame" x="656" y="8" width="170" height="329"/>
-                                <clipView key="contentView" id="FW3-10-5nx">
+                                <clipView key="contentView" misplaced="YES" id="FW3-10-5nx">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1241,7 +1241,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="x7l-n8-qTQ">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="x7l-n8-qTQ">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1252,7 +1252,7 @@
                             </scrollView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQo-jZ-LGl" userLabel="Live Set Dependencies Scroll View">
                                 <rect key="frame" x="478" y="8" width="170" height="329"/>
-                                <clipView key="contentView" id="CJW-lA-awf">
+                                <clipView key="contentView" misplaced="YES" id="CJW-lA-awf">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1354,7 +1354,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Wg5-Ld-HIR">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Wg5-Ld-HIR">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
