@@ -9,6 +9,8 @@
 import Cocoa
 
 class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+	@IBOutlet var orderTextField: NSTextField!
+
 	@IBOutlet var tableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
@@ -20,6 +22,8 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
+
+	var lastValidOrderText = ""
 
     override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -144,6 +148,44 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			self.svdFile = self.model.openedSVDFile
 
 			self.tableView.reloadData()
+		}
+	}
+
+	override func controlTextDidChange(obj: NSNotification) {
+		if let textField = obj.object as? NSTextField {
+			if textField == self.orderTextField {
+				var isValidTextField = false
+				let text = textField.stringValue
+				if countElements(text) > 0 {
+					if let order = text.toInt() {
+						if order >= 1 && order <= 256 {
+							isValidTextField = true
+						}
+					}
+				} else {
+					isValidTextField = true
+				}
+
+				if isValidTextField == true {
+					self.lastValidOrderText = text
+				} else {
+					textField.stringValue = self.lastValidOrderText
+				}
+			}
+		}
+	}
+
+	override func controlTextDidEndEditing(obj: NSNotification) {
+		if let textField = obj.object as? NSTextField {
+			let text = textField.stringValue
+			if textField == self.orderTextField {
+				if countElements(text) > 0 {
+					if let order = text.toInt() {
+						let rect = self.tableView.rectOfRow(order - 1)
+						self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+					}
+				}
+			}
 		}
 	}
 }
