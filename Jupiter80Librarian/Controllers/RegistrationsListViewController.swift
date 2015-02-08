@@ -10,6 +10,7 @@ import Cocoa
 
 class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var orderTextField: NSTextField!
+	@IBOutlet var nameTextField: NSTextField!
 
 	@IBOutlet var tableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
@@ -156,6 +157,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			if textField == self.orderTextField {
 				var isValidTextField = false
 				let text = textField.stringValue
+
 				if countElements(text) > 0 {
 					if let order = text.toInt() {
 						if order >= 1 && order <= 256 {
@@ -177,13 +179,33 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	override func controlTextDidEndEditing(obj: NSNotification) {
 		if let textField = obj.object as? NSTextField {
-			let text = textField.stringValue
 			if textField == self.orderTextField {
+				let text = textField.stringValue
+
 				if countElements(text) > 0 {
 					if let order = text.toInt() {
 						let rect = self.tableView.rectOfRow(order - 1)
 						self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 					}
+				}
+			} else if let svdFile = self.svdFile? {
+				let text = textField.stringValue.lowercaseString
+				var indices = [Int]()
+
+				if textField == self.nameTextField {
+					var index = 0
+
+					for registration in svdFile.registrations {
+						if registration.regName.lowercaseString.hasPrefix(text) {
+							indices.append(index)
+						}
+						index++
+					}
+				}
+
+				if let index = indices.first? {
+					let rect = self.tableView.rectOfRow(index)
+					self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 				}
 			}
 		}

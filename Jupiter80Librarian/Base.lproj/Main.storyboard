@@ -467,6 +467,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="XhB-7e-hTt"/>
+                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zRL-cR-TgN">
                                 <rect key="frame" x="178" y="374" width="120" height="22"/>
@@ -535,6 +538,7 @@
                     <connections>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
+                        <outlet property="nameTextField" destination="Xw6-AB-64C" id="Z81-20-9GB"/>
                         <outlet property="orderColumn" destination="iSA-ug-Ybs" id="POl-jN-n1b"/>
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
