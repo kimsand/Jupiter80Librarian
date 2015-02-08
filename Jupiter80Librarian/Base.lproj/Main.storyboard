@@ -175,11 +175,11 @@
             <objects>
                 <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qlx-up-juK">
-                        <rect key="frame" x="0.0" y="0.0" width="637" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="678" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-pY-YV9" userLabel="Registrations List Scroll View">
-                                <rect key="frame" x="8" y="8" width="621" height="288"/>
+                                <rect key="frame" x="8" y="8" width="662" height="388"/>
                                 <clipView key="contentView" misplaced="YES" id="5qS-B2-psh">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -430,7 +430,7 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -464,18 +464,18 @@
                 <customObject id="b80-qo-hF8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="WiR-aq-6YY"/>
             </objects>
-            <point key="canvasLocation" x="422.5" y="703"/>
+            <point key="canvasLocation" x="431" y="741"/>
         </scene>
         <!--Live Sets List View Controller-->
         <scene sceneID="h3a-yE-8Mz">
             <objects>
                 <viewController id="dEo-n4-BPa" customClass="LiveSetsListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NqS-F5-gb4">
-                        <rect key="frame" x="0.0" y="0.0" width="837" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="856" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGc-nR-PWx" userLabel="Live Sets List Scroll View">
-                                <rect key="frame" x="8" y="8" width="643" height="308"/>
+                                <rect key="frame" x="8" y="8" width="662" height="388"/>
                                 <clipView key="contentView" misplaced="YES" id="Oat-31-7Ur">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -723,7 +723,7 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="08t-lN-CSv">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="08t-lN-CSv">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -737,7 +737,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w93-je-2uQ" userLabel="Registration Dependencies Scroll View">
-                                <rect key="frame" x="659" y="8" width="170" height="288"/>
+                                <rect key="frame" x="678" y="8" width="170" height="368"/>
                                 <clipView key="contentView" misplaced="YES" id="SJ5-X8-bjw">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -840,7 +840,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="APp-18-bhH">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="APp-18-bhH">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -850,7 +850,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsy-kW-jef">
-                                <rect key="frame" x="657" y="304" width="164" height="16"/>
+                                <rect key="frame" x="676" y="384" width="164" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Live Sets used by:" id="zAF-W8-WQd">
                                     <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -885,18 +885,18 @@
                 </viewController>
                 <customObject id="aJS-Cy-PZA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1275.5" y="695"/>
+            <point key="canvasLocation" x="1286" y="741"/>
         </scene>
         <!--Tones List View Controller-->
         <scene sceneID="Tye-xE-s0W">
             <objects>
                 <viewController id="Itn-By-bsi" customClass="TonesListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="XEr-KP-Wlw">
-                        <rect key="frame" x="0.0" y="0.0" width="833" height="357"/>
+                        <rect key="frame" x="0.0" y="0.0" width="911" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoQ-09-3wC" userLabel="Tones List Scroll View">
-                                <rect key="frame" x="8" y="8" width="462" height="345"/>
+                                <rect key="frame" x="8" y="8" width="540" height="388"/>
                                 <clipView key="contentView" misplaced="YES" id="Akp-OT-UiV">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1106,7 +1106,7 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="kvj-cE-Zqc">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="kvj-cE-Zqc">
                                     <rect key="frame" x="1" y="116.86059832572937" width="235.5" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1120,7 +1120,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TUi-q8-sDY">
-                                <rect key="frame" x="476" y="341" width="145" height="16"/>
+                                <rect key="frame" x="554" y="384" width="145" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Tones used by:" id="92k-aK-fLU">
                                     <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1128,17 +1128,17 @@
                                 </textFieldCell>
                             </textField>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="jFx-f8-nuF">
-                                <rect key="frame" x="654" y="339" width="171" height="18"/>
-                                <buttonCell key="cell" type="check" title="Add Regs used by Live Sets" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RD3-Tc-6cL">
+                                <rect key="frame" x="732" y="382" width="181" height="18"/>
+                                <buttonCell key="cell" type="check" title="Registrations used by Live Sets" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RD3-Tc-6cL">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="smallSystem"/>
+                                    <font key="font" metaFont="system" size="10"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="liveRegsCheckButtonClicked:" target="Itn-By-bsi" id="xl0-gW-flo"/>
                                 </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4FU-Nw-3iK" userLabel="Registration Dependencies Scroll View">
-                                <rect key="frame" x="656" y="8" width="170" height="329"/>
+                                <rect key="frame" x="734" y="8" width="170" height="372"/>
                                 <clipView key="contentView" misplaced="YES" id="FW3-10-5nx">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1251,7 +1251,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQo-jZ-LGl" userLabel="Live Set Dependencies Scroll View">
-                                <rect key="frame" x="478" y="8" width="170" height="329"/>
+                                <rect key="frame" x="556" y="8" width="170" height="372"/>
                                 <clipView key="contentView" misplaced="YES" id="CJW-lA-awf">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1371,9 +1371,10 @@
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="leading" secondItem="ZQo-jZ-LGl" secondAttribute="trailing" constant="8" id="C2d-3U-Wtj"/>
                             <constraint firstAttribute="trailing" secondItem="4FU-Nw-3iK" secondAttribute="trailing" constant="7" id="Han-M7-Vmc"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" constant="2" id="M5y-b3-OjW"/>
-                            <constraint firstItem="4FU-Nw-3iK" firstAttribute="top" secondItem="ZQo-jZ-LGl" secondAttribute="top" id="PGC-jb-2T7"/>
+                            <constraint firstItem="4FU-Nw-3iK" firstAttribute="top" secondItem="ZQo-jZ-LGl" secondAttribute="top" id="NGo-hP-qXp"/>
                             <constraint firstAttribute="bottom" secondItem="4FU-Nw-3iK" secondAttribute="bottom" constant="8" id="Q9Y-z2-wHj"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="leading" secondItem="4FU-Nw-3iK" secondAttribute="leading" id="T5x-hN-jBp"/>
+                            <constraint firstAttribute="trailing" secondItem="jFx-f8-nuF" secondAttribute="trailing" id="UUR-QN-Bez"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="top" secondItem="TUi-q8-sDY" secondAttribute="bottom" constant="4" id="Woo-vG-Txo"/>
                             <constraint firstAttribute="bottom" secondItem="AoQ-09-3wC" secondAttribute="bottom" constant="8" id="hZ5-8h-QDn"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="8" id="huT-27-2g4"/>
@@ -1399,7 +1400,7 @@
                 </viewController>
                 <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1987.5" y="293.5"/>
+            <point key="canvasLocation" x="2024.5" y="242"/>
         </scene>
     </scenes>
 </document>
