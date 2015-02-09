@@ -158,6 +158,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	override func controlTextDidChange(obj: NSNotification) {
 		if let textField = obj.object as? NSTextField {
+			// The order field must contain a valid number
 			if textField == self.orderTextField {
 				var isValidTextField = false
 				let text = textField.stringValue
@@ -165,18 +166,24 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				if let svdFile = self.svdFile? {
 					if countElements(text) > 0 {
 						if let order = text.toInt() {
+							// The number is valid if it is between the min and max nr of registrations
 							if order >= 1 && order <= svdFile.registrations.count {
 								isValidTextField = true
 							}
 						}
-					} else {
+					}
+					// The number is valid if the field is empty
+					else {
 						isValidTextField = true
 					}
 				}
 
+				// Store the entered number if it is valid
 				if isValidTextField == true {
 					self.lastValidOrderText = text
-				} else {
+				}
+				// Restore the last valid number if the current is invalid
+				else {
 					textField.stringValue = self.lastValidOrderText
 				}
 			}
@@ -184,48 +191,77 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	}
 
 	override func controlTextDidEndEditing(obj: NSNotification) {
-		if let textField = obj.object as? NSTextField {
-			if textField == self.orderTextField {
-				let text = textField.stringValue
+		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
+			// Only process the text field when the Return key was pressed
+			if textMovement == NSReturnTextMovement {
+				if let textField = obj.object as? NSTextField {
+					var indices = [Int]()
 
-				if countElements(text) > 0 {
-					if let order = text.toInt() {
-						let rect = self.tableView.rectOfRow(order - 1)
-						self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+					// The order field matches one and only one row number
+					if textField == self.orderTextField {
+						let text = textField.stringValue
+
+						// Only process the text field when text was entered
+						if countElements(text) > 0 {
+							if let order = text.toInt() {
+								let index = order - 1
+								indices.append(index)
+							}
+						}
 					}
-				}
-			} else if let svdFile = self.svdFile? {
-				let text = textField.stringValue.lowercaseString
-				var indices = [Int]()
-				var keyName = ""
+					// The other fields match any number of rows containing the text
+					// Only process the text field if an SVD file is open
+					else if let svdFile = self.svdFile? {
+						let text = textField.stringValue.lowercaseString
 
-				if textField == self.nameTextField {
-					keyName = "regName"
-				} else if textField == self.upperTextField {
-					keyName = "upperName"
-				} else if textField == self.lowerTextField {
-					keyName = "lowerName"
-				} else if textField == self.soloTextField {
-					keyName = "soloName"
-				} else if textField == self.percTextField {
-					keyName = "percName"
-				}
+						// Only process the text field when text was entered
+						if countElements(text) > 0 {
+							var keyName = ""
 
-				var index = 0
+							// Decide which property to look up dynamically by key path
+							if textField == self.nameTextField {
+								keyName = "regName"
+							} else if textField == self.upperTextField {
+								keyName = "upperName"
+							} else if textField == self.lowerTextField {
+								keyName = "lowerName"
+							} else if textField == self.soloTextField {
+								keyName = "soloName"
+							} else if textField == self.percTextField {
+								keyName = "percName"
+							}
 
-				for registration in svdFile.registrations {
-					if let name = registration.valueForKey(keyName) as String? {
-						if name.lowercaseString.hasPrefix(text) {
-							indices.append(index)
+							var index = 0
+
+							for registration in svdFile.registrations {
+								if let name = registration.valueForKey(keyName) as String? {
+									if name.lowercaseString.hasPrefix(text) {
+										indices.append(index)
+									}
+								}
+
+								index++
+							}
 						}
 					}
 
-					index++
-				}
+					// If any rows were matched
+					if indices.count > 0 {
+						var indexSet = NSMutableIndexSet()
 
-				if let index = indices.first? {
-					let rect = self.tableView.rectOfRow(index)
-					self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+						for index in indices {
+							indexSet.addIndex(index)
+						}
+
+						// Select all matched rows
+						self.tableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+
+						// Scroll to the first matched row
+						if let index = indices.first? {
+							let rect = self.tableView.rectOfRow(index)
+							self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+						}
+					}
 				}
 			}
 		}
