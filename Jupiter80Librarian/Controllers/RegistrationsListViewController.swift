@@ -162,14 +162,16 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				var isValidTextField = false
 				let text = textField.stringValue
 
-				if countElements(text) > 0 {
-					if let order = text.toInt() {
-						if order >= 1 && order <= 256 {
-							isValidTextField = true
+				if let svdFile = self.svdFile? {
+					if countElements(text) > 0 {
+						if let order = text.toInt() {
+							if order >= 1 && order <= svdFile.registrations.count {
+								isValidTextField = true
+							}
 						}
+					} else {
+						isValidTextField = true
 					}
-				} else {
-					isValidTextField = true
 				}
 
 				if isValidTextField == true {
