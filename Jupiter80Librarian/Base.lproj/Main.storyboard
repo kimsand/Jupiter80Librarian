@@ -481,6 +481,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="E5I-51-yNi"/>
+                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTY-Zw-Jqg">
                                 <rect key="frame" x="300" y="374" width="120" height="22"/>
@@ -492,6 +495,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="VJx-WA-c7g"/>
+                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KgT-2T-3Hi">
                                 <rect key="frame" x="423" y="374" width="120" height="22"/>
@@ -503,6 +509,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="J73-gB-uaL"/>
+                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XI6-Db-D9A">
                                 <rect key="frame" x="546" y="374" width="120" height="22"/>
@@ -514,6 +523,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="nuZ-su-B8r"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <constraints>
@@ -537,14 +549,18 @@
                     </view>
                     <connections>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
+                        <outlet property="lowerTextField" destination="eTY-Zw-Jqg" id="fZk-OH-N2J"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
                         <outlet property="nameTextField" destination="Xw6-AB-64C" id="Z81-20-9GB"/>
                         <outlet property="orderColumn" destination="iSA-ug-Ybs" id="POl-jN-n1b"/>
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
+                        <outlet property="percTextField" destination="XI6-Db-D9A" id="NGC-pa-qRy"/>
                         <outlet property="soloColumn" destination="J36-ND-y2m" id="TCM-sz-9fZ"/>
+                        <outlet property="soloTextField" destination="KgT-2T-3Hi" id="Vgj-k8-bBZ"/>
                         <outlet property="tableView" destination="wmi-dU-VAB" id="md9-if-qeQ"/>
                         <outlet property="upperColumn" destination="XLo-3x-p7D" id="Sb2-5v-o0v"/>
+                        <outlet property="upperTextField" destination="zRL-cR-TgN" id="NCe-zG-ueC"/>
                     </connections>
                 </viewController>
                 <customObject id="b80-qo-hF8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

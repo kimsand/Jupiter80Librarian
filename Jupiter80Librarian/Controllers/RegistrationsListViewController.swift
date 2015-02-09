@@ -11,6 +11,10 @@ import Cocoa
 class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
+	@IBOutlet var upperTextField: NSTextField!
+	@IBOutlet var lowerTextField: NSTextField!
+	@IBOutlet var soloTextField: NSTextField!
+	@IBOutlet var percTextField: NSTextField!
 
 	@IBOutlet var tableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
@@ -77,16 +81,16 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			if svdReg.soloTone != nil {
 				columnValue = svdReg.soloTone!.toneName
 				textColor = self.textColorForToneName(columnValue)
-			} else if svdReg.soloName != nil {
-				columnValue = svdReg.soloName!
+			} else {
+				columnValue = svdReg.soloName
 				textColor = self.textColorForPartType(svdReg.soloToneType!)
 			}
 		} else if tableColumn == self.percColumn {
 			if svdReg.percTone != nil {
 				columnValue = svdReg.percTone!.toneName
 				textColor = self.textColorForToneName(columnValue)
-			} else if svdReg.percName != nil {
-				columnValue = svdReg.percName!
+			} else {
+				columnValue = svdReg.percName
 				textColor = self.textColorForPartType(svdReg.percToneType!)
 			}
 		}
@@ -191,16 +195,30 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			} else if let svdFile = self.svdFile? {
 				let text = textField.stringValue.lowercaseString
 				var indices = [Int]()
+				var keyName = ""
 
 				if textField == self.nameTextField {
-					var index = 0
+					keyName = "regName"
+				} else if textField == self.upperTextField {
+					keyName = "upperName"
+				} else if textField == self.lowerTextField {
+					keyName = "lowerName"
+				} else if textField == self.soloTextField {
+					keyName = "soloName"
+				} else if textField == self.percTextField {
+					keyName = "percName"
+				}
 
-					for registration in svdFile.registrations {
-						if registration.regName.lowercaseString.hasPrefix(text) {
+				var index = 0
+
+				for registration in svdFile.registrations {
+					if let name = registration.valueForKey(keyName) as String? {
+						if name.lowercaseString.hasPrefix(text) {
 							indices.append(index)
 						}
-						index++
 					}
+
+					index++
 				}
 
 				if let index = indices.first? {

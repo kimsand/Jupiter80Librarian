@@ -25,14 +25,16 @@ class SVDRegistration: NSObject {
 
 	var orderNr: Int
 	var regName: String
+	var upperName: String!
+	var lowerName: String!
+	var soloName: String!
+	var percName: String!
 	var upperLiveSet: SVDLiveSet!
 	var lowerLiveSet: SVDLiveSet!
 	var soloToneType: SVDPartType!
 	var percToneType: SVDPartType!
 	var soloTone: SVDTone?
 	var percTone: SVDTone?
-	var soloName: String?
-	var percName: String?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int, orderNr: Int) {
 		self.svdFile = svdFile
@@ -64,9 +66,11 @@ class SVDRegistration: NSObject {
 		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
 
 		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
+		self.upperName = self.upperLiveSet.liveName
 
 		if self.svdFile.fileFormat == .Jupiter80 {
 			self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
+			self.lowerName = self.lowerLiveSet.liveName
 		}
 
 		self.upperLiveSet.addDependencyToRegistration(self)
@@ -83,6 +87,7 @@ class SVDRegistration: NSObject {
 
 			self.soloTone = svdFile.tones[soloToneLocation]
 			self.soloTone?.addDependencyToRegistration(self)
+			self.soloName = self.soloTone!.toneName
 		} else {
 			self.soloName = svdFile.partNameFromShiftedBytes(self.regSoloBytes, partType: self.soloToneType)
 		}
@@ -92,6 +97,7 @@ class SVDRegistration: NSObject {
 
 			self.percTone = svdFile.tones[percToneLocation]
 			self.percTone?.addDependencyToRegistration(self)
+			self.percName = self.percTone!.toneName
 		} else {
 			self.percName = svdFile.partNameFromShiftedBytes(self.regPercBytes, partType: self.percToneType)
 		}
