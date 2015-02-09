@@ -24,6 +24,10 @@ class SVDLiveSet: NSObject {
 	var layerToneTypes: [SVDPartType] = []
 	var layerTones: [SVDTone?] = []
 	var layerNames: [String?] = []
+	var layer1Name: String!
+	var layer2Name: String!
+	var layer3Name: String!
+	var layer4Name: String!
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes, orderNr: Int) {
 		self.svdFile = svdFile
@@ -48,6 +52,11 @@ class SVDLiveSet: NSObject {
 		self.findDependenciesForLayerBytes(self.liveLayer2Bytes)
 		self.findDependenciesForLayerBytes(self.liveLayer3Bytes)
 		self.findDependenciesForLayerBytes(self.liveLayer4Bytes)
+
+		self.layer1Name = self.layerNames[0]
+		self.layer2Name = self.layerNames[1]
+		self.layer3Name = self.layerNames[2]
+		self.layer4Name = self.layerNames[3]
 	}
 
 	func findDependenciesForLayerBytes(layerBytes: SVDBytes) {
@@ -62,7 +71,7 @@ class SVDLiveSet: NSObject {
 			let layerLocation = svdFile.numberFromData(layerLocationData, nrOfBits: 7)
 			let layerTone = svdFile.tones[layerLocation]
 			self.layerTones.append(layerTone)
-			self.layerNames.append(nil)
+			self.layerNames.append(layerTone.toneName)
 
 			layerTone.addDependencyToLiveSet(self)
 		} else {
