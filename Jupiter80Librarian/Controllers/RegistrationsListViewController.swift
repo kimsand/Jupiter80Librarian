@@ -16,7 +16,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	@IBOutlet var soloTextField: NSTextField!
 	@IBOutlet var percTextField: NSTextField!
 
-	@IBOutlet var tableView: NSTableView!
+	@IBOutlet var regTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var upperColumn: NSTableColumn!
@@ -30,13 +30,66 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	var lastValidOrderText = ""
 
+	// MARK: Lifecycle
+
     override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
         super.viewDidLoad()
 
 		self.svdFile = self.model.openedSVDFile
-		self.tableView.reloadData()
+		self.regTableView.reloadData()
 	}
+
+	// MARK: Member methods
+
+	func textColorForPartType(partType: SVDPartType) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true {
+			textColor = .lightGrayColor()
+		} else if partType.mainType == .Acoustic {
+			textColor = .purpleColor()
+		} else if partType.mainType == .DrumSet {
+			textColor = .blueColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForToneName(toneName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true || toneName == "INIT SYNTH" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForLiveSetName(liveName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true || liveName == "INIT LIVESET" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForRegistrationName(regName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		self.isInitSound = false
+
+		if regName == "INIT REGIST" {
+			textColor = .lightGrayColor()
+			self.isInitSound = true
+		}
+
+		return textColor
+	}
+
+	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
@@ -100,61 +153,8 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 		return result
 	}
-
-	func textColorForPartType(partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if partType.mainType == .Acoustic {
-			textColor = .purpleColor()
-		} else if partType.mainType == .DrumSet {
-			textColor = .blueColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForLiveSetName(liveName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForRegistrationName(regName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		self.isInitSound = false
-
-		if regName == "INIT REGIST" {
-			textColor = .lightGrayColor()
-			self.isInitSound = true
-		}
-
-		return textColor
-	}
-
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
-
-			self.tableView.reloadData()
-		}
-	}
+	
+	// MARK: Text field
 
 	override func controlTextDidChange(obj: NSNotification) {
 		if let textField = obj.object as? NSTextField {
@@ -254,16 +254,26 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						}
 
 						// Select all matched rows
-						self.tableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+						self.regTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 
 						// Scroll to the first matched row
 						if let index = indices.first? {
-							let rect = self.tableView.rectOfRow(index)
-							self.tableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+							let rect = self.regTableView.rectOfRow(index)
+							self.regTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}
 					}
 				}
 			}
+		}
+	}
+
+	// MARK: Notifications
+
+	func svdFileDidUpdate(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.svdFile = self.model.openedSVDFile
+
+			self.regTableView.reloadData()
 		}
 	}
 }

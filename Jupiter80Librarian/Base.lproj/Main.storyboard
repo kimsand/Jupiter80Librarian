@@ -557,9 +557,9 @@
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
                         <outlet property="percTextField" destination="XI6-Db-D9A" id="NGC-pa-qRy"/>
+                        <outlet property="regTableView" destination="wmi-dU-VAB" id="HOb-mT-Yxf"/>
                         <outlet property="soloColumn" destination="J36-ND-y2m" id="TCM-sz-9fZ"/>
                         <outlet property="soloTextField" destination="KgT-2T-3Hi" id="Vgj-k8-bBZ"/>
-                        <outlet property="tableView" destination="wmi-dU-VAB" id="md9-if-qeQ"/>
                         <outlet property="upperColumn" destination="XLo-3x-p7D" id="Sb2-5v-o0v"/>
                         <outlet property="upperTextField" destination="zRL-cR-TgN" id="NCe-zG-ueC"/>
                     </connections>

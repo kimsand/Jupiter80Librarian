@@ -41,6 +41,8 @@ class TonesListViewController: NSViewController {
 	var liveSets: [SVDLiveSet] = []
 	var registrations: [SVDRegistration] = []
 
+	// MARK: Lifecycle
+
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
@@ -49,84 +51,7 @@ class TonesListViewController: NSViewController {
 		self.tonesTableView.reloadData()
 	}
 
-	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-		var nrOfRows = 0
-
-		if tableView == self.tonesTableView {
-			if self.svdFile != nil {
-				nrOfRows = self.svdFile!.tones.count
-			}
-		} else if tableView == self.regsTableView {
-			nrOfRows = self.registrations.count
-		} else if tableView == self.livesTableView {
-			nrOfRows = self.liveSets.count
-		}
-
-		return nrOfRows
-	}
-
-	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		// Retrieve to get the view from the pool or,
-		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
-		result.textField?.textColor = NSColor.blackColor()
-
-		var columnValue: String = ""
-		var textColor = NSColor.blackColor()
-
-		let svdTone = self.svdFile!.tones[row]
-
-		if tableView == self.tonesTableView {
-			if tableColumn == self.nameColumn {
-				columnValue = svdTone.toneName
-				textColor = self.textColorForToneName(columnValue)
-			} else if tableColumn == self.orderColumn {
-				columnValue = "\(row + 1)"
-			} else if tableColumn == self.partial1Column
-				|| tableColumn == self.partial2Column
-				|| tableColumn == self.partial3Column
-			{
-				var partialNr: Int
-
-				if tableColumn == self.partial1Column {
-					partialNr = 0
-				} else if tableColumn == self.partial2Column {
-					partialNr = 1
-				} else {
-					partialNr = 2
-				}
-
-				columnValue = svdTone.partialNames[partialNr]
-				let oscType = svdTone.partialOscTypes[partialNr]
-				textColor = self.textColorForOscType(oscType)
-			}
-		} else if tableView == self.regsTableView {
-			if tableColumn == self.regNameColumn {
-				columnValue = self.registrations[row].regName
-			} else if tableColumn == self.regOrderColumn {
-				columnValue = "\(self.registrations[row].orderNr)"
-			}
-		} else if tableView == self.livesTableView {
-			if tableColumn == self.liveNameColumn {
-				columnValue = self.liveSets[row].liveName
-			} else if tableColumn == self.liveOrderColumn {
-				columnValue = "\(self.liveSets[row].orderNr)"
-			}
-		}
-
-		result.textField?.stringValue = columnValue
-		result.textField?.textColor = textColor
-
-		return result
-	}
-
-	func tableViewSelectionDidChange(aNotification: NSNotification) {
-		let tableView = aNotification.object as NSTableView
-
-		if tableView == self.tonesTableView {
-			self.buildDependencyList()
-		}
-	}
+	// MARK: Member methods
 
 	func buildDependencyList() {
 		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
@@ -213,17 +138,88 @@ class TonesListViewController: NSViewController {
 		return textColor
 	}
 
-	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
-		self.buildDependencyList()
+	// MARK: Table view
+
+	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+		var nrOfRows = 0
+
+		if tableView == self.tonesTableView {
+			if self.svdFile != nil {
+				nrOfRows = self.svdFile!.tones.count
+			}
+		} else if tableView == self.regsTableView {
+			nrOfRows = self.registrations.count
+		} else if tableView == self.livesTableView {
+			nrOfRows = self.liveSets.count
+		}
+
+		return nrOfRows
 	}
 
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
+	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+		// Retrieve to get the view from the pool or,
+		// if no version is available in the pool, load the Interface Builder version
+		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
+		result.textField?.textColor = NSColor.blackColor()
 
-			self.tonesTableView.reloadData()
+		var columnValue: String = ""
+		var textColor = NSColor.blackColor()
+
+		let svdTone = self.svdFile!.tones[row]
+
+		if tableView == self.tonesTableView {
+			if tableColumn == self.nameColumn {
+				columnValue = svdTone.toneName
+				textColor = self.textColorForToneName(columnValue)
+			} else if tableColumn == self.orderColumn {
+				columnValue = "\(row + 1)"
+			} else if tableColumn == self.partial1Column
+				|| tableColumn == self.partial2Column
+				|| tableColumn == self.partial3Column
+			{
+				var partialNr: Int
+
+				if tableColumn == self.partial1Column {
+					partialNr = 0
+				} else if tableColumn == self.partial2Column {
+					partialNr = 1
+				} else {
+					partialNr = 2
+				}
+
+				columnValue = svdTone.partialNames[partialNr]
+				let oscType = svdTone.partialOscTypes[partialNr]
+				textColor = self.textColorForOscType(oscType)
+			}
+		} else if tableView == self.regsTableView {
+			if tableColumn == self.regNameColumn {
+				columnValue = self.registrations[row].regName
+			} else if tableColumn == self.regOrderColumn {
+				columnValue = "\(self.registrations[row].orderNr)"
+			}
+		} else if tableView == self.livesTableView {
+			if tableColumn == self.liveNameColumn {
+				columnValue = self.liveSets[row].liveName
+			} else if tableColumn == self.liveOrderColumn {
+				columnValue = "\(self.liveSets[row].orderNr)"
+			}
+		}
+
+		result.textField?.stringValue = columnValue
+		result.textField?.textColor = textColor
+
+		return result
+	}
+
+	func tableViewSelectionDidChange(aNotification: NSNotification) {
+		let tableView = aNotification.object as NSTableView
+
+		if tableView == self.tonesTableView {
+			self.buildDependencyList()
 		}
 	}
+
+	// MARK: Text field
 
 	override func controlTextDidChange(obj: NSNotification) {
 		if let textField = obj.object as? NSTextField {
@@ -331,6 +327,22 @@ class TonesListViewController: NSViewController {
 					}
 				}
 			}
+		}
+	}
+
+	// MARK: Actions
+
+	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
+		self.buildDependencyList()
+	}
+
+	// MARK: Notifications
+
+	func svdFileDidUpdate(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.svdFile = self.model.openedSVDFile
+
+			self.tonesTableView.reloadData()
 		}
 	}
 }

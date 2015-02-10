@@ -36,6 +36,8 @@ class LiveSetsListViewController: NSViewController {
 
 	var registrations: [SVDRegistration] = []
 
+	// MARK: Lifecycle
+
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
@@ -43,6 +45,75 @@ class LiveSetsListViewController: NSViewController {
 		self.svdFile = self.model.openedSVDFile
 		self.livesTableView.reloadData()
 	}
+
+	// MARK: Member methods
+
+	func buildDependencyList() {
+		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
+		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+
+		selectedRowIndexes.enumerateIndexesUsingBlock {
+			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
+			let svdLive = self.svdFile!.liveSets[index]
+
+			for reg in svdLive.registrations {
+				if reg.regName != "INIT REGIST" {
+					regSet.addObject(reg)
+				}
+			}
+		}
+
+		var regList = regSet.allObjects as NSArray
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+		regList = regList.sortedArrayUsingDescriptors([sortDesc])
+
+		self.registrations.removeAll(keepCapacity: true)
+
+		for reg in regList {
+			self.registrations.append(reg as SVDRegistration)
+		}
+
+		self.regsTableView.reloadData()
+	}
+
+	func textColorForPartType(partType: SVDPartType) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true {
+			textColor = .lightGrayColor()
+		} else if partType.mainType == .Acoustic {
+			textColor = .purpleColor()
+		} else if partType.mainType == .DrumSet {
+			textColor = .blueColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForToneName(toneName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		if self.isInitSound == true || toneName == "INIT SYNTH" {
+			textColor = .lightGrayColor()
+		}
+
+		return textColor
+	}
+
+	func textColorForLiveSetName(liveName: String) -> NSColor {
+		var textColor = NSColor.blackColor()
+
+		self.isInitSound = false
+
+		if liveName == "INIT LIVESET" {
+			textColor = .lightGrayColor()
+			self.isInitSound = true
+		}
+
+		return textColor
+	}
+
+	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
@@ -125,78 +196,7 @@ class LiveSetsListViewController: NSViewController {
 		}
 	}
 
-	func buildDependencyList() {
-		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
-		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
-
-		selectedRowIndexes.enumerateIndexesUsingBlock {
-			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.svdFile!.liveSets[index]
-
-			for reg in svdLive.registrations {
-				if reg.regName != "INIT REGIST" {
-					regSet.addObject(reg)
-				}
-			}
-		}
-
-		var regList = regSet.allObjects as NSArray
-		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		regList = regList.sortedArrayUsingDescriptors([sortDesc])
-
-		self.registrations.removeAll(keepCapacity: true)
-
-		for reg in regList {
-			self.registrations.append(reg as SVDRegistration)
-		}
-
-		self.regsTableView.reloadData()
-	}
-
-	func textColorForPartType(partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if partType.mainType == .Acoustic {
-			textColor = .purpleColor()
-		} else if partType.mainType == .DrumSet {
-			textColor = .blueColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForLiveSetName(liveName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		self.isInitSound = false
-
-		if liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
-			self.isInitSound = true
-		}
-
-		return textColor
-	}
-
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
-
-			self.livesTableView.reloadData()
-		}
-	}
+	// MARK: Text field
 
 	override func controlTextDidChange(obj: NSNotification) {
 		if let textField = obj.object as? NSTextField {
@@ -306,6 +306,16 @@ class LiveSetsListViewController: NSViewController {
 					}
 				}
 			}
+		}
+	}
+
+	// MARK: Notifications
+
+	func svdFileDidUpdate(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.svdFile = self.model.openedSVDFile
+
+			self.livesTableView.reloadData()
 		}
 	}
 }
