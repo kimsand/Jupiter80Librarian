@@ -37,6 +37,9 @@ class SVDTone: NSObject {
 
 	var partialOscTypes: [SVDOscType] = []
 	var partialNames: [String] = []
+	var partial1Name: String!
+	var partial2Name: String!
+	var partial3Name: String!
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes) {
 		self.svdFile = svdFile
@@ -57,6 +60,10 @@ class SVDTone: NSObject {
 		self.findPartialsFromBytes(self.partial1OscTypeBytes, pcmBytes: self.partial1PCMBytes)
 		self.findPartialsFromBytes(self.partial2OscTypeBytes, pcmBytes: self.partial2PCMBytes)
 		self.findPartialsFromBytes(self.partial3OscTypeBytes, pcmBytes: self.partial3PCMBytes)
+
+		self.partial1Name = self.partialNames[0]
+		self.partial2Name = self.partialNames[1]
+		self.partial3Name = self.partialNames[2]
 	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {

@@ -214,7 +214,7 @@ class LiveSetsListViewController: NSViewController {
 							}
 						}
 					}
-						// The number is valid if the field is empty
+					// The number is valid if the field is empty
 					else {
 						isValidTextField = true
 					}
@@ -224,7 +224,7 @@ class LiveSetsListViewController: NSViewController {
 				if isValidTextField == true {
 					self.lastValidOrderText = text
 				}
-					// Restore the last valid number if the current is invalid
+				// Restore the last valid number if the current is invalid
 				else {
 					textField.stringValue = self.lastValidOrderText
 				}
@@ -251,8 +251,8 @@ class LiveSetsListViewController: NSViewController {
 							}
 						}
 					}
-						// The other fields match any number of rows containing the text
-						// Only process the text field if an SVD file is open
+					// The other fields match any number of rows containing the text
+					// Only process the text field if an SVD file is open
 					else if let svdFile = self.svdFile? {
 						let text = textField.stringValue.lowercaseString
 

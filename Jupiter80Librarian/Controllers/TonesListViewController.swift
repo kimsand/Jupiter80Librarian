@@ -9,6 +9,12 @@
 import Cocoa
 
 class TonesListViewController: NSViewController {
+	@IBOutlet var orderTextField: NSTextField!
+	@IBOutlet var nameTextField: NSTextField!
+	@IBOutlet var partial1TextField: NSTextField!
+	@IBOutlet var partial2TextField: NSTextField!
+	@IBOutlet var partial3TextField: NSTextField!
+
 	@IBOutlet var tonesTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
@@ -29,6 +35,8 @@ class TonesListViewController: NSViewController {
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
+
+	var lastValidOrderText = ""
 
 	var liveSets: [SVDLiveSet] = []
 	var registrations: [SVDRegistration] = []
@@ -214,6 +222,115 @@ class TonesListViewController: NSViewController {
 			self.svdFile = self.model.openedSVDFile
 
 			self.tonesTableView.reloadData()
+		}
+	}
+
+	override func controlTextDidChange(obj: NSNotification) {
+		if let textField = obj.object as? NSTextField {
+			// The order field must contain a valid number
+			if textField == self.orderTextField {
+				var isValidTextField = false
+				let text = textField.stringValue
+
+				if let svdFile = self.svdFile? {
+					if countElements(text) > 0 {
+						if let order = text.toInt() {
+							// The number is valid if it is between the min and max nr of live sets
+							if order >= 1 && order <= svdFile.tones.count {
+								isValidTextField = true
+							}
+						}
+					}
+					// The number is valid if the field is empty
+					else {
+						isValidTextField = true
+					}
+				}
+
+				// Store the entered number if it is valid
+				if isValidTextField == true {
+					self.lastValidOrderText = text
+				}
+				// Restore the last valid number if the current is invalid
+				else {
+					textField.stringValue = self.lastValidOrderText
+				}
+			}
+		}
+	}
+
+	override func controlTextDidEndEditing(obj: NSNotification) {
+		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
+			// Only process the text field when the Return key was pressed
+			if textMovement == NSReturnTextMovement {
+				if let textField = obj.object as? NSTextField {
+					var indices = [Int]()
+
+					// The order field matches one and only one row number
+					if textField == self.orderTextField {
+						let text = textField.stringValue
+
+						// Only process the text field when text was entered
+						if countElements(text) > 0 {
+							if let order = text.toInt() {
+								let index = order - 1
+								indices.append(index)
+							}
+						}
+					}
+					// The other fields match any number of rows containing the text
+					// Only process the text field if an SVD file is open
+					else if let svdFile = self.svdFile? {
+						let text = textField.stringValue.lowercaseString
+
+						// Only process the text field when text was entered
+						if countElements(text) > 0 {
+							var keyName = ""
+
+							// Decide which property to look up dynamically by key path
+							if textField == self.nameTextField {
+								keyName = "toneName"
+							} else if textField == self.partial1TextField {
+								keyName = "partial1Name"
+							} else if textField == self.partial2TextField {
+								keyName = "partial2Name"
+							} else if textField == self.partial3TextField {
+								keyName = "partial3Name"
+							}
+
+							var index = 0
+
+							for liveSet in svdFile.tones {
+								if let name = liveSet.valueForKey(keyName) as String? {
+									if name.lowercaseString.hasPrefix(text) {
+										indices.append(index)
+									}
+								}
+
+								index++
+							}
+						}
+					}
+
+					// If any rows were matched
+					if indices.count > 0 {
+						var indexSet = NSMutableIndexSet()
+
+						for index in indices {
+							indexSet.addIndex(index)
+						}
+
+						// Select all matched rows
+						self.tonesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+
+						// Scroll to the first matched row
+						if let index = indices.first? {
+							let rect = self.tonesTableView.rectOfRow(index)
+							self.tonesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+						}
+					}
+				}
+			}
 		}
 	}
 }
