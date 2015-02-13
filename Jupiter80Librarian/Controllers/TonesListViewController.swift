@@ -38,9 +38,9 @@ class TonesListViewController: NSViewController {
 
 	var lastValidOrderText = ""
 
-	var tableData: [SVDTone] = []
-	var livesTableData: [SVDLiveSet] = []
-	var regsTableData: [SVDRegistration] = []
+	var tableData: NSMutableArray = []
+	var livesTableData: NSMutableArray = []
+	var regsTableData: NSMutableArray = []
 
 	// MARK: Lifecycle
 
@@ -55,12 +55,10 @@ class TonesListViewController: NSViewController {
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAll(keepCapacity: true)
+		self.tableData.removeAllObjects()
 
 		if let svdFile = self.svdFile? {
-			for svdTone in svdFile.tones {
-				self.tableData.append(svdTone)
-			}
+			self.tableData.addObjectsFromArray(svdFile.tones)
 		}
 
 		self.tonesTableView.reloadData()
@@ -73,7 +71,7 @@ class TonesListViewController: NSViewController {
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdTone = self.tableData[index]
+			let svdTone = self.tableData[index] as SVDTone
 
 			for reg in svdTone.registrations {
 				if reg.regName != "INIT REGIST" {
@@ -107,19 +105,13 @@ class TonesListViewController: NSViewController {
 		var liveList = liveSet.allObjects as NSArray
 		liveList = liveList.sortedArrayUsingDescriptors([sortDesc])
 
-		self.regsTableData.removeAll(keepCapacity: true)
-
-		for reg in regList {
-			self.regsTableData.append(reg as SVDRegistration)
-		}
+		self.regsTableData.removeAllObjects()
+		self.regsTableData.addObjectsFromArray(regList)
 
 		self.regsTableView.reloadData()
 
-		self.livesTableData.removeAll(keepCapacity: true)
-
-		for live in liveList {
-			self.livesTableData.append(live as SVDLiveSet)
-		}
+		self.livesTableData.removeAllObjects()
+		self.livesTableData.addObjectsFromArray(liveList)
 
 		self.livesTableView.reloadData()
 	}
@@ -178,7 +170,7 @@ class TonesListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdTone = self.tableData[row]
+		let svdTone = self.tableData[row] as SVDTone
 
 		if tableView == self.tonesTableView {
 			if tableColumn == self.nameColumn {
@@ -225,22 +217,12 @@ class TonesListViewController: NSViewController {
 	}
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		var tableArray = NSMutableArray()
-
-		// Copy array to NSMutableArray to use sort descriptors
-		for svdTone in self.tableData {
-			tableArray.addObject(svdTone)
-		}
-
-		tableArray.sortUsingDescriptors(tableView.sortDescriptors)
-
-		self.tableData.removeAll(keepCapacity: true)
-
-		// Copy NSMutableArray back to array
-		for tableRow in tableArray {
-			if let svdTone = tableRow as? SVDTone {
-				self.tableData.append(svdTone)
-			}
+		if tableView == self.livesTableView {
+			self.livesTableData.sortUsingDescriptors(tableView.sortDescriptors)
+		} else if tableView == self.regsTableView {
+			self.regsTableData.sortUsingDescriptors(tableView.sortDescriptors)
+		} else {
+			self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
 		}
 
 		tableView.reloadData()
@@ -326,23 +308,25 @@ class TonesListViewController: NSViewController {
 						if countElements(text) > 0 {
 							var index = 0
 
-							for svdTone in self.tableData {
-								var name: String
+							for object in self.tableData {
+								if let svdTone = object as? SVDTone {
+									var name: String
 
-								if textField == self.nameTextField {
-									name = svdTone.toneName
-								} else if textField == self.partial1TextField {
-									name = svdTone.partial1Name
-								} else if textField == self.partial2TextField {
-									name = svdTone.partial2Name
-								} else if textField == self.partial3TextField {
-									name = svdTone.partial3Name
-								} else {
-									break // unsupported field
-								}
+									if textField == self.nameTextField {
+										name = svdTone.toneName
+									} else if textField == self.partial1TextField {
+										name = svdTone.partial1Name
+									} else if textField == self.partial2TextField {
+										name = svdTone.partial2Name
+									} else if textField == self.partial3TextField {
+										name = svdTone.partial3Name
+									} else {
+										break // unsupported field
+									}
 
-								if name.lowercaseString.hasPrefix(text) {
-									indices.append(index)
+									if name.lowercaseString.hasPrefix(text) {
+										indices.append(index)
+									}
 								}
 
 								index++

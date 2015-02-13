@@ -30,7 +30,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	var lastValidOrderText = ""
 
-	var tableData: [SVDRegistration] = []
+	var tableData: NSMutableArray = []
 
 	// MARK: Lifecycle
 
@@ -45,12 +45,10 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAll(keepCapacity: true)
+		self.tableData.removeAllObjects()
 
 		if let svdFile = self.svdFile? {
-			for svdReg in svdFile.registrations {
-				self.tableData.append(svdReg)
-			}
+			self.tableData.addObjectsFromArray(svdFile.registrations)
 		}
 
 		self.regsTableView.reloadData()
@@ -117,7 +115,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
-		let svdReg = self.tableData[row]
+		let svdReg = self.tableData[row] as SVDRegistration
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
@@ -164,24 +162,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	}
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		var tableArray = NSMutableArray()
-
-		// Copy array to NSMutableArray to use sort descriptors
-		for svdReg in self.tableData {
-			tableArray.addObject(svdReg)
-		}
-
-		tableArray.sortUsingDescriptors(tableView.sortDescriptors)
-
-		self.tableData.removeAll(keepCapacity: true)
-
-		// Copy NSMutableArray back to array
-		for tableRow in tableArray {
-			if let svdReg = tableRow as? SVDRegistration {
-				self.tableData.append(svdReg)
-			}
-		}
-
+		self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
 		tableView.reloadData()
 	}
 

@@ -34,8 +34,8 @@ class LiveSetsListViewController: NSViewController {
 
 	var lastValidOrderText = ""
 
-	var tableData: [SVDLiveSet] = []
-	var regsTableData: [SVDRegistration] = []
+	var tableData: NSMutableArray = []
+	var regsTableData: NSMutableArray = []
 
 	// MARK: Lifecycle
 
@@ -50,12 +50,10 @@ class LiveSetsListViewController: NSViewController {
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAll(keepCapacity: true)
+		self.tableData.removeAllObjects()
 
 		if let svdFile = self.svdFile? {
-			for svdLive in svdFile.liveSets {
-				self.tableData.append(svdLive)
-			}
+			self.tableData.addObjectsFromArray(svdFile.liveSets)
 		}
 
 		self.livesTableView.reloadData()
@@ -67,7 +65,7 @@ class LiveSetsListViewController: NSViewController {
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.tableData[index]
+			let svdLive = self.tableData[index] as SVDLiveSet
 
 			for reg in svdLive.registrations {
 				if reg.regName != "INIT REGIST" {
@@ -80,11 +78,8 @@ class LiveSetsListViewController: NSViewController {
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 		regList = regList.sortedArrayUsingDescriptors([sortDesc])
 
-		self.regsTableData.removeAll(keepCapacity: true)
-
-		for reg in regList {
-			self.regsTableData.append(reg as SVDRegistration)
-		}
+		self.regsTableData.removeAllObjects()
+		self.regsTableData.addObjectsFromArray(regList)
 
 		self.regsTableView.reloadData()
 	}
@@ -148,7 +143,7 @@ class LiveSetsListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdLive = self.tableData[row]
+		let svdLive = self.tableData[row] as SVDLiveSet
 
 		if tableView == self.livesTableView {
 			if tableColumn == self.nameColumn {
@@ -200,22 +195,10 @@ class LiveSetsListViewController: NSViewController {
 	}
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		var tableArray = NSMutableArray()
-
-		// Copy array to NSMutableArray to use sort descriptors
-		for svdLive in self.tableData {
-			tableArray.addObject(svdLive)
-		}
-
-		tableArray.sortUsingDescriptors(tableView.sortDescriptors)
-
-		self.tableData.removeAll(keepCapacity: true)
-
-		// Copy NSMutableArray back to array
-		for tableRow in tableArray {
-			if let svdLive = tableRow as? SVDLiveSet {
-				self.tableData.append(svdLive)
-			}
+		if tableView == self.regsTableView {
+			self.regsTableData.sortUsingDescriptors(tableView.sortDescriptors)
+		} else {
+			self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
 		}
 
 		tableView.reloadData()
@@ -301,25 +284,27 @@ class LiveSetsListViewController: NSViewController {
 						if countElements(text) > 0 {
 							var index = 0
 
-							for svdLive in self.tableData {
-								var name: String
+							for object in self.tableData {
+								if let svdLive = object as? SVDLiveSet {
+									var name: String
 
-								if textField == self.nameTextField {
-									name = svdLive.liveName
-								} else if textField == self.layer1TextField {
-									name = svdLive.layer1Name
-								} else if textField == self.layer2TextField {
-									name = svdLive.layer2Name
-								} else if textField == self.layer3TextField {
-									name = svdLive.layer3Name
-								} else if textField == self.layer4TextField {
-									name = svdLive.layer4Name
-								} else {
-									break // unsupported field
-								}
+									if textField == self.nameTextField {
+										name = svdLive.liveName
+									} else if textField == self.layer1TextField {
+										name = svdLive.layer1Name
+									} else if textField == self.layer2TextField {
+										name = svdLive.layer2Name
+									} else if textField == self.layer3TextField {
+										name = svdLive.layer3Name
+									} else if textField == self.layer4TextField {
+										name = svdLive.layer4Name
+									} else {
+										break // unsupported field
+									}
 
-								if name.lowercaseString.hasPrefix(text) {
-									indices.append(index)
+									if name.lowercaseString.hasPrefix(text) {
+										indices.append(index)
+									}
 								}
 
 								index++
