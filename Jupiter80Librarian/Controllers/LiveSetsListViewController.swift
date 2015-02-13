@@ -34,7 +34,8 @@ class LiveSetsListViewController: NSViewController {
 
 	var lastValidOrderText = ""
 
-	var registrations: [SVDRegistration] = []
+	var tableData: [SVDLiveSet] = []
+	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
 
@@ -42,11 +43,23 @@ class LiveSetsListViewController: NSViewController {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
 
-		self.svdFile = self.model.openedSVDFile
-		self.livesTableView.reloadData()
+		self.updateSVD()
 	}
 
 	// MARK: Member methods
+
+	func updateSVD() {
+		self.svdFile = self.model.openedSVDFile
+		self.tableData.removeAll(keepCapacity: true)
+
+		if let svdFile = self.svdFile? {
+			for svdLive in svdFile.liveSets {
+				self.tableData.append(svdLive)
+			}
+		}
+
+		self.livesTableView.reloadData()
+	}
 
 	func buildDependencyList() {
 		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
@@ -67,10 +80,10 @@ class LiveSetsListViewController: NSViewController {
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 		regList = regList.sortedArrayUsingDescriptors([sortDesc])
 
-		self.registrations.removeAll(keepCapacity: true)
+		self.regsTableData.removeAll(keepCapacity: true)
 
 		for reg in regList {
-			self.registrations.append(reg as SVDRegistration)
+			self.regsTableData.append(reg as SVDRegistration)
 		}
 
 		self.regsTableView.reloadData()
@@ -119,11 +132,9 @@ class LiveSetsListViewController: NSViewController {
 		var nrOfRows = 0
 
 		if tableView == self.livesTableView {
-			if self.svdFile != nil {
-				nrOfRows = self.svdFile!.liveSets.count
-			}
+			nrOfRows = self.tableData.count
 		} else if tableView == self.regsTableView {
-			nrOfRows = self.registrations.count
+			nrOfRows = self.regsTableData.count
 		}
 
 		return nrOfRows
@@ -137,14 +148,14 @@ class LiveSetsListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdLive = self.svdFile!.liveSets[row]
+		let svdLive = self.tableData[row]
 
 		if tableView == self.livesTableView {
 			if tableColumn == self.nameColumn {
 				columnValue = svdLive.liveName
 				textColor = self.textColorForLiveSetName(columnValue)
 			} else if tableColumn == self.orderColumn {
-				columnValue = "\(row + 1)"
+				columnValue = "\(svdLive.orderNr)"
 			} else if tableColumn == self.layer1Column
 				|| tableColumn == self.layer2Column
 				|| tableColumn == self.layer3Column
@@ -166,19 +177,19 @@ class LiveSetsListViewController: NSViewController {
 				let layerTone: SVDTone? = svdLive.layerTones[layerNr]
 				let layerName: String? = svdLive.layerNames[layerNr]
 
+				columnValue = layerName!
+
 				if layerTone != nil {
-					columnValue = layerTone!.toneName
 					textColor = self.textColorForToneName(columnValue)
 				} else if layerName != nil {
-					columnValue = layerName!
 					textColor = self.textColorForPartType(layerToneType)
 				}
 			}
 		} else if tableView == self.regsTableView {
 			if tableColumn == self.regNameColumn {
-				columnValue = self.registrations[row].regName
+				columnValue = self.regsTableData[row].regName
 			} else if tableColumn == self.regOrderColumn {
-				columnValue = "\(self.registrations[row].orderNr)"
+				columnValue = "\(self.regsTableData[row].orderNr)"
 			}
 		}
 
@@ -186,6 +197,28 @@ class LiveSetsListViewController: NSViewController {
 		result.textField?.textColor = textColor
 
 		return result
+	}
+
+	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+		var tableArray = NSMutableArray()
+
+		// Copy array to NSMutableArray to use sort descriptors
+		for svdLive in self.tableData {
+			tableArray.addObject(svdLive)
+		}
+
+		tableArray.sortUsingDescriptors(tableView.sortDescriptors)
+
+		self.tableData.removeAll(keepCapacity: true)
+
+		// Copy NSMutableArray back to array
+		for tableRow in tableArray {
+			if let svdLive = tableRow as? SVDLiveSet {
+				self.tableData.append(svdLive)
+			}
+		}
+
+		tableView.reloadData()
 	}
 
 	func tableViewSelectionDidChange(aNotification: NSNotification) {
@@ -205,16 +238,16 @@ class LiveSetsListViewController: NSViewController {
 				var isValidTextField = false
 				let text = textField.stringValue
 
-				if let svdFile = self.svdFile? {
+				if self.tableData.count > 0 {
 					if countElements(text) > 0 {
 						if let order = text.toInt() {
-							// The number is valid if it is between the min and max nr of live sets
-							if order >= 1 && order <= svdFile.liveSets.count {
+							// The number is valid if it is between the min and max nr of rows
+							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
 							}
 						}
 					}
-					// The number is valid if the field is empty
+						// The number is valid if the field is empty
 					else {
 						isValidTextField = true
 					}
@@ -224,7 +257,7 @@ class LiveSetsListViewController: NSViewController {
 				if isValidTextField == true {
 					self.lastValidOrderText = text
 				}
-				// Restore the last valid number if the current is invalid
+					// Restore the last valid number if the current is invalid
 				else {
 					textField.stringValue = self.lastValidOrderText
 				}
@@ -245,41 +278,48 @@ class LiveSetsListViewController: NSViewController {
 
 						// Only process the text field when text was entered
 						if countElements(text) > 0 {
+							var index = 0
+
 							if let order = text.toInt() {
-								let index = order - 1
-								indices.append(index)
+								for svdReg in self.tableData {
+									if svdReg.orderNr == order {
+										indices.append(index)
+										break;
+									}
+
+									index++
+								}
 							}
 						}
 					}
 					// The other fields match any number of rows containing the text
 					// Only process the text field if an SVD file is open
-					else if let svdFile = self.svdFile? {
+					else if self.tableData.count > 0 {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
 						if countElements(text) > 0 {
-							var keyName = ""
-
-							// Decide which property to look up dynamically by key path
-							if textField == self.nameTextField {
-								keyName = "liveName"
-							} else if textField == self.layer1TextField {
-								keyName = "layer1Name"
-							} else if textField == self.layer2TextField {
-								keyName = "layer2Name"
-							} else if textField == self.layer3TextField {
-								keyName = "layer3Name"
-							} else if textField == self.layer4TextField {
-								keyName = "layer4Name"
-							}
-
 							var index = 0
 
-							for liveSet in svdFile.liveSets {
-								if let name = liveSet.valueForKey(keyName) as String? {
-									if name.lowercaseString.hasPrefix(text) {
-										indices.append(index)
-									}
+							for svdLive in self.tableData {
+								var name: String
+
+								if textField == self.nameTextField {
+									name = svdLive.liveName
+								} else if textField == self.layer1TextField {
+									name = svdLive.layer1Name
+								} else if textField == self.layer2TextField {
+									name = svdLive.layer2Name
+								} else if textField == self.layer3TextField {
+									name = svdLive.layer3Name
+								} else if textField == self.layer4TextField {
+									name = svdLive.layer4Name
+								} else {
+									break // unsupported field
+								}
+
+								if name.lowercaseString.hasPrefix(text) {
+									indices.append(index)
 								}
 
 								index++
@@ -313,9 +353,7 @@ class LiveSetsListViewController: NSViewController {
 
 	func svdFileDidUpdate(notification: NSNotification) {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
-
-			self.livesTableView.reloadData()
+			self.updateSVD()
 		}
 	}
 }

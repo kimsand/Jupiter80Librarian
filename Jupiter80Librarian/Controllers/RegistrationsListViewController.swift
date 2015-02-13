@@ -16,7 +16,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	@IBOutlet var soloTextField: NSTextField!
 	@IBOutlet var percTextField: NSTextField!
 
-	@IBOutlet var regTableView: NSTableView!
+	@IBOutlet var regsTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
 	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var upperColumn: NSTableColumn!
@@ -53,7 +53,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			}
 		}
 
-		self.regTableView.reloadData()
+		self.regsTableView.reloadData()
 	}
 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
@@ -197,7 +197,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				if self.tableData.count > 0 {
 					if countElements(text) > 0 {
 						if let order = text.toInt() {
-							// The number is valid if it is between the min and max nr of registrations
+							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
 							}
@@ -292,12 +292,12 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						}
 
 						// Select all matched rows
-						self.regTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+						self.regsTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 
 						// Scroll to the first matched row
 						if let index = indices.first? {
-							let rect = self.regTableView.rectOfRow(index)
-							self.regTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+							let rect = self.regsTableView.rectOfRow(index)
+							self.regsTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}
 					}
 				}
