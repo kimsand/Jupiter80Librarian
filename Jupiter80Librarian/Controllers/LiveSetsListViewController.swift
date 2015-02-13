@@ -67,7 +67,7 @@ class LiveSetsListViewController: NSViewController {
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.svdFile!.liveSets[index]
+			let svdLive = self.tableData[index]
 
 			for reg in svdLive.registrations {
 				if reg.regName != "INIT REGIST" {
@@ -247,7 +247,7 @@ class LiveSetsListViewController: NSViewController {
 							}
 						}
 					}
-						// The number is valid if the field is empty
+					// The number is valid if the field is empty
 					else {
 						isValidTextField = true
 					}
@@ -257,7 +257,7 @@ class LiveSetsListViewController: NSViewController {
 				if isValidTextField == true {
 					self.lastValidOrderText = text
 				}
-					// Restore the last valid number if the current is invalid
+				// Restore the last valid number if the current is invalid
 				else {
 					textField.stringValue = self.lastValidOrderText
 				}

@@ -230,7 +230,7 @@ class SVDFile: NSObject {
 			var toneBytes = self.toneBytes
 			toneBytes.location += (toneBytes.length * index)
 
-			let tone = SVDTone(svdFile: self, toneBytes: toneBytes)
+			let tone = SVDTone(svdFile: self, toneBytes: toneBytes, orderNr: index + 1)
 			self.tones.append(tone)
 		}
 	}

@@ -31,6 +31,7 @@ class SVDTone: NSObject {
 	private var partial2PCMBytes = SVDBytes(location: 0x73, length: 0x2)
 	private var partial3PCMBytes = SVDBytes(location: 0xA1, length: 0x2)
 
+	var orderNr: Int
 	var toneName: String
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
@@ -41,8 +42,10 @@ class SVDTone: NSObject {
 	var partial2Name: String!
 	var partial3Name: String!
 
-	init(svdFile: SVDFile, toneBytes: SVDBytes) {
+	init(svdFile: SVDFile, toneBytes: SVDBytes, orderNr: Int) {
 		self.svdFile = svdFile
+
+		self.orderNr = orderNr
 
 		let toneNameBytes = SVDBytes(location: toneBytes.location, length: self.toneNameLength)
 		self.toneName = self.svdFile.stringFromShiftedBytes(toneNameBytes)
