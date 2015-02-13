@@ -30,17 +30,31 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	var lastValidOrderText = ""
 
+	var tableData: [SVDRegistration] = []
+
 	// MARK: Lifecycle
 
     override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
         super.viewDidLoad()
 
-		self.svdFile = self.model.openedSVDFile
-		self.regTableView.reloadData()
+		self.updateSVD()
 	}
 
 	// MARK: Member methods
+
+	func updateSVD() {
+		self.svdFile = self.model.openedSVDFile
+		self.tableData.removeAll(keepCapacity: true)
+
+		if let svdFile = self.svdFile? {
+			for svdReg in svdFile.registrations {
+				self.tableData.append(svdReg)
+			}
+		}
+
+		self.regTableView.reloadData()
+	}
 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
 		var textColor = NSColor.blackColor()
@@ -92,11 +106,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-		var nrOfRows = 0
-
-		if self.svdFile != nil {
-			nrOfRows = self.svdFile!.registrations.count
-		}
+		let nrOfRows = self.tableData.count
 
 		return nrOfRows
 	}
@@ -107,23 +117,22 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
+		let svdReg = self.tableData[row]
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
-
-		let svdReg = self.svdFile!.registrations[row]
 
 		if tableColumn == self.nameColumn {
 			columnValue = svdReg.regName
 			textColor = self.textColorForRegistrationName(columnValue)
 		} else if tableColumn == self.orderColumn {
-			columnValue = "\(row + 1)"
+			columnValue = "\(svdReg.orderNr)"
 		} else if tableColumn == self.upperColumn {
-			columnValue = svdReg.upperLiveSet.liveName
+			columnValue = svdReg.upperName as String
 			textColor = self.textColorForLiveSetName(columnValue)
 		} else if tableColumn == self.lowerColumn {
 			if self.svdFile != nil {
 				if self.svdFile!.fileFormat == .Jupiter80 {
-					columnValue = svdReg.lowerLiveSet.liveName
+					columnValue = svdReg.lowerName as String
 					textColor = self.textColorForLiveSetName(columnValue)
 				} else {
 					columnValue = "NOT USED"
@@ -131,19 +140,19 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				}
 			}
 		} else if tableColumn == self.soloColumn {
+			columnValue = svdReg.soloName
+
 			if svdReg.soloTone != nil {
-				columnValue = svdReg.soloTone!.toneName
 				textColor = self.textColorForToneName(columnValue)
 			} else {
-				columnValue = svdReg.soloName
 				textColor = self.textColorForPartType(svdReg.soloToneType!)
 			}
 		} else if tableColumn == self.percColumn {
+			columnValue = svdReg.percName
+
 			if svdReg.percTone != nil {
-				columnValue = svdReg.percTone!.toneName
 				textColor = self.textColorForToneName(columnValue)
 			} else {
-				columnValue = svdReg.percName
 				textColor = self.textColorForPartType(svdReg.percToneType!)
 			}
 		}
@@ -153,7 +162,29 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 		return result
 	}
-	
+
+	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+		var tableArray = NSMutableArray()
+
+		// Copy array to NSMutableArray to use sort descriptors
+		for svdReg in self.tableData {
+			tableArray.addObject(svdReg)
+		}
+
+		tableArray.sortUsingDescriptors(tableView.sortDescriptors)
+
+		self.tableData.removeAll(keepCapacity: true)
+
+		// Copy NSMutableArray back to array
+		for tableRow in tableArray {
+			if let svdReg = tableRow as? SVDRegistration {
+				self.tableData.append(svdReg)
+			}
+		}
+
+		tableView.reloadData()
+	}
+
 	// MARK: Text field
 
 	override func controlTextDidChange(obj: NSNotification) {
@@ -163,11 +194,11 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				var isValidTextField = false
 				let text = textField.stringValue
 
-				if let svdFile = self.svdFile? {
+				if self.tableData.count > 0 {
 					if countElements(text) > 0 {
 						if let order = text.toInt() {
 							// The number is valid if it is between the min and max nr of registrations
-							if order >= 1 && order <= svdFile.registrations.count {
+							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
 							}
 						}
@@ -203,41 +234,48 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 						// Only process the text field when text was entered
 						if countElements(text) > 0 {
+							var index = 0
+
 							if let order = text.toInt() {
-								let index = order - 1
-								indices.append(index)
+								for svdReg in self.tableData {
+									if svdReg.orderNr == order {
+										indices.append(index)
+										break;
+									}
+
+									index++
+								}
 							}
 						}
 					}
 					// The other fields match any number of rows containing the text
 					// Only process the text field if an SVD file is open
-					else if let svdFile = self.svdFile? {
+					else if self.tableData.count > 0 {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
 						if countElements(text) > 0 {
-							var keyName = ""
-
-							// Decide which property to look up dynamically by key path
-							if textField == self.nameTextField {
-								keyName = "regName"
-							} else if textField == self.upperTextField {
-								keyName = "upperName"
-							} else if textField == self.lowerTextField {
-								keyName = "lowerName"
-							} else if textField == self.soloTextField {
-								keyName = "soloName"
-							} else if textField == self.percTextField {
-								keyName = "percName"
-							}
-
 							var index = 0
 
-							for registration in svdFile.registrations {
-								if let name = registration.valueForKey(keyName) as String? {
-									if name.lowercaseString.hasPrefix(text) {
-										indices.append(index)
-									}
+							for svdReg in self.tableData {
+								var name: String
+
+								if textField == self.nameTextField {
+									name = svdReg.regName
+								} else if textField == self.upperTextField {
+									name = svdReg.upperName
+								} else if textField == self.lowerTextField {
+									name = svdReg.lowerName
+								} else if textField == self.soloTextField {
+									name = svdReg.soloName
+								} else if textField == self.percTextField {
+									name = svdReg.percName
+								} else {
+									break // unsupported field
+								}
+
+								if name.lowercaseString.hasPrefix(text) {
+									indices.append(index)
 								}
 
 								index++
@@ -271,9 +309,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	func svdFileDidUpdate(notification: NSNotification) {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.svdFile = self.model.openedSVDFile
-
-			self.regTableView.reloadData()
+			self.updateSVD()
 		}
 	}
 }
