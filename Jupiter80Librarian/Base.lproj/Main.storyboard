@@ -1426,7 +1426,7 @@
                                 <rect key="frame" x="717" y="382" width="199" height="18"/>
                                 <buttonCell key="cell" type="check" title="Registrations used by Live Sets" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RD3-Tc-6cL">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system" size="10"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="liveRegsCheckButtonClicked:" target="Itn-By-bsi" id="xl0-gW-flo"/>
