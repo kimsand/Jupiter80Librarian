@@ -274,7 +274,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="RegListOrderCell" width="50" minWidth="50" maxWidth="50" id="iSA-ug-Ybs" userLabel="Order">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="iSA-ug-Ybs" userLabel="Order">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -288,7 +288,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListOrderCell" id="3NN-m4-q3Q">
+                                                        <tableCellView id="3NN-m4-q3Q">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -313,7 +313,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListNameCell" width="130" minWidth="130" maxWidth="130" id="aLg-Z9-J8h">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="aLg-Z9-J8h">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Registration Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -327,7 +327,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="regName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListNameCell" id="26H-w1-eEU">
+                                                        <tableCellView id="26H-w1-eEU">
                                                             <rect key="frame" x="54" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -355,7 +355,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListUpperCell" width="130" minWidth="130" maxWidth="130" id="XLo-3x-p7D">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="XLo-3x-p7D">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Upper Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -369,7 +369,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="upperName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListUpperCell" id="oJM-Kj-0z1">
+                                                        <tableCellView id="oJM-Kj-0z1">
                                                             <rect key="frame" x="187" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -394,7 +394,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListLowerCell" width="130" minWidth="130" maxWidth="130" id="ait-WL-OKP">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="ait-WL-OKP">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Lower Live Set">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -408,7 +408,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="lowerName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListLowerCell" id="Z8e-pL-diL">
+                                                        <tableCellView id="Z8e-pL-diL">
                                                             <rect key="frame" x="320" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -433,7 +433,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListSoloCell" width="110" minWidth="110" maxWidth="110" id="J36-ND-y2m">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="J36-ND-y2m">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Solo Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -447,7 +447,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="soloName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListSoloCell" id="BY0-gN-Ktu">
+                                                        <tableCellView id="BY0-gN-Ktu">
                                                             <rect key="frame" x="453" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -472,7 +472,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="RegListPercCell" width="110" minWidth="110" maxWidth="110" id="n7b-jU-j6k">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="n7b-jU-j6k">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Perc Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -486,7 +486,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="percName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="RegListPercCell" id="DgF-Os-LTs">
+                                                        <tableCellView id="DgF-Os-LTs">
                                                             <rect key="frame" x="566" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -679,7 +679,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="LiveListOrderCell" width="50" minWidth="50" maxWidth="50" id="Rle-Ma-pKE">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="Rle-Ma-pKE">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -693,7 +693,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListOrderCell" id="FXG-Qx-ep0">
+                                                        <tableCellView id="FXG-Qx-ep0">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -718,7 +718,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveListNameCell" width="130" minWidth="130" maxWidth="130" id="Ld9-M5-6XD" userLabel="Live Set name">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="Ld9-M5-6XD" userLabel="Live Set name">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Live Set Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -732,7 +732,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="liveName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListNameCell" id="PXk-i3-nM8">
+                                                        <tableCellView id="PXk-i3-nM8">
                                                             <rect key="frame" x="54" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -757,7 +757,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveListLayer1Cell" width="110" minWidth="110" maxWidth="110" id="tln-J8-DUw" userLabel="Layer 1">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="tln-J8-DUw" userLabel="Layer 1">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Layer 1 Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -771,7 +771,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="layer1Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListLayer1Cell" id="0TH-eG-yfw">
+                                                        <tableCellView id="0TH-eG-yfw">
                                                             <rect key="frame" x="187" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -796,7 +796,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveListLayer2Cell" width="110" minWidth="110" maxWidth="110" id="09Q-4R-6lF" userLabel="Layer 2">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="09Q-4R-6lF" userLabel="Layer 2">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Layer 2 Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -810,7 +810,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="layer2Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListLayer2Cell" id="Kxd-Qo-aYf">
+                                                        <tableCellView id="Kxd-Qo-aYf">
                                                             <rect key="frame" x="300" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -835,7 +835,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveListLayer3Cell" width="110" minWidth="110" maxWidth="110" id="g55-NC-Odc" userLabel="Layer 3">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="g55-NC-Odc" userLabel="Layer 3">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Layer 3 Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -849,7 +849,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="layer3Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListLayer3Cell" id="xo8-SL-IwL">
+                                                        <tableCellView id="xo8-SL-IwL">
                                                             <rect key="frame" x="413" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -874,7 +874,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveListLayer4Cell" width="110" minWidth="110" maxWidth="110" id="PtD-4K-0cf" userLabel="Layer 4">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="PtD-4K-0cf" userLabel="Layer 4">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Layer 4 Tone">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -888,7 +888,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="layer4Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveListLayer4Cell" id="hoy-94-ofb">
+                                                        <tableCellView id="hoy-94-ofb">
                                                             <rect key="frame" x="526" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -947,7 +947,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="LiveDepListRegOrderCell" width="50" minWidth="50" maxWidth="50" id="tsA-YM-n0V">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="tsA-YM-n0V">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -961,7 +961,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveDepListRegOrderCell" id="BCO-lV-LbP">
+                                                        <tableCellView id="BCO-lV-LbP">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -986,7 +986,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="LiveDepListRegNameCell" width="130" minWidth="130" maxWidth="130" id="XA9-eM-rUw">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="XA9-eM-rUw">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Registration Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1000,7 +1000,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="regName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="LiveDepListRegNameCell" id="Q2z-r1-JXw">
+                                                        <tableCellView id="Q2z-r1-JXw">
                                                             <rect key="frame" x="54" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1197,7 +1197,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="ToneListOrderCell" width="50" minWidth="50" maxWidth="50" id="sbJ-Hb-YgZ" userLabel="Order">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="sbJ-Hb-YgZ" userLabel="Order">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1211,7 +1211,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneListOrderCell" id="g3f-qi-gaB">
+                                                        <tableCellView id="g3f-qi-gaB">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1236,7 +1236,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListNameCell" width="110" minWidth="110" maxWidth="110" id="WQJ-pd-UlD" userLabel="Tone Name">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="WQJ-pd-UlD" userLabel="Tone Name">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Tone Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1250,7 +1250,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="toneName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneListNameCell" id="CDt-HL-GTv">
+                                                        <tableCellView id="CDt-HL-GTv">
                                                             <rect key="frame" x="54" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1275,7 +1275,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial1Cell" width="110" minWidth="110" maxWidth="110" id="pj9-Z8-6AR" userLabel="Partial 1">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="pj9-Z8-6AR" userLabel="Partial 1">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 1">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1289,7 +1289,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="partial1Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneListPartial1Cell" id="GCl-yi-J38">
+                                                        <tableCellView id="GCl-yi-J38">
                                                             <rect key="frame" x="167" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1314,7 +1314,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial2Cell" width="110" minWidth="110" maxWidth="110" id="nlc-sQ-s3u" userLabel="Partial 2">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="nlc-sQ-s3u" userLabel="Partial 2">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 2">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1328,7 +1328,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="partial2Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneListPartial2Cell" id="fPw-VZ-Zn4">
+                                                        <tableCellView id="fPw-VZ-Zn4">
                                                             <rect key="frame" x="280" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1353,7 +1353,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneListPartial3Cell" width="110" minWidth="110" maxWidth="110" id="eNw-Nr-ncT" userLabel="Partial 3">
+                                                <tableColumn identifier="" width="110" minWidth="110" maxWidth="110" id="eNw-Nr-ncT" userLabel="Partial 3">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Partial 3">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1367,7 +1367,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="partial3Name"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneListPartial3Cell" id="kVX-p7-XDc">
+                                                        <tableCellView id="kVX-p7-XDc">
                                                             <rect key="frame" x="393" y="1" width="110" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1444,7 +1444,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="ToneDepListLiveOrderCell" width="50" minWidth="50" maxWidth="50" id="9VO-7q-MxK">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="9VO-7q-MxK">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1458,7 +1458,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneDepListLiveOrderCell" id="oBJ-mx-Mvc">
+                                                        <tableCellView id="oBJ-mx-Mvc">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1483,7 +1483,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneDepListLiveOrderCell" width="130" minWidth="130" maxWidth="130" id="8vY-nd-VAl">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="8vY-nd-VAl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Live Set Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1497,7 +1497,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="liveName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneDepListLiveNameCell" id="bdh-bq-0rm">
+                                                        <tableCellView id="bdh-bq-0rm">
                                                             <rect key="frame" x="54" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1559,7 +1559,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="ToneDepListRegOrderCell" width="50" minWidth="50" maxWidth="50" id="pKk-NK-zBH">
+                                                <tableColumn identifier="" width="50" minWidth="50" maxWidth="50" id="pKk-NK-zBH">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Order">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1573,7 +1573,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="orderNr"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneDepListRegOrderCell" id="t6q-ee-FvV">
+                                                        <tableCellView id="t6q-ee-FvV">
                                                             <rect key="frame" x="1" y="1" width="50" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1598,7 +1598,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="ToneDepListRegNameCell" width="130" minWidth="130" maxWidth="130" id="5IU-pB-qLd">
+                                                <tableColumn identifier="" width="130" minWidth="130" maxWidth="130" id="5IU-pB-qLd">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Registration Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1612,7 +1612,7 @@
                                                     <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="regName"/>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="ToneDepListRegNameCell" id="ssz-DA-HCb">
+                                                        <tableCellView id="ssz-DA-HCb">
                                                             <rect key="frame" x="54" y="1" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
