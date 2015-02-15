@@ -238,25 +238,27 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						if countElements(text) > 0 {
 							var index = 0
 
-							for svdReg in self.tableData {
-								var name: String
+							for object in self.tableData {
+								if let svdReg = object as? SVDRegistration {
+									var name: String
 
-								if textField == self.nameTextField {
-									name = svdReg.regName
-								} else if textField == self.upperTextField {
-									name = svdReg.upperName
-								} else if textField == self.lowerTextField {
-									name = svdReg.lowerName
-								} else if textField == self.soloTextField {
-									name = svdReg.soloName
-								} else if textField == self.percTextField {
-									name = svdReg.percName
-								} else {
-									break // unsupported field
-								}
+									if textField == self.nameTextField {
+										name = svdReg.regName
+									} else if textField == self.upperTextField {
+										name = svdReg.upperName
+									} else if textField == self.lowerTextField {
+										name = svdReg.lowerName
+									} else if textField == self.soloTextField {
+										name = svdReg.soloName
+									} else if textField == self.percTextField {
+										name = svdReg.percName
+									} else {
+										break // unsupported field
+									}
 
-								if name.lowercaseString.hasPrefix(text) {
-									indices.append(index)
+									if name.lowercaseString.hasPrefix(text) {
+										indices.append(index)
+									}
 								}
 
 								index++
