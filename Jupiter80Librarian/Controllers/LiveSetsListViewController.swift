@@ -28,6 +28,8 @@ class LiveSetsListViewController: NSViewController {
 	@IBOutlet var regNameColumn: NSTableColumn!
 	@IBOutlet var regOrderColumn: NSTableColumn!
 
+	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
+
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
@@ -50,12 +52,15 @@ class LiveSetsListViewController: NSViewController {
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAllObjects()
 
 		if let svdFile = self.svdFile? {
-			self.tableData.addObjectsFromArray(svdFile.liveSets)
+			self.updateTableFromList(svdFile.liveSets)
 		}
+	}
 
+	func updateTableFromList(liveSets: NSArray) {
+		self.tableData.removeAllObjects()
+		self.tableData.addObjectsFromArray(liveSets)
 		self.livesTableView.reloadData()
 	}
 
@@ -82,6 +87,35 @@ class LiveSetsListViewController: NSViewController {
 		self.regsTableData.addObjectsFromArray(regList)
 
 		self.regsTableView.reloadData()
+	}
+
+	func filterDependencies() {
+		var filteredLiveSets: [SVDLiveSet] = []
+
+		let selectedSegment = self.dependencySegmentedControl.selectedSegment
+		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
+
+		if let svdFile = self.svdFile? {
+			if segmentTag == 1 {
+				filteredLiveSets = svdFile.liveSets
+			} else if segmentTag == 2 {
+				for svdLive in svdFile.liveSets {
+					if svdLive.registrations.count > 0 {
+						filteredLiveSets.append(svdLive)
+					}
+				}
+			} else if segmentTag == 3 {
+				for svdLive in svdFile.liveSets {
+					if svdLive.registrations.count <= 0 {
+						filteredLiveSets.append(svdLive)
+					}
+				}
+			} else {
+				return
+			}
+		}
+
+		self.updateTableFromList(filteredLiveSets)
 	}
 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
@@ -340,5 +374,9 @@ class LiveSetsListViewController: NSViewController {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			self.updateSVD()
 		}
+	}
+
+	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+		self.filterDependencies()
 	}
 }

@@ -580,11 +580,11 @@
             <objects>
                 <viewController id="dEo-n4-BPa" customClass="LiveSetsListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NqS-F5-gb4">
-                        <rect key="frame" x="0.0" y="0.0" width="852" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="852" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zqk-Sr-eCa">
-                                <rect key="frame" x="10" y="374" width="50" height="22"/>
+                                <rect key="frame" x="10" y="444" width="50" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="uXd-oz-jVO"/>
                                 </constraints>
@@ -598,7 +598,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BFC-zF-MBE">
-                                <rect key="frame" x="63" y="374" width="130" height="22"/>
+                                <rect key="frame" x="63" y="444" width="130" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="8V9-AJ-cea"/>
                                 </constraints>
@@ -612,7 +612,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u7O-sZ-mxq">
-                                <rect key="frame" x="196" y="374" width="110" height="22"/>
+                                <rect key="frame" x="196" y="444" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="HXm-E8-rxm"/>
                                 </constraints>
@@ -626,7 +626,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FHq-9C-rMp">
-                                <rect key="frame" x="309" y="374" width="110" height="22"/>
+                                <rect key="frame" x="309" y="444" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="OYc-Mz-Gqt"/>
                                 </constraints>
@@ -640,7 +640,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bxE-cg-XgT">
-                                <rect key="frame" x="422" y="374" width="110" height="22"/>
+                                <rect key="frame" x="422" y="444" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="KUw-1s-VT1"/>
                                 </constraints>
@@ -654,7 +654,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-kn-2jy">
-                                <rect key="frame" x="535" y="374" width="110" height="22"/>
+                                <rect key="frame" x="535" y="444" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="mnW-d6-wTh"/>
                                 </constraints>
@@ -668,7 +668,7 @@
                                 </connections>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGc-nR-PWx" userLabel="Live Sets List Scroll View">
-                                <rect key="frame" x="8" y="8" width="640" height="362"/>
+                                <rect key="frame" x="8" y="29" width="640" height="411"/>
                                 <clipView key="contentView" misplaced="YES" id="Oat-31-7Ur">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -926,7 +926,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Gv0-ZX-Fi7">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Gv0-ZX-Fi7">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -935,8 +935,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsy-kW-jef">
+                                <rect key="frame" x="654" y="454" width="164" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Live Sets used by:" id="zAF-W8-WQd">
+                                    <font key="font" metaFont="cellTitle"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w93-je-2uQ" userLabel="Registration Dependencies Scroll View">
-                                <rect key="frame" x="656" y="8" width="188" height="368"/>
+                                <rect key="frame" x="656" y="8" width="188" height="438"/>
                                 <clipView key="contentView" misplaced="YES" id="SJ5-X8-bjw">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1050,41 +1058,60 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsy-kW-jef">
-                                <rect key="frame" x="654" y="384" width="164" height="16"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Selected Live Sets used by:" id="zAF-W8-WQd">
-                                    <font key="font" metaFont="cellTitle"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="THR-Ko-UDz">
+                                <rect key="frame" x="8" y="7" width="43" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show:" id="U1K-41-xjX">
+                                    <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AoN-II-0Rh">
+                                <rect key="frame" x="55" y="2" width="174" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="i8Y-oK-U6A">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="All" width="56" selected="YES" tag="1"/>
+                                        <segment label="Used" width="55" tag="2"/>
+                                        <segment label="Unused" width="55" tag="3"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="dependencySegmentedControlAction:" target="dEo-n4-BPa" id="aFS-Zd-HbD"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="HGc-nR-PWx" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="8" id="3Q4-tM-QjJ"/>
+                            <constraint firstItem="AoN-II-0Rh" firstAttribute="leading" secondItem="THR-Ko-UDz" secondAttribute="trailing" constant="8" id="3ns-qw-1yu"/>
                             <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="BFC-zF-MBE" secondAttribute="top" id="5cy-IO-cgi"/>
                             <constraint firstItem="bbd-kn-2jy" firstAttribute="leading" secondItem="bxE-cg-XgT" secondAttribute="trailing" constant="3" id="7tf-Mb-evo"/>
                             <constraint firstItem="FHq-9C-rMp" firstAttribute="top" secondItem="bxE-cg-XgT" secondAttribute="top" id="Ado-Vi-WdO"/>
                             <constraint firstItem="FHq-9C-rMp" firstAttribute="top" secondItem="u7O-sZ-mxq" secondAttribute="top" id="BsV-aS-Fm8"/>
+                            <constraint firstItem="AoN-II-0Rh" firstAttribute="top" secondItem="HGc-nR-PWx" secondAttribute="bottom" constant="4" id="Hfu-wM-hKV"/>
                             <constraint firstAttribute="bottom" secondItem="w93-je-2uQ" secondAttribute="bottom" constant="8" id="IRw-i3-aLL"/>
                             <constraint firstAttribute="trailing" secondItem="w93-je-2uQ" secondAttribute="trailing" constant="8" id="Iar-k4-IjP"/>
                             <constraint firstItem="HGc-nR-PWx" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="bottom" constant="4" id="KFi-nQ-xWm"/>
-                            <constraint firstAttribute="bottom" secondItem="HGc-nR-PWx" secondAttribute="bottom" constant="8" id="MCm-f7-JwI"/>
                             <constraint firstItem="lsy-kW-jef" firstAttribute="leading" secondItem="w93-je-2uQ" secondAttribute="leading" id="MdB-2j-jbo"/>
+                            <constraint firstItem="THR-Ko-UDz" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="10" id="Ogw-lG-LZh"/>
                             <constraint firstItem="lsy-kW-jef" firstAttribute="top" secondItem="NqS-F5-gb4" secondAttribute="top" id="Qy2-DI-wDv"/>
                             <constraint firstItem="bxE-cg-XgT" firstAttribute="top" secondItem="bbd-kn-2jy" secondAttribute="top" id="R9w-kO-Jrj"/>
                             <constraint firstItem="u7O-sZ-mxq" firstAttribute="top" secondItem="BFC-zF-MBE" secondAttribute="top" id="avF-WD-wWh"/>
                             <constraint firstItem="w93-je-2uQ" firstAttribute="top" secondItem="lsy-kW-jef" secondAttribute="bottom" constant="8" id="cfr-An-fwU"/>
                             <constraint firstItem="FHq-9C-rMp" firstAttribute="leading" secondItem="u7O-sZ-mxq" secondAttribute="trailing" constant="3" id="dqB-qn-c3l"/>
                             <constraint firstItem="BFC-zF-MBE" firstAttribute="leading" secondItem="Zqk-Sr-eCa" secondAttribute="trailing" constant="3" id="gKu-eg-v4P"/>
+                            <constraint firstAttribute="bottom" secondItem="AoN-II-0Rh" secondAttribute="bottom" constant="4" id="gyo-Ah-fOs"/>
                             <constraint firstItem="u7O-sZ-mxq" firstAttribute="leading" secondItem="BFC-zF-MBE" secondAttribute="trailing" constant="3" id="hjB-OC-VJB"/>
+                            <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="NqS-F5-gb4" secondAttribute="top" constant="4" id="kGQ-1T-VVA"/>
                             <constraint firstItem="HGc-nR-PWx" firstAttribute="trailing" secondItem="bbd-kn-2jy" secondAttribute="trailing" constant="3" id="mIv-6o-ZXk"/>
                             <constraint firstItem="Zqk-Sr-eCa" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="10" id="mSU-8K-NlY"/>
-                            <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="NqS-F5-gb4" secondAttribute="top" constant="4" id="nqu-vC-NK2"/>
+                            <constraint firstItem="THR-Ko-UDz" firstAttribute="centerY" secondItem="AoN-II-0Rh" secondAttribute="centerY" constant="-1" id="pGs-Ib-Wol"/>
                             <constraint firstItem="bxE-cg-XgT" firstAttribute="leading" secondItem="FHq-9C-rMp" secondAttribute="trailing" constant="3" id="t8r-VU-bAc"/>
                             <constraint firstItem="w93-je-2uQ" firstAttribute="leading" secondItem="HGc-nR-PWx" secondAttribute="trailing" constant="8" id="vRh-ql-Q82"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dependencySegmentedControl" destination="AoN-II-0Rh" id="iO1-65-0ZW"/>
                         <outlet property="layer1Column" destination="tln-J8-DUw" id="s5i-lG-rWg"/>
                         <outlet property="layer1TextField" destination="u7O-sZ-mxq" id="dVn-wB-BsH"/>
                         <outlet property="layer2Column" destination="09Q-4R-6lF" id="s3Z-Ol-4gh"/>
@@ -1105,7 +1132,7 @@
                 </viewController>
                 <customObject id="aJS-Cy-PZA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1296" y="741"/>
+            <point key="canvasLocation" x="1296" y="745"/>
         </scene>
         <!--Tones List View Controller-->
         <scene sceneID="Tye-xE-s0W">
