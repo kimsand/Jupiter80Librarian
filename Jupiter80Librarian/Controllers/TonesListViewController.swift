@@ -32,6 +32,8 @@ class TonesListViewController: NSViewController {
 
 	@IBOutlet var livesRegsCheckButton: NSButton!
 
+	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
+
 	var model = Model.singleton
 	var svdFile: SVDFile?
 	var isInitSound = false
@@ -55,12 +57,15 @@ class TonesListViewController: NSViewController {
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAllObjects()
 
 		if let svdFile = self.svdFile? {
-			self.tableData.addObjectsFromArray(svdFile.tones)
+			self.updateTableFromList(svdFile.tones)
 		}
+	}
 
+	func updateTableFromList(tones: NSArray) {
+		self.tableData.removeAllObjects()
+		self.tableData.addObjectsFromArray(tones)
 		self.tonesTableView.reloadData()
 	}
 
@@ -116,6 +121,37 @@ class TonesListViewController: NSViewController {
 		self.livesTableView.reloadData()
 	}
 
+	func filterDependencies() {
+		var filteredTones: [SVDTone] = []
+
+		let selectedSegment = self.dependencySegmentedControl.selectedSegment
+		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
+
+		if let svdFile = self.svdFile? {
+			if segmentTag == 1 {
+				filteredTones = svdFile.tones
+			} else if segmentTag == 2 {
+				for svdTone in svdFile.tones {
+					if svdTone.liveSets.count > 0
+					|| svdTone.registrations.count > 0 {
+						filteredTones.append(svdTone)
+					}
+				}
+			} else if segmentTag == 3 {
+				for svdTone in svdFile.tones {
+					if svdTone.liveSets.count <= 0
+					&& svdTone.registrations.count <= 0 {
+						filteredTones.append(svdTone)
+					}
+				}
+			} else {
+				return
+			}
+		}
+
+		self.updateTableFromList(filteredTones)
+	}
+
 	func textColorForToneName(toneName: String) -> NSColor {
 		var textColor = NSColor.blackColor()
 
@@ -149,9 +185,7 @@ class TonesListViewController: NSViewController {
 		var nrOfRows = 0
 
 		if tableView == self.tonesTableView {
-			if self.svdFile != nil {
-				nrOfRows = self.svdFile!.tones.count
-			}
+			nrOfRows = self.tableData.count
 		} else if tableView == self.regsTableView {
 			nrOfRows = self.regsTableData.count
 		} else if tableView == self.livesTableView {
@@ -360,6 +394,10 @@ class TonesListViewController: NSViewController {
 
 	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
 		self.buildDependencyList()
+	}
+
+	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+		self.filterDependencies()
 	}
 
 	// MARK: Notifications

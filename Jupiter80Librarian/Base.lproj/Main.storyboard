@@ -1213,7 +1213,7 @@
                                 </connections>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoQ-09-3wC" userLabel="Tones List Scroll View">
-                                <rect key="frame" x="8" y="8" width="507" height="362"/>
+                                <rect key="frame" x="8" y="29" width="507" height="341"/>
                                 <clipView key="contentView" misplaced="YES" id="Akp-OT-UiV">
                                     <rect key="frame" x="1" y="0.0" width="238" height="134"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1689,6 +1689,28 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uHL-fy-jXh">
+                                <rect key="frame" x="6" y="7" width="43" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show:" id="3mc-zt-NAx">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v9X-Ag-jBs">
+                                <rect key="frame" x="53" y="2" width="174" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="sZ6-Eb-Nev">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="All" width="56" selected="YES" tag="1"/>
+                                        <segment label="Used" width="55" tag="2"/>
+                                        <segment label="Unused" width="55" tag="3"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="dependencySegmentedControlAction:" target="Itn-By-bsi" id="Ybh-gF-DfK"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="TUi-q8-sDY" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" id="0nt-9g-XE8"/>
@@ -1697,7 +1719,9 @@
                             <constraint firstItem="lRz-J1-qRp" firstAttribute="top" secondItem="1Hc-UL-j0q" secondAttribute="top" id="8Y9-aU-I3S"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="leading" secondItem="TUi-q8-sDY" secondAttribute="leading" id="BKg-6a-ynU"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="leading" secondItem="ZQo-jZ-LGl" secondAttribute="trailing" constant="8" id="C2d-3U-Wtj"/>
+                            <constraint firstItem="v9X-Ag-jBs" firstAttribute="top" secondItem="AoQ-09-3wC" secondAttribute="bottom" constant="4" id="H8H-Ed-wNH"/>
                             <constraint firstAttribute="trailing" secondItem="4FU-Nw-3iK" secondAttribute="trailing" constant="7" id="Han-M7-Vmc"/>
+                            <constraint firstAttribute="bottom" secondItem="v9X-Ag-jBs" secondAttribute="bottom" constant="4" id="JYb-Qk-f1J"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" constant="2" id="M5y-b3-OjW"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="top" secondItem="ZQo-jZ-LGl" secondAttribute="top" id="NGo-hP-qXp"/>
                             <constraint firstAttribute="bottom" secondItem="4FU-Nw-3iK" secondAttribute="bottom" constant="8" id="Q9Y-z2-wHj"/>
@@ -1705,21 +1729,24 @@
                             <constraint firstItem="TLj-e2-N9E" firstAttribute="leading" secondItem="1Hc-UL-j0q" secondAttribute="trailing" constant="3" id="Sx1-XT-j31"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="leading" secondItem="4FU-Nw-3iK" secondAttribute="leading" id="T5x-hN-jBp"/>
                             <constraint firstAttribute="trailing" secondItem="jFx-f8-nuF" secondAttribute="trailing" id="UUR-QN-Bez"/>
+                            <constraint firstItem="uHL-fy-jXh" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="8" id="UyR-nL-tOh"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="top" secondItem="TUi-q8-sDY" secondAttribute="bottom" constant="4" id="Woo-vG-Txo"/>
+                            <constraint firstItem="uHL-fy-jXh" firstAttribute="centerY" secondItem="v9X-Ag-jBs" secondAttribute="centerY" constant="-1" id="cir-Pw-lbJ"/>
                             <constraint firstItem="1Hc-UL-j0q" firstAttribute="top" secondItem="TLj-e2-N9E" secondAttribute="top" id="gnB-99-aAo"/>
                             <constraint firstItem="zBg-ZV-aVZ" firstAttribute="top" secondItem="TLj-e2-N9E" secondAttribute="top" id="h9J-ep-cIJ"/>
-                            <constraint firstAttribute="bottom" secondItem="AoQ-09-3wC" secondAttribute="bottom" constant="8" id="hZ5-8h-QDn"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="8" id="huT-27-2g4"/>
                             <constraint firstItem="1Hc-UL-j0q" firstAttribute="leading" secondItem="lRz-J1-qRp" secondAttribute="trailing" constant="3" id="myM-Ic-BBc"/>
                             <constraint firstAttribute="bottom" secondItem="ZQo-jZ-LGl" secondAttribute="bottom" constant="8" id="nJ2-rc-fUd"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="trailing" secondItem="zBg-ZV-aVZ" secondAttribute="trailing" constant="3" id="tOv-Ms-ieh"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="bottom" constant="4" id="tTw-vb-xQu"/>
                             <constraint firstItem="zBg-ZV-aVZ" firstAttribute="leading" secondItem="TLj-e2-N9E" secondAttribute="trailing" constant="3" id="tmA-VG-ldg"/>
+                            <constraint firstItem="v9X-Ag-jBs" firstAttribute="leading" secondItem="uHL-fy-jXh" secondAttribute="trailing" constant="8" id="wa3-aP-oXB"/>
                             <constraint firstItem="EdM-5U-rXV" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" constant="4" id="xBc-bH-ytN"/>
                             <constraint firstItem="lRz-J1-qRp" firstAttribute="leading" secondItem="EdM-5U-rXV" secondAttribute="trailing" constant="3" id="yF1-NP-GFK"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dependencySegmentedControl" destination="v9X-Ag-jBs" id="eeu-bm-VG8"/>
                         <outlet property="liveNameColumn" destination="8vY-nd-VAl" id="igB-1e-EVh"/>
                         <outlet property="liveOrderColumn" destination="9VO-7q-MxK" id="4jP-Cn-gfT"/>
                         <outlet property="livesRegsCheckButton" destination="jFx-f8-nuF" id="1op-IO-aTE"/>
@@ -1742,7 +1769,7 @@
                 </viewController>
                 <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2024.5" y="242"/>
+            <point key="canvasLocation" x="2024" y="242"/>
         </scene>
     </scenes>
 </document>

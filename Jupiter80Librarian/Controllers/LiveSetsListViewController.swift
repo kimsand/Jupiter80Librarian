@@ -368,15 +368,17 @@ class LiveSetsListViewController: NSViewController {
 		}
 	}
 
+	// MARK: Actions
+
+	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+		self.filterDependencies()
+	}
+
 	// MARK: Notifications
 
 	func svdFileDidUpdate(notification: NSNotification) {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			self.updateSVD()
 		}
-	}
-
-	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
-		self.filterDependencies()
 	}
 }
