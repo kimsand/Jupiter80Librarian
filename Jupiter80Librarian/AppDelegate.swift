@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		switch(status) {
 		case NSFileHandlingPanelOKButton:
-			fileURL = openPanel.URLs.first? as? NSURL
+			fileURL = openPanel.URLs.first as? NSURL
 			self.model!.fileName = fileURL?.lastPathComponent
 			NSNotificationCenter.defaultCenter().postNotificationName("svdFileWasChosen", object: nil)
 			openPanel.close()

@@ -338,7 +338,7 @@ class SVDFile: NSObject {
 			// Store the one unshifted byte extracted from the two shifted bytes
 			let oneByteData = NSData(bytes: bitsShifted, length: 1)
 			var oneByte: UInt8 = 0x0
-			oneByteData.getBytes(&oneByte)
+			oneByteData.getBytes(&oneByte, length: 1)
 			unshiftedBytes.append(oneByte)
 		}
 
@@ -347,7 +347,7 @@ class SVDFile: NSObject {
 		return unshiftedData
 	}
 
-	func unshiftedNumberFromBytes(byteStruct: SVDBytes, nrOfBits: Int) -> Int {
+	func unshiftedNumberFromBytes(byteStruct: SVDBytes, nrOfBits: UInt8) -> Int {
 		let byteData = self.dataFromBytes(byteStruct)
 
 		var oneByte: UInt8 = 0x0
@@ -366,7 +366,7 @@ class SVDFile: NSObject {
 	}
 
 	func stringFromData(data: NSData) -> String {
-		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)!
+		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)! as String
 
 		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}

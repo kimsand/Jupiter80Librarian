@@ -30,7 +30,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	var lastValidOrderText = ""
 
-	var tableData: NSMutableArray = []
+	var tableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
 
@@ -45,10 +45,10 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAllObjects()
+		self.tableData.removeAll(keepCapacity: true)
 
-		if let svdFile = self.svdFile? {
-			self.tableData.addObjectsFromArray(svdFile.registrations)
+		if let svdFile = self.svdFile {
+			self.tableData += svdFile.registrations
 		}
 
 		self.regsTableView.reloadData()
@@ -112,10 +112,10 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
+		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
-		let svdReg = self.tableData[row] as SVDRegistration
+		let svdReg = self.tableData[row]
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
@@ -162,7 +162,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	}
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
+		self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
 		tableView.reloadData()
 	}
 
@@ -176,7 +176,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if countElements(text) > 0 {
+					if count(text) > 0 {
 						if let order = text.toInt() {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
@@ -214,7 +214,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
 							if let order = text.toInt() {
@@ -235,30 +235,28 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
-							for object in self.tableData {
-								if let svdReg = object as? SVDRegistration {
-									var name: String
+							for svdReg in self.tableData {
+								var name: String
 
-									if textField == self.nameTextField {
-										name = svdReg.regName
-									} else if textField == self.upperTextField {
-										name = svdReg.upperName
-									} else if textField == self.lowerTextField {
-										name = svdReg.lowerName
-									} else if textField == self.soloTextField {
-										name = svdReg.soloName
-									} else if textField == self.percTextField {
-										name = svdReg.percName
-									} else {
-										break // unsupported field
-									}
+								if textField == self.nameTextField {
+									name = svdReg.regName
+								} else if textField == self.upperTextField {
+									name = svdReg.upperName
+								} else if textField == self.lowerTextField {
+									name = svdReg.lowerName
+								} else if textField == self.soloTextField {
+									name = svdReg.soloName
+								} else if textField == self.percTextField {
+									name = svdReg.percName
+								} else {
+									break // unsupported field
+								}
 
-									if name.lowercaseString.hasPrefix(text) {
-										indices.append(index)
-									}
+								if name.lowercaseString.hasPrefix(text) {
+									indices.append(index)
 								}
 
 								index++
@@ -278,7 +276,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						self.regsTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 
 						// Scroll to the first matched row
-						if let index = indices.first? {
+						if let index = indices.first {
 							let rect = self.regsTableView.rectOfRow(index)
 							self.regsTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}

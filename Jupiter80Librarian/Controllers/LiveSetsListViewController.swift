@@ -36,8 +36,8 @@ class LiveSetsListViewController: NSViewController {
 
 	var lastValidOrderText = ""
 
-	var tableData: NSMutableArray = []
-	var regsTableData: NSMutableArray = []
+	var tableData: [SVDLiveSet] = []
+	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
 
@@ -53,14 +53,14 @@ class LiveSetsListViewController: NSViewController {
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
 
-		if let svdFile = self.svdFile? {
+		if let svdFile = self.svdFile {
 			self.updateTableFromList(svdFile.liveSets)
 		}
 	}
 
-	func updateTableFromList(liveSets: NSArray) {
-		self.tableData.removeAllObjects()
-		self.tableData.addObjectsFromArray(liveSets)
+	func updateTableFromList(liveSets: [SVDLiveSet]) {
+		self.tableData.removeAll(keepCapacity: true)
+		self.tableData += liveSets
 		self.livesTableView.reloadData()
 	}
 
@@ -70,7 +70,7 @@ class LiveSetsListViewController: NSViewController {
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.tableData[index] as SVDLiveSet
+			let svdLive = self.tableData[index]
 
 			for reg in svdLive.registrations {
 				if reg.regName != "INIT REGIST" {
@@ -79,12 +79,11 @@ class LiveSetsListViewController: NSViewController {
 			}
 		}
 
-		var regList = regSet.allObjects as NSArray
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		regList = regList.sortedArrayUsingDescriptors([sortDesc])
+		var regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
 
-		self.regsTableData.removeAllObjects()
-		self.regsTableData.addObjectsFromArray(regList)
+		self.regsTableData.removeAll(keepCapacity: true)
+		self.regsTableData += regList
 
 		self.regsTableView.reloadData()
 	}
@@ -95,7 +94,7 @@ class LiveSetsListViewController: NSViewController {
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
 		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
 
-		if let svdFile = self.svdFile? {
+		if let svdFile = self.svdFile {
 			if segmentTag == 1 {
 				filteredLiveSets = svdFile.liveSets
 			} else if segmentTag == 2 {
@@ -170,14 +169,14 @@ class LiveSetsListViewController: NSViewController {
 	}
 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
+		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 
 		result.textField?.textColor = NSColor.blackColor()
 
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdLive = self.tableData[row] as SVDLiveSet
+		let svdLive = self.tableData[row]
 
 		if tableView == self.livesTableView {
 			if tableColumn == self.nameColumn {
@@ -230,16 +229,16 @@ class LiveSetsListViewController: NSViewController {
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
 		if tableView == self.regsTableView {
-			self.regsTableData.sortUsingDescriptors(tableView.sortDescriptors)
+			self.regsTableData = (self.regsTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
+			self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDLiveSet]
 		}
 
 		tableView.reloadData()
 	}
 
 	func tableViewSelectionDidChange(aNotification: NSNotification) {
-		let tableView = aNotification.object as NSTableView
+		let tableView = aNotification.object as! NSTableView
 
 		if tableView == self.livesTableView {
 			self.buildDependencyList()
@@ -256,7 +255,7 @@ class LiveSetsListViewController: NSViewController {
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if countElements(text) > 0 {
+					if count(text) > 0 {
 						if let order = text.toInt() {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
@@ -294,7 +293,7 @@ class LiveSetsListViewController: NSViewController {
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
 							if let order = text.toInt() {
@@ -315,30 +314,28 @@ class LiveSetsListViewController: NSViewController {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
-							for object in self.tableData {
-								if let svdLive = object as? SVDLiveSet {
-									var name: String
+							for svdLive in self.tableData {
+								var name: String
 
-									if textField == self.nameTextField {
-										name = svdLive.liveName
-									} else if textField == self.layer1TextField {
-										name = svdLive.layer1Name
-									} else if textField == self.layer2TextField {
-										name = svdLive.layer2Name
-									} else if textField == self.layer3TextField {
-										name = svdLive.layer3Name
-									} else if textField == self.layer4TextField {
-										name = svdLive.layer4Name
-									} else {
-										break // unsupported field
-									}
+								if textField == self.nameTextField {
+									name = svdLive.liveName
+								} else if textField == self.layer1TextField {
+									name = svdLive.layer1Name
+								} else if textField == self.layer2TextField {
+									name = svdLive.layer2Name
+								} else if textField == self.layer3TextField {
+									name = svdLive.layer3Name
+								} else if textField == self.layer4TextField {
+									name = svdLive.layer4Name
+								} else {
+									break // unsupported field
+								}
 
-									if name.lowercaseString.hasPrefix(text) {
-										indices.append(index)
-									}
+								if name.lowercaseString.hasPrefix(text) {
+									indices.append(index)
 								}
 
 								index++
@@ -358,7 +355,7 @@ class LiveSetsListViewController: NSViewController {
 						self.livesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 
 						// Scroll to the first matched row
-						if let index = indices.first? {
+						if let index = indices.first {
 							let rect = self.livesTableView.rectOfRow(index)
 							self.livesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}

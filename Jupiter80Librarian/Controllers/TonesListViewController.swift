@@ -40,9 +40,9 @@ class TonesListViewController: NSViewController {
 
 	var lastValidOrderText = ""
 
-	var tableData: NSMutableArray = []
-	var livesTableData: NSMutableArray = []
-	var regsTableData: NSMutableArray = []
+	var tableData: [SVDTone] = []
+	var livesTableData: [SVDLiveSet] = []
+	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
 
@@ -58,14 +58,14 @@ class TonesListViewController: NSViewController {
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile
 
-		if let svdFile = self.svdFile? {
+		if let svdFile = self.svdFile {
 			self.updateTableFromList(svdFile.tones)
 		}
 	}
 
-	func updateTableFromList(tones: NSArray) {
-		self.tableData.removeAllObjects()
-		self.tableData.addObjectsFromArray(tones)
+	func updateTableFromList(tones: [SVDTone]) {
+		self.tableData.removeAll(keepCapacity: true)
+		self.tableData += tones
 		self.tonesTableView.reloadData()
 	}
 
@@ -76,7 +76,7 @@ class TonesListViewController: NSViewController {
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdTone = self.tableData[index] as SVDTone
+			let svdTone = self.tableData[index]
 
 			for reg in svdTone.registrations {
 				if reg.regName != "INIT REGIST" {
@@ -104,19 +104,16 @@ class TonesListViewController: NSViewController {
 
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 
-		var regList = regSet.allObjects as NSArray
-		regList = regList.sortedArrayUsingDescriptors([sortDesc])
+		var regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
+		var liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
 
-		var liveList = liveSet.allObjects as NSArray
-		liveList = liveList.sortedArrayUsingDescriptors([sortDesc])
-
-		self.regsTableData.removeAllObjects()
-		self.regsTableData.addObjectsFromArray(regList)
+		self.regsTableData.removeAll(keepCapacity: true)
+		self.regsTableData += regList
 
 		self.regsTableView.reloadData()
 
-		self.livesTableData.removeAllObjects()
-		self.livesTableData.addObjectsFromArray(liveList)
+		self.livesTableData.removeAll(keepCapacity: true)
+		self.livesTableData += liveList
 
 		self.livesTableView.reloadData()
 	}
@@ -127,7 +124,7 @@ class TonesListViewController: NSViewController {
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
 		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
 
-		if let svdFile = self.svdFile? {
+		if let svdFile = self.svdFile {
 			if segmentTag == 1 {
 				filteredTones = svdFile.tones
 			} else if segmentTag == 2 {
@@ -198,13 +195,13 @@ class TonesListViewController: NSViewController {
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as NSTableCellView
+		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdTone = self.tableData[row] as SVDTone
+		let svdTone = self.tableData[row]
 
 		if tableView == self.tonesTableView {
 			if tableColumn == self.nameColumn {
@@ -252,18 +249,18 @@ class TonesListViewController: NSViewController {
 
 	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
 		if tableView == self.livesTableView {
-			self.livesTableData.sortUsingDescriptors(tableView.sortDescriptors)
+			self.livesTableData = (self.livesTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDLiveSet]
 		} else if tableView == self.regsTableView {
-			self.regsTableData.sortUsingDescriptors(tableView.sortDescriptors)
+			self.regsTableData = (self.regsTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData.sortUsingDescriptors(tableView.sortDescriptors)
+			self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDTone]
 		}
 
 		tableView.reloadData()
 	}
 
 	func tableViewSelectionDidChange(aNotification: NSNotification) {
-		let tableView = aNotification.object as NSTableView
+		let tableView = aNotification.object as! NSTableView
 
 		if tableView == self.tonesTableView {
 			self.buildDependencyList()
@@ -280,7 +277,7 @@ class TonesListViewController: NSViewController {
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if countElements(text) > 0 {
+					if count(text) > 0 {
 						if let order = text.toInt() {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
@@ -318,7 +315,7 @@ class TonesListViewController: NSViewController {
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
 							if let order = text.toInt() {
@@ -339,28 +336,26 @@ class TonesListViewController: NSViewController {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if countElements(text) > 0 {
+						if count(text) > 0 {
 							var index = 0
 
-							for object in self.tableData {
-								if let svdTone = object as? SVDTone {
-									var name: String
+							for svdTone in self.tableData {
+								var name: String
 
-									if textField == self.nameTextField {
-										name = svdTone.toneName
-									} else if textField == self.partial1TextField {
-										name = svdTone.partial1Name
-									} else if textField == self.partial2TextField {
-										name = svdTone.partial2Name
-									} else if textField == self.partial3TextField {
-										name = svdTone.partial3Name
-									} else {
-										break // unsupported field
-									}
+								if textField == self.nameTextField {
+									name = svdTone.toneName
+								} else if textField == self.partial1TextField {
+									name = svdTone.partial1Name
+								} else if textField == self.partial2TextField {
+									name = svdTone.partial2Name
+								} else if textField == self.partial3TextField {
+									name = svdTone.partial3Name
+								} else {
+									break // unsupported field
+								}
 
-									if name.lowercaseString.hasPrefix(text) {
-										indices.append(index)
-									}
+								if name.lowercaseString.hasPrefix(text) {
+									indices.append(index)
 								}
 
 								index++
@@ -380,7 +375,7 @@ class TonesListViewController: NSViewController {
 						self.tonesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 
 						// Scroll to the first matched row
-						if let index = indices.first? {
+						if let index = indices.first {
 							let rect = self.tonesTableView.rectOfRow(index)
 							self.tonesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}
