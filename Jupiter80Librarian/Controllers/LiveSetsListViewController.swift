@@ -66,7 +66,7 @@ class LiveSetsListViewController: NSViewController {
 
 	func buildDependencyList() {
 		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
-		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -80,7 +80,7 @@ class LiveSetsListViewController: NSViewController {
 		}
 
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		var regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
+		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
 
 		self.regsTableData.removeAll(keepCapacity: true)
 		self.regsTableData += regList
@@ -92,7 +92,7 @@ class LiveSetsListViewController: NSViewController {
 		var filteredLiveSets: [SVDLiveSet] = []
 
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
+		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
 		if let svdFile = self.svdFile {
 			if segmentTag == 1 {
@@ -169,7 +169,7 @@ class LiveSetsListViewController: NSViewController {
 	}
 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
+		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 
 		result.textField?.textColor = NSColor.blackColor()
 
@@ -255,8 +255,8 @@ class LiveSetsListViewController: NSViewController {
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if count(text) > 0 {
-						if let order = text.toInt() {
+					if text.characters.count > 0 {
+						if let order = Int(text) {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
@@ -293,10 +293,10 @@ class LiveSetsListViewController: NSViewController {
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
-							if let order = text.toInt() {
+							if let order = Int(text) {
 								for svdReg in self.tableData {
 									if svdReg.orderNr == order {
 										indices.append(index)
@@ -314,7 +314,7 @@ class LiveSetsListViewController: NSViewController {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
 							for svdLive in self.tableData {
@@ -345,7 +345,7 @@ class LiveSetsListViewController: NSViewController {
 
 					// If any rows were matched
 					if indices.count > 0 {
-						var indexSet = NSMutableIndexSet()
+						let indexSet = NSMutableIndexSet()
 
 						for index in indices {
 							indexSet.addIndex(index)

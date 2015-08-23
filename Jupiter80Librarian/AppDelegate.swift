@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		switch(status) {
 		case NSFileHandlingPanelOKButton:
-			fileURL = openPanel.URLs.first as? NSURL
+			fileURL = openPanel.URLs.first as NSURL!
 			self.model!.fileName = fileURL?.lastPathComponent
 			NSNotificationCenter.defaultCenter().postNotificationName("svdFileWasChosen", object: nil)
 			openPanel.close()
@@ -50,7 +50,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				NSLog("fileURL: %@", fileURL!)
 
 				var error: NSError?
-				let fileData = NSData(contentsOfURL: fileURL!, options: nil, error: &error)
+				let fileData: NSData?
+				do {
+					fileData = try NSData(contentsOfURL: fileURL!, options: [])
+				} catch let error1 as NSError {
+					error = error1
+					fileData = nil
+				} catch {
+					fatalError()
+				}
 
 				if fileData != nil && error == nil {
 					NSLog("file length: %d", fileData!.length)

@@ -71,8 +71,8 @@ class TonesListViewController: NSViewController {
 
 	func buildDependencyList() {
 		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
-		var regSet = NSMutableSet(capacity: selectedRowIndexes.count)
-		var liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
+		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -104,8 +104,8 @@ class TonesListViewController: NSViewController {
 
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 
-		var regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
-		var liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
+		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
+		let liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
 
 		self.regsTableData.removeAll(keepCapacity: true)
 		self.regsTableData += regList
@@ -122,7 +122,7 @@ class TonesListViewController: NSViewController {
 		var filteredTones: [SVDTone] = []
 
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = self.dependencySegmentedControl.cell()?.tagForSegment(selectedSegment)
+		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
 		if let svdFile = self.svdFile {
 			if segmentTag == 1 {
@@ -195,7 +195,7 @@ class TonesListViewController: NSViewController {
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
+		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
 		var columnValue: String = ""
@@ -277,8 +277,8 @@ class TonesListViewController: NSViewController {
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if count(text) > 0 {
-						if let order = text.toInt() {
+					if text.characters.count > 0 {
+						if let order = Int(text) {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
@@ -315,10 +315,10 @@ class TonesListViewController: NSViewController {
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
-							if let order = text.toInt() {
+							if let order = Int(text) {
 								for svdReg in self.tableData {
 									if svdReg.orderNr == order {
 										indices.append(index)
@@ -336,7 +336,7 @@ class TonesListViewController: NSViewController {
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
 							for svdTone in self.tableData {
@@ -365,7 +365,7 @@ class TonesListViewController: NSViewController {
 
 					// If any rows were matched
 					if indices.count > 0 {
-						var indexSet = NSMutableIndexSet()
+						let indexSet = NSMutableIndexSet()
 
 						for index in indices {
 							indexSet.addIndex(index)

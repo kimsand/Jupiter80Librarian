@@ -112,7 +112,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		var result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
+		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
 		let svdReg = self.tableData[row]
@@ -161,7 +161,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		return result
 	}
 
-	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
 		self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
 		tableView.reloadData()
 	}
@@ -176,8 +176,8 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 				let text = textField.stringValue
 
 				if self.tableData.count > 0 {
-					if count(text) > 0 {
-						if let order = text.toInt() {
+					if text.characters.count > 0 {
+						if let order = Int(text) {
 							// The number is valid if it is between the min and max nr of rows
 							if order >= 1 && order <= self.tableData.count {
 								isValidTextField = true
@@ -214,10 +214,10 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						let text = textField.stringValue
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
-							if let order = text.toInt() {
+							if let order = Int(text) {
 								for svdReg in self.tableData {
 									if svdReg.orderNr == order {
 										indices.append(index)
@@ -235,7 +235,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 						let text = textField.stringValue.lowercaseString
 
 						// Only process the text field when text was entered
-						if count(text) > 0 {
+						if text.characters.count > 0 {
 							var index = 0
 
 							for svdReg in self.tableData {
@@ -266,7 +266,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 					// If any rows were matched
 					if indices.count > 0 {
-						var indexSet = NSMutableIndexSet()
+						let indexSet = NSMutableIndexSet()
 
 						for index in indices {
 							indexSet.addIndex(index)

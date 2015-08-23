@@ -21,7 +21,7 @@ class ListWindowController: NSWindowController {
 	func svdFileWasChosen(notification: NSNotification) {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			if Model.singleton.fileName != nil {
-				self.window!.title = Model.singleton.fileName
+				self.window!.title = Model.singleton.fileName!
 			}
 		}
 	}

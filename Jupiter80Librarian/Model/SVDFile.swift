@@ -272,9 +272,9 @@ class SVDFile: NSObject {
 		var number: Int = Int(bytes.last!)
 
 		var iteration = 0
-		var restBytes = bytes[0...bytes.count - 2]
+		let restBytes = bytes[0...bytes.count - 2]
 
-		for byte in restBytes.reverse() {
+		for byte in Array(restBytes.reverse()) {
 			let convertedNumber = Int(byte) * Int(pow(Double(2), Double(nrOfBits + iteration)))
 			number += convertedNumber
 			iteration++
@@ -315,7 +315,7 @@ class SVDFile: NSObject {
 		var byteIndex = 0
 		var bitmaskIndex = 0
 
-		for index in 0..<byteStruct.length {
+		for _ in 0..<byteStruct.length {
 			var twoBytes: UInt16 = 0x0
 			byteData.getBytes(&twoBytes, range: NSRange(location: byteIndex, length: 2))
 			twoBytes = twoBytes.bigEndian
@@ -358,7 +358,7 @@ class SVDFile: NSObject {
 	}
 
 	func stringFromShiftedBytes(byteStruct: SVDBytes) -> String {
-		var data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = self.unshiftedBytesFromBytes(byteStruct)
 
 		let dataString = self.stringFromData(data)
 
@@ -366,13 +366,13 @@ class SVDFile: NSObject {
 	}
 
 	func stringFromData(data: NSData) -> String {
-		var dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)! as String
+		let dataString: String = NSString(data: data, encoding: NSASCIIStringEncoding)! as String
 
 		return dataString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
 
 	func partMapKeyFromShiftedBytes(byteStruct: SVDBytes, location: Int) -> String {
-		var data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = self.unshiftedBytesFromBytes(byteStruct)
 
 		let partMapKey = self.partMapKeyFromData(data, location: location)
 
@@ -392,7 +392,7 @@ class SVDFile: NSObject {
 	}
 
 	func hexStringFromShiftedBytes(byteStruct: SVDBytes) -> String {
-		var data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = self.unshiftedBytesFromBytes(byteStruct)
 
 		var byteArray = [UInt8](count: data.length, repeatedValue: 0x0)
 		data.getBytes(&byteArray, length:data.length)
@@ -406,7 +406,7 @@ class SVDFile: NSObject {
 	}
 
 	func pcmMapKeyFromNibbleBytes(byteStruct: SVDBytes) -> String {
-		var data = self.dataFromBytes(byteStruct)
+		let data = self.dataFromBytes(byteStruct)
 
 		var byteArray = [UInt8](count: 2, repeatedValue: 0x0)
 		data.getBytes(&byteArray, length:2)
@@ -492,7 +492,7 @@ class SVDFile: NSObject {
 	func partNameFromShiftedBytes(byteStruct: SVDBytes, partType: SVDPartType) -> String {
 		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType)
+		let partName = self.partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}
@@ -500,7 +500,7 @@ class SVDFile: NSObject {
 	func partNameFromData(byteData: NSData, partType: SVDPartType) -> String {
 		let partKey = self.partMapKeyFromData(byteData, location: 0)
 
-		var partName = self.partNameFromPartKey(partKey, partType: partType)
+		let partName = self.partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}
