@@ -14,6 +14,8 @@ class Model: NSObject {
 	var fileName: String?
 	var openedSVDFile: SVDFile?
 
+	var selectedLiveSets: [SVDLiveSet] = []
+
 	class var singleton: Model {
 		return sharedInstance
 	}

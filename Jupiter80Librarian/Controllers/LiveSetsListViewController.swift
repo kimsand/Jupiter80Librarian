@@ -8,6 +8,13 @@
 
 import Cocoa
 
+enum DependencySegment: Int {
+	case All = 1
+	case Selected
+	case Used
+	case Unused
+}
+
 class LiveSetsListViewController: NSViewController {
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
@@ -58,10 +65,28 @@ class LiveSetsListViewController: NSViewController {
 		}
 	}
 
+	func indexSetFromLiveSets(liveSets: [SVDLiveSet]) -> NSIndexSet {
+		let indexSet = NSMutableIndexSet()
+
+		// Keep selection when updating the list view
+		for liveSet in Model.singleton.selectedLiveSets {
+			let index = self.tableData.indexOf(liveSet)
+
+			if index != nil {
+				indexSet.addIndex(index!)
+			}
+		}
+
+		return indexSet
+	}
+
 	func updateTableFromList(liveSets: [SVDLiveSet]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += liveSets
 		self.livesTableView.reloadData()
+
+		let indexSet = self.indexSetFromLiveSets(liveSets)
+		self.livesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
 	func buildDependencyList() {
@@ -88,6 +113,46 @@ class LiveSetsListViewController: NSViewController {
 		self.regsTableView.reloadData()
 	}
 
+	func buildSelectionListFromIndexSet(indexSet: NSIndexSet) {
+		var selectedLiveSets: [SVDLiveSet] = []
+
+		for index in indexSet {
+			let svdLive = self.tableData[index]
+			selectedLiveSets.append(svdLive)
+		}
+
+		var unselectedLiveSets: [SVDLiveSet] = []
+
+		for liveSet in Model.singleton.selectedLiveSets {
+			if selectedLiveSets.indexOf(liveSet) == nil
+				&& self.tableData.indexOf(liveSet) != nil {
+					unselectedLiveSets.append(liveSet)
+			}
+		}
+
+		// Add rows that are newly selected
+		for liveSet in selectedLiveSets {
+			if unselectedLiveSets.indexOf(liveSet) == nil {
+				if Model.singleton.selectedLiveSets.indexOf(liveSet) == nil {
+					Model.singleton.selectedLiveSets.append(liveSet)
+				}
+			}
+		}
+
+		// Remove rows that are newly unselected
+		for liveSet in unselectedLiveSets {
+			let foundIndex = Model.singleton.selectedLiveSets.indexOf(liveSet)
+
+			if foundIndex != nil {
+				Model.singleton.selectedLiveSets.removeAtIndex(foundIndex!)
+			}
+		}
+
+		// Sort the array by orderNr when done updating
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+		Model.singleton.selectedLiveSets = (Model.singleton.selectedLiveSets as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
+	}
+
 	func filterDependencies() {
 		var filteredLiveSets: [SVDLiveSet] = []
 
@@ -95,21 +160,26 @@ class LiveSetsListViewController: NSViewController {
 		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
 		if let svdFile = self.svdFile {
-			if segmentTag == 1 {
+			switch segmentTag {
+			case DependencySegment.All.rawValue:
 				filteredLiveSets = svdFile.liveSets
-			} else if segmentTag == 2 {
+			case DependencySegment.Selected.rawValue:
+				for svdLive in Model.singleton.selectedLiveSets {
+					filteredLiveSets.append(svdLive)
+				}
+			case DependencySegment.Used.rawValue:
 				for svdLive in svdFile.liveSets {
 					if svdLive.registrations.count > 0 {
 						filteredLiveSets.append(svdLive)
 					}
 				}
-			} else if segmentTag == 3 {
+			case DependencySegment.Unused.rawValue:
 				for svdLive in svdFile.liveSets {
 					if svdLive.registrations.count <= 0 {
 						filteredLiveSets.append(svdLive)
 					}
 				}
-			} else {
+			default:
 				return
 			}
 		}
@@ -237,10 +307,38 @@ class LiveSetsListViewController: NSViewController {
 		tableView.reloadData()
 	}
 
+	func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
+
+		// Extend previously selected indexes with proposed selections
+		let indexSet = self.indexSetFromLiveSets(Model.singleton.selectedLiveSets)
+
+		// Re-selecting a row toggles it to unselected
+		let combinedIndexSet = NSMutableIndexSet()
+
+		// Add proposed selections unless previously selected (thereby toggling)
+		for index in proposedSelectionIndexes {
+			if !indexSet.containsIndex(index) {
+				combinedIndexSet.addIndex(index)
+			}
+		}
+
+		// Add previous selections unless proposed selected (thereby toggling)
+		for index in indexSet {
+			if !proposedSelectionIndexes.containsIndex(index) {
+				combinedIndexSet.addIndex(index)
+			}
+		}
+
+		return combinedIndexSet
+	}
+
 	func tableViewSelectionDidChange(aNotification: NSNotification) {
 		let tableView = aNotification.object as! NSTableView
 
 		if tableView == self.livesTableView {
+			let selectedRowIndexes = tableView.selectedRowIndexes
+			self.buildSelectionListFromIndexSet(selectedRowIndexes)
+
 			self.buildDependencyList()
 		}
 	}
