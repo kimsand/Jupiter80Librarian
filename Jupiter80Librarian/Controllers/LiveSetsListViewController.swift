@@ -308,32 +308,39 @@ class LiveSetsListViewController: NSViewController {
 	}
 
 	func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
-
 		// Extend previously selected indexes with proposed selections
 		let indexSet = self.indexSetFromLiveSets(Model.singleton.selectedLiveSets)
 
 		// Re-selecting a row toggles it to unselected
 		let combinedIndexSet = NSMutableIndexSet()
 
-		// Add proposed selections unless previously selected (thereby toggling)
-		for index in proposedSelectionIndexes {
-			if !indexSet.containsIndex(index) {
-				combinedIndexSet.addIndex(index)
-			}
+		// When selecting multiple, append to existing
+		if proposedSelectionIndexes.count > 1 {
+			combinedIndexSet.addIndexes(proposedSelectionIndexes)
+			combinedIndexSet.addIndexes(indexSet)
 		}
+		// When selecting one, remove if already selected, otherwise append to existing
+		else {
+			// Add proposed selections unless previously selected (thereby toggling)
+			for index in proposedSelectionIndexes {
+				if !indexSet.containsIndex(index) {
+					combinedIndexSet.addIndex(index)
+				}
+			}
 
-		// Add previous selections unless proposed selected (thereby toggling)
-		for index in indexSet {
-			if !proposedSelectionIndexes.containsIndex(index) {
-				combinedIndexSet.addIndex(index)
+			// Add previous selections unless proposed selected (thereby toggling)
+			for index in indexSet {
+				if !proposedSelectionIndexes.containsIndex(index) {
+					combinedIndexSet.addIndex(index)
+				}
 			}
 		}
 
 		return combinedIndexSet
 	}
 
-	func tableViewSelectionDidChange(aNotification: NSNotification) {
-		let tableView = aNotification.object as! NSTableView
+	func tableViewSelectionDidChange(notification: NSNotification) {
+		let tableView = notification.object as! NSTableView
 
 		if tableView == self.livesTableView {
 			let selectedRowIndexes = tableView.selectedRowIndexes
