@@ -18,6 +18,7 @@
 		E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */; };
 		E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */; };
 		E8B2BF4E1A3794CA00FC669D /* SVDTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B2BF4D1A3794CA00FC669D /* SVDTone.swift */; };
+		E8D493EA1C4B7A3500763598 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D493E91C4B7A3500763598 /* Macros.swift */; };
 		E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */; };
 		E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */; };
 		E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 		E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDRegistration.swift; path = Model/SVDRegistration.swift; sourceTree = "<group>"; };
 		E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDLiveSet.swift; path = Model/SVDLiveSet.swift; sourceTree = "<group>"; };
 		E8B2BF4D1A3794CA00FC669D /* SVDTone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDTone.swift; path = Model/SVDTone.swift; sourceTree = "<group>"; };
+		E8D493E91C4B7A3500763598 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Macros.swift; path = Utility/Macros.swift; sourceTree = "<group>"; };
 		E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jupiter80Librarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E4AB6B1A1D131C00FCF1B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,14 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E8D493EB1C4B7A4300763598 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				E8D493E91C4B7A3500763598 /* Macros.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		E8E4AB5E1A1D131C00FCF1B5 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +142,7 @@
 				E89EC65B1A342BB40076FE95 /* Controllers */,
 				E89EC6611A34320A0076FE95 /* Model */,
 				E8E4AB6A1A1D131C00FCF1B5 /* Supporting Files */,
+				E8D493EB1C4B7A4300763598 /* Utility */,
 				E89EC6601A342C8B0076FE95 /* Views */,
 			);
 			path = Jupiter80Librarian;
@@ -274,6 +285,7 @@
 				E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */,
 				E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */,
 				E8546FF91A461ABA009EF6E3 /* ListWindowController.swift in Sources */,
+				E8D493EA1C4B7A3500763598 /* Macros.swift in Sources */,
 				E8B2BF4E1A3794CA00FC669D /* SVDTone.swift in Sources */,
 				E82402481A3D7DF000FA4F09 /* Model.swift in Sources */,
 			);
