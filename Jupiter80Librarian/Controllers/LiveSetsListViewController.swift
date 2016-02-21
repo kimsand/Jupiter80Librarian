@@ -97,11 +97,7 @@ class LiveSetsListViewController: NSViewController {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
 			let svdLive = self.tableData[index]
 
-			for reg in svdLive.registrations {
-				if reg.regName != "INIT REGIST" {
-					regSet.addObject(reg)
-				}
-			}
+			regSet.addObjectsFromArray(svdLive.registrations)
 		}
 
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)

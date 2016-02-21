@@ -44,7 +44,10 @@ class SVDLiveSet: NSObject {
 	}
 
 	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
-		self.registrations.append(svdRegistration)
+		// Ignore Registrations that are not initialized
+		if svdRegistration.regName != "INIT REGIST" {
+			self.registrations.append(svdRegistration)
+		}
 	}
 
 	func findDependencies() {

@@ -103,26 +103,13 @@ class TonesListViewController: NSViewController {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
 			let svdTone = self.tableData[index]
 
-			for reg in svdTone.registrations {
-				if reg.regName != "INIT REGIST" {
-					regSet.addObject(reg)
-				}
-			}
-
-			for live in svdTone.liveSets {
-				if live.liveName != "INIT LIVESET" {
-					liveSet.addObject(live)
-				}
-			}
+			regSet.addObjectsFromArray(svdTone.registrations)
+			liveSet.addObjectsFromArray(svdTone.liveSets)
 
 			// If selected, also add registrations from live sets using the tone
 			if self.livesRegsCheckButton.state == NSOnState {
 				for live in svdTone.liveSets {
-					for reg in live.registrations {
-						if reg.regName != "INIT REGIST" {
-							regSet.addObject(reg)
-						}
-					}
+					regSet.addObjectsFromArray(live.registrations)
 				}
 			}
 		}
