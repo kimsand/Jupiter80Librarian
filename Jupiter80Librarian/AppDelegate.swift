@@ -20,6 +20,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		// Insert code here to tear down your application
 	}
 
+	func application(sender: NSApplication, openFile filename: String) -> Bool {
+		let fileURL = NSURL(fileURLWithPath: filename)
+		self.openFileURL(fileURL)
+
+		return true
+	}
+
 	func openDocument(sender: AnyObject) {
 		let openPanel = NSOpenPanel()
 
@@ -34,9 +41,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		switch(status) {
 		case NSFileHandlingPanelOKButton:
 			fileURL = openPanel.URLs.first as NSURL!
-			self.model!.fileName = fileURL?.lastPathComponent
-			NSNotificationCenter.defaultCenter().postNotificationName("svdFileWasChosen", object: nil)
+
 			openPanel.close()
+
 		default:
 			return
 		}
@@ -46,31 +53,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			DISPATCH_TIME_NOW,
 			Int64(0.2 * Double(NSEC_PER_SEC))
 			), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-			if fileURL != nil {
-				NSLog("fileURL: %@", fileURL!)
-
-				var error: NSError?
-				let fileData: NSData?
-				do {
-					fileData = try NSData(contentsOfURL: fileURL!, options: [])
-				} catch let error1 as NSError {
-					error = error1
-					fileData = nil
-				} catch {
-					fatalError()
-				}
-
-				if fileData != nil && error == nil {
-					NSLog("file length: %d", fileData!.length)
-
-					let svdFile = SVDFile(fileData: fileData!)
-					self.model!.openedSVDFile = svdFile
-
-					NSNotificationCenter.defaultCenter().postNotificationName("svdFileDidUpdate", object: nil)
-				} else if error != nil {
-					NSLog("error: %@", error!)
-				}
+			if let fileURL = fileURL {
+				self.openFileURL(fileURL)
 			}
 		})
+	}
+
+	func openFileURL(fileURL: NSURL) {
+		self.model!.fileName = fileURL.lastPathComponent
+		NSNotificationCenter.defaultCenter().postNotificationName("svdFileWasChosen", object: nil)
+		NSDocumentController.sharedDocumentController().noteNewRecentDocumentURL(fileURL)
+
+		NSLog("fileURL: %@", fileURL)
+
+		var error: NSError?
+		let fileData: NSData?
+		do {
+			fileData = try NSData(contentsOfURL: fileURL, options: [])
+		} catch let error1 as NSError {
+			error = error1
+			fileData = nil
+		} catch {
+			fatalError()
+		}
+
+		if fileData != nil && error == nil {
+			NSLog("file length: %d", fileData!.length)
+
+			let svdFile = SVDFile(fileData: fileData!)
+			self.model!.openedSVDFile = svdFile
+
+			NSNotificationCenter.defaultCenter().postNotificationName("svdFileDidUpdate", object: nil)
+		} else if error != nil {
+			NSLog("error: %@", error!)
+		}
 	}
 }
