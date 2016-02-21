@@ -77,7 +77,10 @@ class SVDTone: NSObject {
 	}
 
 	func addDependencyToLiveSet(svdLiveSet: SVDLiveSet) {
-		self.liveSets.append(svdLiveSet)
+		// Ignore Live Sets that are not initialized
+		if svdLiveSet.liveName != "INIT LIVESET" {
+			self.liveSets.append(svdLiveSet)
+		}
 	}
 
 	func findPartialsFromBytes(byteStruct: SVDBytes, pcmBytes: SVDBytes) {
