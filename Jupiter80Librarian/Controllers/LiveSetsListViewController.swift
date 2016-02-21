@@ -8,14 +8,14 @@
 
 import Cocoa
 
-enum DependencySegment: Int {
-	case All = 1
-	case Selected
-	case Used
-	case Unused
-}
-
 class LiveSetsListViewController: NSViewController {
+	enum DependencySegment: Int {
+		case All = 1
+		case Selected
+		case Used
+		case Unused
+	}
+
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
 	@IBOutlet var layer1TextField: NSTextField!
@@ -247,9 +247,10 @@ class LiveSetsListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdLive = self.tableData[row]
 
 		if tableView == self.livesTableView {
+			let svdLive = self.tableData[row]
+
 			if tableColumn == self.nameColumn {
 				columnValue = svdLive.liveName
 				textColor = self.textColorForLiveSetName(columnValue)

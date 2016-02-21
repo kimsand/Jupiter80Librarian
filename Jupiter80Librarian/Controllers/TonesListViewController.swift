@@ -9,6 +9,13 @@
 import Cocoa
 
 class TonesListViewController: NSViewController {
+	enum DependencySegment: Int {
+		case All = 1
+		case Selected
+		case Used
+		case Unused
+	}
+
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
 	@IBOutlet var partial1TextField: NSTextField!
@@ -63,14 +70,32 @@ class TonesListViewController: NSViewController {
 		}
 	}
 
+	func indexSetFromTones(tones: [SVDTone]) -> NSIndexSet {
+		let indexSet = NSMutableIndexSet()
+
+		// Keep selection when updating the list view
+		for tone in Model.singleton.selectedTones {
+			let index = self.tableData.indexOf(tone)
+
+			if index != nil {
+				indexSet.addIndex(index!)
+			}
+		}
+
+		return indexSet
+	}
+
 	func updateTableFromList(tones: [SVDTone]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += tones
 		self.tonesTableView.reloadData()
+
+		let indexSet = self.indexSetFromTones(tones)
+		self.tonesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
 	func buildDependencyList() {
-		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
+		let selectedRowIndexes = self.indexSetFromTones(Model.singleton.selectedTones)
 		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
@@ -118,6 +143,47 @@ class TonesListViewController: NSViewController {
 		self.livesTableView.reloadData()
 	}
 
+	func buildSelectionList() {
+		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
+		var selectedTones: [SVDTone] = []
+
+		for index in selectedRowIndexes {
+			let svdTone = self.tableData[index]
+			selectedTones.append(svdTone)
+		}
+
+		var unselectedTones: [SVDTone] = []
+
+		for tone in Model.singleton.selectedTones {
+			if selectedTones.indexOf(tone) == nil
+				&& self.tableData.indexOf(tone) != nil {
+					unselectedTones.append(tone)
+			}
+		}
+
+		// Add rows that are newly selected
+		for tone in selectedTones {
+			if unselectedTones.indexOf(tone) == nil {
+				if Model.singleton.selectedTones.indexOf(tone) == nil {
+					Model.singleton.selectedTones.append(tone)
+				}
+			}
+		}
+
+		// Remove rows that are newly unselected
+		for liveSet in unselectedTones {
+			let foundIndex = Model.singleton.selectedTones.indexOf(liveSet)
+
+			if foundIndex != nil {
+				Model.singleton.selectedTones.removeAtIndex(foundIndex!)
+			}
+		}
+
+		// Sort the array by orderNr when done updating
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+		Model.singleton.selectedTones = (Model.singleton.selectedTones as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDTone]
+	}
+
 	func filterDependencies() {
 		var filteredTones: [SVDTone] = []
 
@@ -125,23 +191,28 @@ class TonesListViewController: NSViewController {
 		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
 		if let svdFile = self.svdFile {
-			if segmentTag == 1 {
+			switch segmentTag {
+			case DependencySegment.All.rawValue:
 				filteredTones = svdFile.tones
-			} else if segmentTag == 2 {
+			case DependencySegment.Selected.rawValue:
+				for svdTone in Model.singleton.selectedTones {
+					filteredTones.append(svdTone)
+				}
+			case DependencySegment.Used.rawValue:
 				for svdTone in svdFile.tones {
 					if svdTone.liveSets.count > 0
 					|| svdTone.registrations.count > 0 {
 						filteredTones.append(svdTone)
 					}
 				}
-			} else if segmentTag == 3 {
+			case DependencySegment.Unused.rawValue:
 				for svdTone in svdFile.tones {
 					if svdTone.liveSets.count <= 0
 					&& svdTone.registrations.count <= 0 {
 						filteredTones.append(svdTone)
 					}
 				}
-			} else {
+			default:
 				return
 			}
 		}
@@ -201,9 +272,9 @@ class TonesListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		let svdTone = self.tableData[row]
-
 		if tableView == self.tonesTableView {
+			let svdTone = self.tableData[row]
+
 			if tableColumn == self.nameColumn {
 				columnValue = svdTone.toneName
 				textColor = self.textColorForToneName(columnValue)
@@ -259,10 +330,11 @@ class TonesListViewController: NSViewController {
 		tableView.reloadData()
 	}
 
-	func tableViewSelectionDidChange(aNotification: NSNotification) {
-		let tableView = aNotification.object as! NSTableView
+	func tableViewSelectionDidChange(notification: NSNotification) {
+		let tableView = notification.object as! NSTableView
 
 		if tableView == self.tonesTableView {
+			self.buildSelectionList()
 			self.buildDependencyList()
 		}
 	}

@@ -15,6 +15,7 @@ class Model: NSObject {
 	var openedSVDFile: SVDFile?
 
 	var selectedLiveSets: [SVDLiveSet] = []
+	var selectedTones: [SVDTone] = []
 
 	class var singleton: Model {
 		return sharedInstance
