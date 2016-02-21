@@ -22,6 +22,9 @@ class ListWindowController: NSWindowController {
 		dispatch_async(dispatch_get_main_queue()) { () -> Void in
 			if Model.singleton.fileName != nil {
 				self.window!.title = Model.singleton.fileName!
+
+				// Make sure the window is visible, in case it has been closed
+				self.window!.makeKeyAndOrderFront(self)
 			}
 		}
 	}
