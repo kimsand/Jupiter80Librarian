@@ -328,40 +328,6 @@ class TonesListViewController: NSViewController {
 
 	// MARK: Text field
 
-	override func controlTextDidChange(obj: NSNotification) {
-		if let textField = obj.object as? NSTextField {
-			// The order field must contain a valid number
-			if textField == self.orderTextField {
-				var isValidTextField = false
-				let text = textField.stringValue
-
-				if self.tableData.count > 0 {
-					if text.characters.count > 0 {
-						if let order = Int(text) {
-							// The number is valid if it is between the min and max nr of rows
-							if order >= 1 && order <= self.tableData.count {
-								isValidTextField = true
-							}
-						}
-					}
-					// The number is valid if the field is empty
-					else {
-						isValidTextField = true
-					}
-				}
-
-				// Store the entered number if it is valid
-				if isValidTextField == true {
-					self.lastValidOrderText = text
-				}
-				// Restore the last valid number if the current is invalid
-				else {
-					textField.stringValue = self.lastValidOrderText
-				}
-			}
-		}
-	}
-
 	override func controlTextDidEndEditing(obj: NSNotification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
 			// Only process the text field when the Return key was pressed
@@ -387,6 +353,12 @@ class TonesListViewController: NSViewController {
 									index++
 								}
 							}
+						}
+
+						// Scroll to the first matched row
+						if let index = indices.first {
+							let rect = self.tonesTableView.rectOfRow(index)
+							self.tonesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}
 					}
 					// The other fields match any number of rows containing the text
@@ -424,20 +396,18 @@ class TonesListViewController: NSViewController {
 
 					// If any rows were matched
 					if indices.count > 0 {
-						let indexSet = NSMutableIndexSet()
+						var filteredTones: [SVDTone] = []
 
 						for index in indices {
-							indexSet.addIndex(index)
+							let tone = self.tableData[index]
+							filteredTones.append(tone)
 						}
 
-						// Select all matched rows
-						self.tonesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
-
-						// Scroll to the first matched row
-						if let index = indices.first {
-							let rect = self.tonesTableView.rectOfRow(index)
-							self.tonesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
-						}
+						self.updateTableFromList(filteredTones)
+					}
+				} else {
+					if let allTones = svdFile?.tones {
+						self.updateTableFromList(allTones)
 					}
 				}
 			}

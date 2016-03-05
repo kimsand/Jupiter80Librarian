@@ -14,6 +14,7 @@ class Model: NSObject {
 	var fileName: String?
 	var openedSVDFile: SVDFile?
 
+	var selectedRegistrations: [SVDRegistration] = []
 	var selectedLiveSets: [SVDLiveSet] = []
 	var selectedTones: [SVDTone] = []
 

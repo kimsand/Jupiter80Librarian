@@ -9,6 +9,11 @@
 import Cocoa
 
 class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+	enum DependencySegment: Int {
+		case All = 1
+		case Selected
+	}
+
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
 	@IBOutlet var upperTextField: NSTextField!
@@ -23,6 +28,8 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	@IBOutlet var lowerColumn: NSTableColumn!
 	@IBOutlet var soloColumn: NSTableColumn!
 	@IBOutlet var percColumn: NSTableColumn!
+
+	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
@@ -52,6 +59,93 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		}
 
 		self.regsTableView.reloadData()
+	}
+
+	func indexSetFromRegistrations(registrations: [SVDRegistration]) -> NSIndexSet {
+		let indexSet = NSMutableIndexSet()
+
+		// Keep selection when updating the list view
+		for liveSet in Model.singleton.selectedRegistrations {
+			let index = self.tableData.indexOf(liveSet)
+
+			if index != nil {
+				indexSet.addIndex(index!)
+			}
+		}
+
+		return indexSet
+	}
+
+	func updateTableFromList(registrations: [SVDRegistration]) {
+		self.tableData.removeAll(keepCapacity: true)
+		self.tableData += registrations
+		self.regsTableView.reloadData()
+
+		let indexSet = self.indexSetFromRegistrations(registrations)
+		self.regsTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+	}
+
+	func buildSelectionList() {
+		let selectedRowIndexes = self.regsTableView.selectedRowIndexes
+		var selectedRegs: [SVDRegistration] = []
+
+		for index in selectedRowIndexes {
+			let svdLive = self.tableData[index]
+			selectedRegs.append(svdLive)
+		}
+
+		var unselectedRegs: [SVDRegistration] = []
+
+		for registration in Model.singleton.selectedRegistrations {
+			if selectedRegs.indexOf(registration) == nil
+				&& self.tableData.indexOf(registration) != nil {
+					unselectedRegs.append(registration)
+			}
+		}
+
+		// Add rows that are newly selected
+		for registration in selectedRegs {
+			if unselectedRegs.indexOf(registration) == nil {
+				if Model.singleton.selectedRegistrations.indexOf(registration) == nil {
+					Model.singleton.selectedRegistrations.append(registration)
+				}
+			}
+		}
+
+		// Remove rows that are newly unselected
+		for liveSet in unselectedRegs {
+			let foundIndex = Model.singleton.selectedRegistrations.indexOf(liveSet)
+
+			if foundIndex != nil {
+				Model.singleton.selectedRegistrations.removeAtIndex(foundIndex!)
+			}
+		}
+
+		// Sort the array by orderNr when done updating
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+		Model.singleton.selectedRegistrations = (Model.singleton.selectedRegistrations as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
+	}
+
+	func filterDependencies() {
+		var filteredRegs: [SVDRegistration] = []
+
+		let selectedSegment = self.dependencySegmentedControl.selectedSegment
+		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
+
+		if let svdFile = self.svdFile {
+			switch segmentTag {
+			case DependencySegment.All.rawValue:
+				filteredRegs = svdFile.registrations
+			case DependencySegment.Selected.rawValue:
+				for svdReg in Model.singleton.selectedRegistrations {
+					filteredRegs.append(svdReg)
+				}
+			default:
+				return
+			}
+		}
+
+		self.updateTableFromList(filteredRegs)
 	}
 
 	func textColorForPartType(partType: SVDPartType) -> NSColor {
@@ -166,41 +260,15 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		tableView.reloadData()
 	}
 
-	// MARK: Text field
+	func tableViewSelectionDidChange(notification: NSNotification) {
+		let tableView = notification.object as! NSTableView
 
-	override func controlTextDidChange(obj: NSNotification) {
-		if let textField = obj.object as? NSTextField {
-			// The order field must contain a valid number
-			if textField == self.orderTextField {
-				var isValidTextField = false
-				let text = textField.stringValue
-
-				if self.tableData.count > 0 {
-					if text.characters.count > 0 {
-						if let order = Int(text) {
-							// The number is valid if it is between the min and max nr of rows
-							if order >= 1 && order <= self.tableData.count {
-								isValidTextField = true
-							}
-						}
-					}
-					// The number is valid if the field is empty
-					else {
-						isValidTextField = true
-					}
-				}
-
-				// Store the entered number if it is valid
-				if isValidTextField == true {
-					self.lastValidOrderText = text
-				}
-				// Restore the last valid number if the current is invalid
-				else {
-					textField.stringValue = self.lastValidOrderText
-				}
-			}
+		if tableView == self.regsTableView {
+			self.buildSelectionList()
 		}
 	}
+
+	// MARK: Text field
 
 	override func controlTextDidEndEditing(obj: NSNotification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
@@ -226,6 +294,12 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 									index++
 								}
+							}
+
+							// Scroll to the first matched row
+							if let index = indices.first {
+								let rect = self.regsTableView.rectOfRow(index)
+								self.regsTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 							}
 						}
 					}
@@ -261,29 +335,33 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 								index++
 							}
-						}
-					}
 
-					// If any rows were matched
-					if indices.count > 0 {
-						let indexSet = NSMutableIndexSet()
+							// If any rows were matched
+							if indices.count > 0 {
+								var filteredRegs: [SVDRegistration] = []
 
-						for index in indices {
-							indexSet.addIndex(index)
-						}
+								for index in indices {
+									let reg = self.tableData[index]
+									filteredRegs.append(reg)
+								}
 
-						// Select all matched rows
-						self.regsTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
-
-						// Scroll to the first matched row
-						if let index = indices.first {
-							let rect = self.regsTableView.rectOfRow(index)
-							self.regsTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+								self.updateTableFromList(filteredRegs)
+							}
+						} else {
+							if let allRegs = svdFile?.registrations {
+								self.updateTableFromList(allRegs)
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	// MARK: Actions
+
+	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+		self.filterDependencies()
 	}
 
 	// MARK: Notifications

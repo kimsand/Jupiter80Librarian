@@ -240,13 +240,13 @@
                                 </connections>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-pY-YV9" userLabel="Registrations List Scroll View">
-                                <rect key="frame" x="8" y="8" width="680" height="362"/>
+                                <rect key="frame" x="8" y="29" width="680" height="341"/>
                                 <clipView key="contentView" id="5qS-B2-psh">
-                                    <rect key="frame" x="1" y="0.0" width="678" height="361"/>
+                                    <rect key="frame" x="1" y="0.0" width="678" height="340"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="BXz-sl-4ov" viewBased="YES" id="wmi-dU-VAB">
-                                            <rect key="frame" x="0.0" y="0.0" width="678" height="338"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="678" height="317"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -511,28 +511,54 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NKg-Je-Ilr">
+                                <rect key="frame" x="53" y="2" width="155" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Cwa-bI-u9A">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="All" width="74" selected="YES" tag="1"/>
+                                        <segment label="Selected" width="74" tag="2"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="dependencySegmentedControlAction:" target="3Ww-72-gvd" id="kzy-QH-C3S"/>
+                                </connections>
+                            </segmentedControl>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ct6-Sw-b04">
+                                <rect key="frame" x="8" y="7" width="41" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show:" id="7hb-aB-S1n">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="xgZ-f6-Fov" firstAttribute="top" secondItem="eTY-Zw-Jqg" secondAttribute="top" id="83X-OR-Sly"/>
                             <constraint firstItem="eTY-Zw-Jqg" firstAttribute="leading" secondItem="zRL-cR-TgN" secondAttribute="trailing" constant="3" id="9sZ-Fe-TVS"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="8" id="ARV-3a-GhK"/>
                             <constraint firstItem="KgT-2T-3Hi" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="GHm-bA-2gt"/>
+                            <constraint firstItem="NKg-Je-Ilr" firstAttribute="top" secondItem="Kap-pY-YV9" secondAttribute="bottom" constant="4" id="JiJ-pg-2Dq"/>
                             <constraint firstItem="XI6-Db-D9A" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="M56-2Y-lo9"/>
+                            <constraint firstItem="ct6-Sw-b04" firstAttribute="centerY" secondItem="NKg-Je-Ilr" secondAttribute="centerY" constant="-1" id="avM-Sz-nhg"/>
                             <constraint firstItem="XI6-Db-D9A" firstAttribute="leading" secondItem="KgT-2T-3Hi" secondAttribute="trailing" constant="3" id="bsd-hS-LN6"/>
-                            <constraint firstAttribute="bottom" secondItem="Kap-pY-YV9" secondAttribute="bottom" constant="8" id="cwz-tG-dgT"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="bottom" constant="4" id="dIh-KL-Wis"/>
                             <constraint firstItem="Xw6-AB-64C" firstAttribute="leading" secondItem="xgZ-f6-Fov" secondAttribute="trailing" constant="3" id="fQd-ZS-zBc"/>
                             <constraint firstItem="Xw6-AB-64C" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="hPq-rl-Lci"/>
+                            <constraint firstItem="NKg-Je-Ilr" firstAttribute="leading" secondItem="ct6-Sw-b04" secondAttribute="trailing" constant="8" id="hbq-5Y-Io6"/>
                             <constraint firstAttribute="trailing" secondItem="Kap-pY-YV9" secondAttribute="trailing" constant="8" id="iIv-8r-ozW"/>
                             <constraint firstItem="KgT-2T-3Hi" firstAttribute="leading" secondItem="eTY-Zw-Jqg" secondAttribute="trailing" constant="3" id="loS-wb-jQH"/>
                             <constraint firstItem="zRL-cR-TgN" firstAttribute="leading" secondItem="Xw6-AB-64C" secondAttribute="trailing" constant="3" id="mOu-Mq-rw4"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="trailing" secondItem="XI6-Db-D9A" secondAttribute="trailing" constant="3" id="oi0-vI-Nmp"/>
                             <constraint firstItem="zRL-cR-TgN" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="rk1-2Z-XcD"/>
+                            <constraint firstAttribute="bottom" secondItem="NKg-Je-Ilr" secondAttribute="bottom" constant="4" id="vlO-fp-eO0"/>
                             <constraint firstItem="xgZ-f6-Fov" firstAttribute="top" secondItem="qlx-up-juK" secondAttribute="top" constant="4" id="xdy-UX-Xlc"/>
+                            <constraint firstItem="ct6-Sw-b04" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="10" id="zP0-uN-Oz8"/>
                             <constraint firstItem="xgZ-f6-Fov" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="10" id="zQa-YL-249"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dependencySegmentedControl" destination="NKg-Je-Ilr" id="r4c-Gk-FIp"/>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
                         <outlet property="lowerTextField" destination="eTY-Zw-Jqg" id="fZk-OH-N2J"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
@@ -1690,7 +1716,7 @@
                                 <rect key="frame" x="522" y="6" width="395" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show Registrations using Tones indirectly through a Live Set" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="RD3-Tc-6cL">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="liveRegsCheckButtonClicked:" target="Itn-By-bsi" id="xl0-gW-flo"/>
