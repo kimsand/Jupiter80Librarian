@@ -48,6 +48,12 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		self.updateSVD()
 	}
 
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.regsTableView)
+	}
+
 	// MARK: Member methods
 
 	func updateSVD() {

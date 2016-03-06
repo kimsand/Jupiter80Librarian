@@ -55,6 +55,12 @@ class LiveSetsListViewController: NSViewController {
 		self.updateSVD()
 	}
 
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.livesTableView)
+	}
+
 	// MARK: Member methods
 
 	func updateSVD() {

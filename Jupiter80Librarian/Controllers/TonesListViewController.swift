@@ -60,6 +60,12 @@ class TonesListViewController: NSViewController {
 		self.updateSVD()
 	}
 
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.tonesTableView)
+	}
+
 	// MARK: Member methods
 
 	func updateSVD() {
