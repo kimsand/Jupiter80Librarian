@@ -559,6 +559,7 @@
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="NKg-Je-Ilr" id="r4c-Gk-FIp"/>
+                        <outlet property="listTableView" destination="wmi-dU-VAB" id="QYu-P0-Gbj"/>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
                         <outlet property="lowerTextField" destination="eTY-Zw-Jqg" id="fZk-OH-N2J"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
@@ -567,7 +568,6 @@
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
                         <outlet property="percTextField" destination="XI6-Db-D9A" id="NGC-pa-qRy"/>
-                        <outlet property="regsTableView" destination="wmi-dU-VAB" id="k7f-ji-8G7"/>
                         <outlet property="soloColumn" destination="J36-ND-y2m" id="TCM-sz-9fZ"/>
                         <outlet property="soloTextField" destination="KgT-2T-3Hi" id="Vgj-k8-bBZ"/>
                         <outlet property="upperColumn" destination="XLo-3x-p7D" id="Sb2-5v-o0v"/>
@@ -1127,7 +1127,7 @@
                         <outlet property="layer3TextField" destination="bxE-cg-XgT" id="o8x-eQ-1zO"/>
                         <outlet property="layer4Column" destination="PtD-4K-0cf" id="gaW-3w-cG7"/>
                         <outlet property="layer4TextField" destination="bbd-kn-2jy" id="Kr8-9Z-uV2"/>
-                        <outlet property="livesTableView" destination="r5f-iV-MwK" id="Df1-J2-ibk"/>
+                        <outlet property="listTableView" destination="r5f-iV-MwK" id="vbB-7w-nG6"/>
                         <outlet property="nameColumn" destination="Ld9-M5-6XD" id="UCq-tg-NtP"/>
                         <outlet property="nameTextField" destination="BFC-zF-MBE" id="970-Sd-Gom"/>
                         <outlet property="orderColumn" destination="Rle-Ma-pKE" id="7pd-5D-Piv"/>
@@ -1758,6 +1758,7 @@
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="v9X-Ag-jBs" id="eeu-bm-VG8"/>
+                        <outlet property="listTableView" destination="aAC-VF-slb" id="sem-pR-use"/>
                         <outlet property="liveNameColumn" destination="8vY-nd-VAl" id="igB-1e-EVh"/>
                         <outlet property="liveOrderColumn" destination="9VO-7q-MxK" id="4jP-Cn-gfT"/>
                         <outlet property="livesRegsCheckButton" destination="jFx-f8-nuF" id="1op-IO-aTE"/>
@@ -1775,7 +1776,6 @@
                         <outlet property="regNameColumn" destination="5IU-pB-qLd" id="1SP-zB-78D"/>
                         <outlet property="regOrderColumn" destination="pKk-NK-zBH" id="iTO-aE-XVF"/>
                         <outlet property="regsTableView" destination="nl9-rX-pey" id="6qf-n0-TZy"/>
-                        <outlet property="tonesTableView" destination="aAC-VF-slb" id="P8X-7k-kHY"/>
                     </connections>
                 </viewController>
                 <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

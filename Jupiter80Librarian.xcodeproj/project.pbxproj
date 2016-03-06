@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E820EFA81C8C1FAF000EC965 /* SuperListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E820EFA71C8C1FAF000EC965 /* SuperListViewController.swift */; };
+		E820EFAA1C8C4290000EC965 /* SVDType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E820EFA91C8C4290000EC965 /* SVDType.swift */; };
 		E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */; };
 		E82402481A3D7DF000FA4F09 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402461A3D7DF000FA4F09 /* Model.swift */; };
 		E8546FF11A421B63009EF6E3 /* ListTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8546FF01A421B63009EF6E3 /* ListTabViewController.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E820EFA71C8C1FAF000EC965 /* SuperListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuperListViewController.swift; path = Controllers/SuperListViewController.swift; sourceTree = "<group>"; };
+		E820EFA91C8C4290000EC965 /* SVDType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDType.swift; path = Model/SVDType.swift; sourceTree = "<group>"; };
 		E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationsListViewController.swift; path = Controllers/RegistrationsListViewController.swift; sourceTree = "<group>"; };
 		E82402461A3D7DF000FA4F09 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Model.swift; path = Model/Model.swift; sourceTree = "<group>"; };
 		E8546FF01A421B63009EF6E3 /* ListTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListTabViewController.swift; path = Controllers/ListTabViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 				E8546FF81A461ABA009EF6E3 /* ListWindowController.swift */,
 				E8546FF21A422124009EF6E3 /* LiveSetsListViewController.swift */,
 				E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */,
+				E820EFA71C8C1FAF000EC965 /* SuperListViewController.swift */,
 				E8546FF41A423275009EF6E3 /* TonesListViewController.swift */,
 			);
 			name = Controllers;
@@ -105,6 +110,7 @@
 				E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */,
 				E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */,
 				E8B2BF4D1A3794CA00FC669D /* SVDTone.swift */,
+				E820EFA91C8C4290000EC965 /* SVDType.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -276,9 +282,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8546FF51A423275009EF6E3 /* TonesListViewController.swift in Sources */,
+				E820EFAA1C8C4290000EC965 /* SVDType.swift in Sources */,
 				E8546FF31A422124009EF6E3 /* LiveSetsListViewController.swift in Sources */,
 				E8546FF11A421B63009EF6E3 /* ListTabViewController.swift in Sources */,
 				E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */,
+				E820EFA81C8C1FAF000EC965 /* SuperListViewController.swift in Sources */,
 				E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */,
 				E8546FF71A460C13009EF6E3 /* Mapping.swift in Sources */,
 				E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */,

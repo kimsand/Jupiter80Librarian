@@ -10,16 +10,13 @@ import Cocoa
 
 private let kLiveNameLength = 0x10
 
-class SVDLiveSet: NSObject {
-	private let svdFile: SVDFile
-
+class SVDLiveSet: SVDType {
 	private var liveLayer1Bytes = SVDBytes(location: 0x19F, length: 0x3)
 	private var liveLayer2Bytes = SVDBytes(location: 0x1C5, length: 0x3)
 	private var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
 	private var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
 
-	var orderNr: Int
-	var liveName: String
+	var liveName: String!
 	var registrations: [SVDRegistration] = []
 	var layerToneTypes: [SVDPartType] = []
 	var layerTones: [SVDTone?] = []
@@ -30,9 +27,7 @@ class SVDLiveSet: NSObject {
 	var layer4Name: String!
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes, orderNr: Int) {
-		self.svdFile = svdFile
-
-		self.orderNr = orderNr
+		super.init(svdFile: svdFile, orderNr: orderNr)
 
 		let liveNameBytes = SVDBytes(location: liveBytes.location, length: kLiveNameLength)
 		self.liveName = self.svdFile.stringFromShiftedBytes(liveNameBytes)

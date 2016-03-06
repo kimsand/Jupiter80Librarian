@@ -8,23 +8,11 @@
 
 import Cocoa
 
-class TonesListViewController: NSViewController {
-	enum DependencySegment: Int {
-		case All = 1
-		case Selected
-		case Used
-		case Unused
-	}
-
-	@IBOutlet var orderTextField: NSTextField!
-	@IBOutlet var nameTextField: NSTextField!
+class TonesListViewController: SuperListViewController {
 	@IBOutlet var partial1TextField: NSTextField!
 	@IBOutlet var partial2TextField: NSTextField!
 	@IBOutlet var partial3TextField: NSTextField!
 
-	@IBOutlet var tonesTableView: NSTableView!
-	@IBOutlet var orderColumn: NSTableColumn!
-	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var partial1Column: NSTableColumn!
 	@IBOutlet var partial2Column: NSTableColumn!
 	@IBOutlet var partial3Column: NSTableColumn!
@@ -39,15 +27,8 @@ class TonesListViewController: NSViewController {
 
 	@IBOutlet var livesRegsCheckButton: NSButton!
 
-	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
-
-	var model = Model.singleton
-	var svdFile: SVDFile?
-	var isInitSound = false
-
-	var lastValidOrderText = ""
-
 	var tableData: [SVDTone] = []
+
 	var livesTableData: [SVDLiveSet] = []
 	var regsTableData: [SVDRegistration] = []
 
@@ -58,12 +39,6 @@ class TonesListViewController: NSViewController {
 		super.viewDidLoad()
 
 		self.updateSVD()
-	}
-
-	override func viewDidAppear() {
-		super.viewDidAppear()
-
-		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.tonesTableView)
 	}
 
 	// MARK: Member methods
@@ -94,10 +69,10 @@ class TonesListViewController: NSViewController {
 	func updateTableFromList(tones: [SVDTone]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += tones
-		self.tonesTableView.reloadData()
+		self.listTableView.reloadData()
 
 		let indexSet = self.indexSetFromTones(tones)
-		self.tonesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
 	func buildDependencyList() {
@@ -137,7 +112,7 @@ class TonesListViewController: NSViewController {
 	}
 
 	func buildSelectionList() {
-		let selectedRowIndexes = self.tonesTableView.selectedRowIndexes
+		let selectedRowIndexes = self.listTableView.selectedRowIndexes
 		var selectedTones: [SVDTone] = []
 
 		for index in selectedRowIndexes {
@@ -245,7 +220,7 @@ class TonesListViewController: NSViewController {
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
-		if tableView == self.tonesTableView {
+		if tableView == self.listTableView {
 			nrOfRows = self.tableData.count
 		} else if tableView == self.regsTableView {
 			nrOfRows = self.regsTableData.count
@@ -265,7 +240,7 @@ class TonesListViewController: NSViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
-		if tableView == self.tonesTableView {
+		if tableView == self.listTableView {
 			let svdTone = self.tableData[row]
 
 			if tableColumn == self.nameColumn {
@@ -326,7 +301,7 @@ class TonesListViewController: NSViewController {
 	func tableViewSelectionDidChange(notification: NSNotification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.tonesTableView {
+		if tableView == self.listTableView {
 			self.buildSelectionList()
 			self.buildDependencyList()
 		}
@@ -363,8 +338,8 @@ class TonesListViewController: NSViewController {
 
 						// Scroll to the first matched row
 						if let index = indices.first {
-							let rect = self.tonesTableView.rectOfRow(index)
-							self.tonesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+							let rect = self.listTableView.rectOfRow(index)
+							self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 						}
 					}
 					// The other fields match any number of rows containing the text

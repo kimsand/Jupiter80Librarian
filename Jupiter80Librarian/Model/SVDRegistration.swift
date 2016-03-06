@@ -10,9 +10,7 @@ import Cocoa
 
 private let kRegNameLength = 0x10
 
-class SVDRegistration: NSObject {
-	private let svdFile: SVDFile
-
+class SVDRegistration: SVDType {
 	private var regUpperBytes = SVDBytes(location: 0x85, length: 0x2)
 	private var regLowerBytes = SVDBytes(location: 0x8C, length: 0x2)
 	private var regSoloBytes = SVDBytes(location: 0x93, length: 0x2)
@@ -23,8 +21,7 @@ class SVDRegistration: NSObject {
 	private var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
 	private var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
 
-	var orderNr: Int
-	var regName: String
+	var regName: String!
 	var upperName: String!
 	var lowerName: String!
 	var soloName: String!
@@ -37,9 +34,7 @@ class SVDRegistration: NSObject {
 	var percTone: SVDTone?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int, orderNr: Int) {
-		self.svdFile = svdFile
-
-		self.orderNr = orderNr
+		super.init(svdFile: svdFile, orderNr: orderNr)
 
 		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
 		self.regName = self.svdFile.stringFromShiftedBytes(regNameBytes)

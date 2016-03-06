@@ -8,34 +8,16 @@
 
 import Cocoa
 
-class RegistrationsListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
-	enum DependencySegment: Int {
-		case All = 1
-		case Selected
-	}
-
-	@IBOutlet var orderTextField: NSTextField!
-	@IBOutlet var nameTextField: NSTextField!
+class RegistrationsListViewController: SuperListViewController {
 	@IBOutlet var upperTextField: NSTextField!
 	@IBOutlet var lowerTextField: NSTextField!
 	@IBOutlet var soloTextField: NSTextField!
 	@IBOutlet var percTextField: NSTextField!
 
-	@IBOutlet var regsTableView: NSTableView!
-	@IBOutlet var orderColumn: NSTableColumn!
-	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var upperColumn: NSTableColumn!
 	@IBOutlet var lowerColumn: NSTableColumn!
 	@IBOutlet var soloColumn: NSTableColumn!
 	@IBOutlet var percColumn: NSTableColumn!
-
-	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
-
-	var model = Model.singleton
-	var svdFile: SVDFile?
-	var isInitSound = false
-
-	var lastValidOrderText = ""
 
 	var tableData: [SVDRegistration] = []
 
@@ -48,12 +30,6 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 		self.updateSVD()
 	}
 
-	override func viewDidAppear() {
-		super.viewDidAppear()
-
-		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.regsTableView)
-	}
-
 	// MARK: Member methods
 
 	func updateSVD() {
@@ -64,7 +40,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 			self.tableData += svdFile.registrations
 		}
 
-		self.regsTableView.reloadData()
+		self.listTableView.reloadData()
 	}
 
 	func indexSetFromRegistrations(registrations: [SVDRegistration]) -> NSIndexSet {
@@ -85,14 +61,14 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func updateTableFromList(registrations: [SVDRegistration]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += registrations
-		self.regsTableView.reloadData()
+		self.listTableView.reloadData()
 
 		let indexSet = self.indexSetFromRegistrations(registrations)
-		self.regsTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
 	func buildSelectionList() {
-		let selectedRowIndexes = self.regsTableView.selectedRowIndexes
+		let selectedRowIndexes = self.listTableView.selectedRowIndexes
 		var selectedRegs: [SVDRegistration] = []
 
 		for index in selectedRowIndexes {
@@ -269,7 +245,7 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 	func tableViewSelectionDidChange(notification: NSNotification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.regsTableView {
+		if tableView == self.listTableView {
 			self.buildSelectionList()
 		}
 	}
@@ -304,8 +280,8 @@ class RegistrationsListViewController: NSViewController, NSTableViewDataSource, 
 
 							// Scroll to the first matched row
 							if let index = indices.first {
-								let rect = self.regsTableView.rectOfRow(index)
-								self.regsTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+								let rect = self.listTableView.rectOfRow(index)
+								self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 							}
 						}
 					}

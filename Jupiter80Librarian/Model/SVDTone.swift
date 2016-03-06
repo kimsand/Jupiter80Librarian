@@ -20,9 +20,7 @@ enum SVDOscType {
 	case PCM
 }
 
-class SVDTone: NSObject {
-	private let svdFile: SVDFile
-
+class SVDTone: SVDType {
 	private let toneNameLength = 0x0C
 	private var partial1OscTypeBytes = SVDBytes(location: 0x1E, length: 0x1)
 	private var partial2OscTypeBytes = SVDBytes(location: 0x4C, length: 0x1)
@@ -31,8 +29,7 @@ class SVDTone: NSObject {
 	private var partial2PCMBytes = SVDBytes(location: 0x73, length: 0x2)
 	private var partial3PCMBytes = SVDBytes(location: 0xA1, length: 0x2)
 
-	var orderNr: Int
-	var toneName: String
+	var toneName: String!
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
 
@@ -43,9 +40,7 @@ class SVDTone: NSObject {
 	var partial3Name: String!
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes, orderNr: Int) {
-		self.svdFile = svdFile
-
-		self.orderNr = orderNr
+		super.init(svdFile: svdFile, orderNr: orderNr)
 
 		let toneNameBytes = SVDBytes(location: toneBytes.location, length: self.toneNameLength)
 		self.toneName = self.svdFile.stringFromShiftedBytes(toneNameBytes)
@@ -57,8 +52,6 @@ class SVDTone: NSObject {
 		self.partial1PCMBytes.location += toneBytes.location
 		self.partial2PCMBytes.location += toneBytes.location
 		self.partial3PCMBytes.location += toneBytes.location
-
-		super.init()
 
 		self.findPartialsFromBytes(self.partial1OscTypeBytes, pcmBytes: self.partial1PCMBytes)
 		self.findPartialsFromBytes(self.partial2OscTypeBytes, pcmBytes: self.partial2PCMBytes)

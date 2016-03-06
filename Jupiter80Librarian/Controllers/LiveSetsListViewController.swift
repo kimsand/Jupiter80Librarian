@@ -8,24 +8,12 @@
 
 import Cocoa
 
-class LiveSetsListViewController: NSViewController {
-	enum DependencySegment: Int {
-		case All = 1
-		case Selected
-		case Used
-		case Unused
-	}
-
-	@IBOutlet var orderTextField: NSTextField!
-	@IBOutlet var nameTextField: NSTextField!
+class LiveSetsListViewController: SuperListViewController {
 	@IBOutlet var layer1TextField: NSTextField!
 	@IBOutlet var layer2TextField: NSTextField!
 	@IBOutlet var layer3TextField: NSTextField!
 	@IBOutlet var layer4TextField: NSTextField!
 
-	@IBOutlet var livesTableView: NSTableView!
-	@IBOutlet var orderColumn: NSTableColumn!
-	@IBOutlet var nameColumn: NSTableColumn!
 	@IBOutlet var layer1Column: NSTableColumn!
 	@IBOutlet var layer2Column: NSTableColumn!
 	@IBOutlet var layer3Column: NSTableColumn!
@@ -35,15 +23,8 @@ class LiveSetsListViewController: NSViewController {
 	@IBOutlet var regNameColumn: NSTableColumn!
 	@IBOutlet var regOrderColumn: NSTableColumn!
 
-	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
-
-	var model = Model.singleton
-	var svdFile: SVDFile?
-	var isInitSound = false
-
-	var lastValidOrderText = ""
-
 	var tableData: [SVDLiveSet] = []
+
 	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
@@ -53,12 +34,6 @@ class LiveSetsListViewController: NSViewController {
 		super.viewDidLoad()
 
 		self.updateSVD()
-	}
-
-	override func viewDidAppear() {
-		super.viewDidAppear()
-
-		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.livesTableView)
 	}
 
 	// MARK: Member methods
@@ -89,10 +64,10 @@ class LiveSetsListViewController: NSViewController {
 	func updateTableFromList(liveSets: [SVDLiveSet]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += liveSets
-		self.livesTableView.reloadData()
+		self.listTableView.reloadData()
 
 		let indexSet = self.indexSetFromLiveSets(liveSets)
-		self.livesTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
 	func buildDependencyList() {
@@ -116,7 +91,7 @@ class LiveSetsListViewController: NSViewController {
 	}
 
 	func buildSelectionList() {
-		let selectedRowIndexes = self.livesTableView.selectedRowIndexes
+		let selectedRowIndexes = self.listTableView.selectedRowIndexes
 		var selectedLiveSets: [SVDLiveSet] = []
 
 		for index in selectedRowIndexes {
@@ -232,7 +207,7 @@ class LiveSetsListViewController: NSViewController {
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
-		if tableView == self.livesTableView {
+		if tableView == self.listTableView {
 			nrOfRows = self.tableData.count
 		} else if tableView == self.regsTableView {
 			nrOfRows = self.regsTableData.count
@@ -250,7 +225,7 @@ class LiveSetsListViewController: NSViewController {
 		var textColor = NSColor.blackColor()
 
 
-		if tableView == self.livesTableView {
+		if tableView == self.listTableView {
 			let svdLive = self.tableData[row]
 
 			if tableColumn == self.nameColumn {
@@ -314,7 +289,7 @@ class LiveSetsListViewController: NSViewController {
 	func tableViewSelectionDidChange(notification: NSNotification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.livesTableView {
+		if tableView == self.listTableView {
 			self.buildSelectionList()
 			self.buildDependencyList()
 		}
@@ -350,8 +325,8 @@ class LiveSetsListViewController: NSViewController {
 
 							// Scroll to the first matched row
 							if let index = indices.first {
-								let rect = self.livesTableView.rectOfRow(index)
-								self.livesTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+								let rect = self.listTableView.rectOfRow(index)
+								self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 							}
 						}
 					}
