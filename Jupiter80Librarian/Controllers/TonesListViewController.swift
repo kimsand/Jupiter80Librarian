@@ -279,12 +279,12 @@ class TonesListViewController: SuperListViewController {
 									index++
 								}
 							}
-						}
 
-						// Scroll to the first matched row
-						if let index = indices.first {
-							let rect = self.listTableView.rectOfRow(index)
-							self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+							// Scroll to the first matched row
+							if let index = indices.first {
+								let rect = self.listTableView.rectOfRow(index)
+								self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+							}
 						}
 					}
 					// The other fields match any number of rows containing the text
@@ -317,23 +317,23 @@ class TonesListViewController: SuperListViewController {
 
 								index++
 							}
+
+							// If any rows were matched
+							if indices.count > 0 {
+								var filteredTones: [SVDTone] = []
+
+								for index in indices {
+									let tone = self.tableData[index] as! SVDTone
+									filteredTones.append(tone)
+								}
+
+								self.updateTableFromList(filteredTones)
+							}
+						} else {
+							if let allTones = svdFile?.tones {
+								self.updateTableFromList(allTones)
+							}
 						}
-					}
-
-					// If any rows were matched
-					if indices.count > 0 {
-						var filteredTones: [SVDTone] = []
-
-						for index in indices {
-							let tone = self.tableData[index] as! SVDTone
-							filteredTones.append(tone)
-						}
-
-						self.updateTableFromList(filteredTones)
-					}
-				} else {
-					if let allTones = svdFile?.tones {
-						self.updateTableFromList(allTones)
 					}
 				}
 			}
