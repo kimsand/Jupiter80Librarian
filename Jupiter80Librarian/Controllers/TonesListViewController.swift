@@ -27,12 +27,15 @@ class TonesListViewController: SuperListViewController {
 
 	@IBOutlet var livesRegsCheckButton: NSButton!
 
-	var tableData: [SVDTone] = []
-
 	var livesTableData: [SVDLiveSet] = []
 	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
+
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.svdSubType = .Tone
+	}
 
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -43,46 +46,14 @@ class TonesListViewController: SuperListViewController {
 
 	// MARK: Member methods
 
-	func updateSVD() {
-		self.svdFile = self.model.openedSVDFile
-
-		if let svdFile = self.svdFile {
-			self.updateTableFromList(svdFile.tones)
-		}
-	}
-
-	func indexSetFromTones(tones: [SVDTone]) -> NSIndexSet {
-		let indexSet = NSMutableIndexSet()
-
-		// Keep selection when updating the list view
-		for tone in Model.singleton.selectedTones {
-			let index = self.tableData.indexOf(tone)
-
-			if index != nil {
-				indexSet.addIndex(index!)
-			}
-		}
-
-		return indexSet
-	}
-
-	func updateTableFromList(tones: [SVDTone]) {
-		self.tableData.removeAll(keepCapacity: true)
-		self.tableData += tones
-		self.listTableView.reloadData()
-
-		let indexSet = self.indexSetFromTones(tones)
-		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
-	}
-
 	func buildDependencyList() {
-		let selectedRowIndexes = self.indexSetFromTones(Model.singleton.selectedTones)
+		let selectedRowIndexes = self.indexSetFromTypes()
 		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdTone = self.tableData[index]
+			let svdTone = self.tableData[index] as! SVDTone
 
 			regSet.addObjectsFromArray(svdTone.registrations)
 			liveSet.addObjectsFromArray(svdTone.liveSets)
@@ -116,7 +87,7 @@ class TonesListViewController: SuperListViewController {
 		var selectedTones: [SVDTone] = []
 
 		for index in selectedRowIndexes {
-			let svdTone = self.tableData[index]
+			let svdTone = self.tableData[index] as! SVDTone
 			selectedTones.append(svdTone)
 		}
 
@@ -188,33 +159,6 @@ class TonesListViewController: SuperListViewController {
 		self.updateTableFromList(filteredTones)
 	}
 
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		self.isInitSound = false
-
-		if toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
-			self.isInitSound = true
-		}
-
-		return textColor
-	}
-
-	func textColorForOscType(oscType: SVDOscType) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if oscType == .PCM {
-			textColor = .purpleColor()
-		} else {
-			textColor = .blueColor()
-		}
-
-		return textColor
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -241,10 +185,11 @@ class TonesListViewController: SuperListViewController {
 		var textColor = NSColor.blackColor()
 
 		if tableView == self.listTableView {
-			let svdTone = self.tableData[row]
+			let svdTone = self.tableData[row] as! SVDTone
 
 			if tableColumn == self.nameColumn {
 				columnValue = svdTone.toneName
+				self.setInitStatusForToneName(columnValue)
 				textColor = self.textColorForToneName(columnValue)
 			} else if tableColumn == self.orderColumn {
 				columnValue = "\(svdTone.orderNr)"
@@ -351,7 +296,7 @@ class TonesListViewController: SuperListViewController {
 						if text.characters.count > 0 {
 							var index = 0
 
-							for svdTone in self.tableData {
+							for svdTone in self.tableData as! [SVDTone] {
 								var name: String
 
 								if textField == self.nameTextField {
@@ -380,7 +325,7 @@ class TonesListViewController: SuperListViewController {
 						var filteredTones: [SVDTone] = []
 
 						for index in indices {
-							let tone = self.tableData[index]
+							let tone = self.tableData[index] as! SVDTone
 							filteredTones.append(tone)
 						}
 

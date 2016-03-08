@@ -19,9 +19,12 @@ class RegistrationsListViewController: SuperListViewController {
 	@IBOutlet var soloColumn: NSTableColumn!
 	@IBOutlet var percColumn: NSTableColumn!
 
-	var tableData: [SVDRegistration] = []
-
 	// MARK: Lifecycle
+
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.svdSubType = .Registration
+	}
 
     override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -32,48 +35,13 @@ class RegistrationsListViewController: SuperListViewController {
 
 	// MARK: Member methods
 
-	func updateSVD() {
-		self.svdFile = self.model.openedSVDFile
-		self.tableData.removeAll(keepCapacity: true)
-
-		if let svdFile = self.svdFile {
-			self.tableData += svdFile.registrations
-		}
-
-		self.listTableView.reloadData()
-	}
-
-	func indexSetFromRegistrations(registrations: [SVDRegistration]) -> NSIndexSet {
-		let indexSet = NSMutableIndexSet()
-
-		// Keep selection when updating the list view
-		for liveSet in Model.singleton.selectedRegistrations {
-			let index = self.tableData.indexOf(liveSet)
-
-			if index != nil {
-				indexSet.addIndex(index!)
-			}
-		}
-
-		return indexSet
-	}
-
-	func updateTableFromList(registrations: [SVDRegistration]) {
-		self.tableData.removeAll(keepCapacity: true)
-		self.tableData += registrations
-		self.listTableView.reloadData()
-
-		let indexSet = self.indexSetFromRegistrations(registrations)
-		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
-	}
-
 	func buildSelectionList() {
 		let selectedRowIndexes = self.listTableView.selectedRowIndexes
 		var selectedRegs: [SVDRegistration] = []
 
 		for index in selectedRowIndexes {
-			let svdLive = self.tableData[index]
-			selectedRegs.append(svdLive)
+			let svdReg = self.tableData[index] as! SVDRegistration
+			selectedRegs.append(svdReg)
 		}
 
 		var unselectedRegs: [SVDRegistration] = []
@@ -130,53 +98,6 @@ class RegistrationsListViewController: SuperListViewController {
 		self.updateTableFromList(filteredRegs)
 	}
 
-	func textColorForPartType(partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if partType.mainType == .Acoustic {
-			textColor = .purpleColor()
-		} else if partType.mainType == .DrumSet {
-			textColor = .blueColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForLiveSetName(liveName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForRegistrationName(regName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		self.isInitSound = false
-
-		if regName == "INIT REGIST" {
-			textColor = .lightGrayColor()
-			self.isInitSound = true
-		}
-
-		return textColor
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -191,12 +112,13 @@ class RegistrationsListViewController: SuperListViewController {
 		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.blackColor()
 
-		let svdReg = self.tableData[row]
+		let svdReg = self.tableData[row] as! SVDRegistration
 		var columnValue: String = ""
 		var textColor = NSColor.blackColor()
 
 		if tableColumn == self.nameColumn {
 			columnValue = svdReg.regName
+			self.setInitStatusForRegistrationName(columnValue)
 			textColor = self.textColorForRegistrationName(columnValue)
 		} else if tableColumn == self.orderColumn {
 			columnValue = "\(svdReg.orderNr)"
@@ -294,7 +216,7 @@ class RegistrationsListViewController: SuperListViewController {
 						if text.characters.count > 0 {
 							var index = 0
 
-							for svdReg in self.tableData {
+							for svdReg in self.tableData as! [SVDRegistration] {
 								var name: String
 
 								if textField == self.nameTextField {
@@ -323,7 +245,7 @@ class RegistrationsListViewController: SuperListViewController {
 								var filteredRegs: [SVDRegistration] = []
 
 								for index in indices {
-									let reg = self.tableData[index]
+									let reg = self.tableData[index] as! SVDRegistration
 									filteredRegs.append(reg)
 								}
 

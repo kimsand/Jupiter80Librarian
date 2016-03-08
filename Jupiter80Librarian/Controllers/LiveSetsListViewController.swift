@@ -23,11 +23,14 @@ class LiveSetsListViewController: SuperListViewController {
 	@IBOutlet var regNameColumn: NSTableColumn!
 	@IBOutlet var regOrderColumn: NSTableColumn!
 
-	var tableData: [SVDLiveSet] = []
-
 	var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
+
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.svdSubType = .LiveSet
+	}
 
 	override func viewDidLoad() {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
@@ -38,45 +41,13 @@ class LiveSetsListViewController: SuperListViewController {
 
 	// MARK: Member methods
 
-	func updateSVD() {
-		self.svdFile = self.model.openedSVDFile
-
-		if let svdFile = self.svdFile {
-			self.updateTableFromList(svdFile.liveSets)
-		}
-	}
-
-	func indexSetFromLiveSets(liveSets: [SVDLiveSet]) -> NSIndexSet {
-		let indexSet = NSMutableIndexSet()
-
-		// Keep selection when updating the list view
-		for liveSet in Model.singleton.selectedLiveSets {
-			let index = self.tableData.indexOf(liveSet)
-
-			if index != nil {
-				indexSet.addIndex(index!)
-			}
-		}
-
-		return indexSet
-	}
-
-	func updateTableFromList(liveSets: [SVDLiveSet]) {
-		self.tableData.removeAll(keepCapacity: true)
-		self.tableData += liveSets
-		self.listTableView.reloadData()
-
-		let indexSet = self.indexSetFromLiveSets(liveSets)
-		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
-	}
-
 	func buildDependencyList() {
-		let selectedRowIndexes = self.indexSetFromLiveSets(Model.singleton.selectedLiveSets)
+		let selectedRowIndexes = self.indexSetFromTypes()
 		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
 		selectedRowIndexes.enumerateIndexesUsingBlock {
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.tableData[index]
+			let svdLive = self.tableData[index] as! SVDLiveSet
 
 			regSet.addObjectsFromArray(svdLive.registrations)
 		}
@@ -95,7 +66,7 @@ class LiveSetsListViewController: SuperListViewController {
 		var selectedLiveSets: [SVDLiveSet] = []
 
 		for index in selectedRowIndexes {
-			let svdLive = self.tableData[index]
+			let svdLive = self.tableData[index] as! SVDLiveSet
 			selectedLiveSets.append(svdLive)
 		}
 
@@ -165,43 +136,6 @@ class LiveSetsListViewController: SuperListViewController {
 		self.updateTableFromList(filteredLiveSets)
 	}
 
-	func textColorForPartType(partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if partType.mainType == .Acoustic {
-			textColor = .purpleColor()
-		} else if partType.mainType == .DrumSet {
-			textColor = .blueColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
-		}
-
-		return textColor
-	}
-
-	func textColorForLiveSetName(liveName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
-
-		self.isInitSound = false
-
-		if liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
-			self.isInitSound = true
-		}
-
-		return textColor
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -226,10 +160,11 @@ class LiveSetsListViewController: SuperListViewController {
 
 
 		if tableView == self.listTableView {
-			let svdLive = self.tableData[row]
+			let svdLive = self.tableData[row] as! SVDLiveSet
 
 			if tableColumn == self.nameColumn {
 				columnValue = svdLive.liveName
+				self.setInitStatusForLiveSetName(columnValue)
 				textColor = self.textColorForLiveSetName(columnValue)
 			} else if tableColumn == self.orderColumn {
 				columnValue = "\(svdLive.orderNr)"
@@ -339,7 +274,7 @@ class LiveSetsListViewController: SuperListViewController {
 						if text.characters.count > 0 {
 							var index = 0
 
-							for svdLive in self.tableData {
+							for svdLive in self.tableData as! [SVDLiveSet] {
 								var name: String
 
 								if textField == self.nameTextField {
@@ -368,7 +303,7 @@ class LiveSetsListViewController: SuperListViewController {
 								var filteredLiveSets: [SVDLiveSet] = []
 
 								for index in indices {
-									let liveSet = self.tableData[index]
+									let liveSet = self.tableData[index] as! SVDLiveSet
 									filteredLiveSets.append(liveSet)
 								}
 
