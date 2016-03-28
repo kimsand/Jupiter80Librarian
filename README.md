@@ -3,4 +3,4 @@ The Roland Jupiter-80 is a powerful synth. With great power comes great... compl
 
 This tool is an attempt to make it easier to get an overview of sounds and their dependencies. The tool can open SVD files from the Jupiter-80 and the Jupiter-50.
 
-[[https://github.com/kimsand/Jupiter80Librarian/master/images/JP80.png|alt=Screenshot]]
+![Screenshot](https://raw.githubusercontent.com/kimsand/Jupiter80Librarian/master/images/JP80.png)
