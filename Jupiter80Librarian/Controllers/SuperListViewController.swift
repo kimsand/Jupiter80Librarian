@@ -319,6 +319,48 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 	}
 
+	// MARK: Text field
+
+	func scrollToOrderNr(orderNr: Int) {
+		var index = 0
+
+		for svdType in self.tableData {
+			if svdType.orderNr == orderNr {
+				break;
+			} else {
+				index += 1
+			}
+		}
+
+		// Scroll to the first matched row
+		let rect = self.listTableView.rectOfRow(index)
+		self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+	}
+
+	func filterListOnNameIndices(nameIndices: [(String, Int)], text: String) {
+		if nameIndices.count > 0 {
+			var indices = [Int]()
+
+			for (name, index) in nameIndices {
+				if name.lowercaseString.hasPrefix(text) {
+					indices.append(index)
+				}
+			}
+
+			// If any rows were matched
+			if indices.count > 0 {
+				var filteredTypes: [SVDType] = []
+
+				for index in indices {
+					let svdType = self.tableData[index]
+					filteredTypes.append(svdType)
+				}
+
+				self.updateTableFromList(filteredTypes)
+			}
+		}
+	}
+
 	// MARK: Actions
 
 	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {

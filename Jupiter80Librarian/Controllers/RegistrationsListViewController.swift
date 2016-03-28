@@ -157,45 +157,20 @@ class RegistrationsListViewController: SuperListViewController {
 			// Only process the text field when the Return key was pressed
 			if textMovement == NSReturnTextMovement {
 				if let textField = obj.object as? NSTextField {
-					var indices = [Int]()
-
 					// The order field matches one and only one row number
 					if textField == self.orderTextField {
-						let text = textField.stringValue
-
 						// Only process the text field when text was entered
-						if text.characters.count > 0 {
-							var index = 0
-
-							if let order = Int(text) {
-								for svdReg in self.tableData {
-									if svdReg.orderNr == order {
-										indices.append(index)
-										break;
-									}
-
-									index += 1
-								}
-							}
-
-							// Scroll to the first matched row
-							if let index = indices.first {
-								let rect = self.listTableView.rectOfRow(index)
-								self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
-							}
+						if let orderNr = Int(textField.stringValue) {
+							scrollToOrderNr(orderNr)
 						}
-					}
-					// The other fields match any number of rows containing the text
-					// Only process the text field if an SVD file is open
-					else if self.tableData.count > 0 {
-						let text = textField.stringValue.lowercaseString
-
+					} else if self.tableData.count > 0 {
 						// Only process the text field when text was entered
-						if text.characters.count > 0 {
+						if textField.stringValue.characters.count > 0 {
+							var nameIndices: [(String, Int)] = []
 							var index = 0
 
 							for svdReg in self.tableData as! [SVDRegistration] {
-								var name: String
+								var name: String?
 
 								if textField == self.nameTextField {
 									name = svdReg.regName
@@ -211,24 +186,16 @@ class RegistrationsListViewController: SuperListViewController {
 									break // unsupported field
 								}
 
-								if name.lowercaseString.hasPrefix(text) {
-									indices.append(index)
+								if name != nil {
+									nameIndices.append((name!, index))
 								}
-
+								
 								index += 1
 							}
 
-							// If any rows were matched
-							if indices.count > 0 {
-								var filteredRegs: [SVDRegistration] = []
+							let text = textField.stringValue.lowercaseString
 
-								for index in indices {
-									let reg = self.tableData[index] as! SVDRegistration
-									filteredRegs.append(reg)
-								}
-
-								self.updateTableFromList(filteredRegs)
-							}
+							filterListOnNameIndices(nameIndices, text: text)
 						} else {
 							if let allRegs = svdFile?.registrations {
 								self.updateTableFromList(allRegs)
@@ -239,4 +206,5 @@ class RegistrationsListViewController: SuperListViewController {
 			}
 		}
 	}
+
 }
