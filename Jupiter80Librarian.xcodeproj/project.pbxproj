@@ -24,18 +24,7 @@
 		E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */; };
 		E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */; };
 		E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */; };
-		E8E4AB801A1D131C00FCF1B5 /* Jupiter80LibrarianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E4AB7F1A1D131C00FCF1B5 /* Jupiter80LibrarianTests.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E8E4AB7A1A1D131C00FCF1B5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E8E4AB5F1A1D131C00FCF1B5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E8E4AB661A1D131C00FCF1B5;
-			remoteInfo = Jupiter80Librarian;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E820EFA71C8C1FAF000EC965 /* SuperListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuperListViewController.swift; path = Controllers/SuperListViewController.swift; sourceTree = "<group>"; };
@@ -57,20 +46,10 @@
 		E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E8E4AB731A1D131C00FCF1B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E8E4AB791A1D131C00FCF1B5 /* Jupiter80LibrarianTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jupiter80LibrarianTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8E4AB7E1A1D131C00FCF1B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E8E4AB7F1A1D131C00FCF1B5 /* Jupiter80LibrarianTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jupiter80LibrarianTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E8E4AB641A1D131C00FCF1B5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E8E4AB761A1D131C00FCF1B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -127,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				E8E4AB691A1D131C00FCF1B5 /* Jupiter80Librarian */,
-				E8E4AB7C1A1D131C00FCF1B5 /* Jupiter80LibrarianTests */,
 				E8E4AB681A1D131C00FCF1B5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */,
-				E8E4AB791A1D131C00FCF1B5 /* Jupiter80LibrarianTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,23 +140,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E8E4AB7C1A1D131C00FCF1B5 /* Jupiter80LibrarianTests */ = {
-			isa = PBXGroup;
-			children = (
-				E8E4AB7F1A1D131C00FCF1B5 /* Jupiter80LibrarianTests.swift */,
-				E8E4AB7D1A1D131C00FCF1B5 /* Supporting Files */,
-			);
-			path = Jupiter80LibrarianTests;
-			sourceTree = "<group>";
-		};
-		E8E4AB7D1A1D131C00FCF1B5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				E8E4AB7E1A1D131C00FCF1B5 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,24 +160,6 @@
 			productReference = E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E8E4AB781A1D131C00FCF1B5 /* Jupiter80LibrarianTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E8E4AB861A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter80LibrarianTests" */;
-			buildPhases = (
-				E8E4AB751A1D131C00FCF1B5 /* Sources */,
-				E8E4AB761A1D131C00FCF1B5 /* Frameworks */,
-				E8E4AB771A1D131C00FCF1B5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E8E4AB7B1A1D131C00FCF1B5 /* PBXTargetDependency */,
-			);
-			name = Jupiter80LibrarianTests;
-			productName = Jupiter80LibrarianTests;
-			productReference = E8E4AB791A1D131C00FCF1B5 /* Jupiter80LibrarianTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -231,10 +173,6 @@
 				TargetAttributes = {
 					E8E4AB661A1D131C00FCF1B5 = {
 						CreatedOnToolsVersion = 6.1;
-					};
-					E8E4AB781A1D131C00FCF1B5 = {
-						CreatedOnToolsVersion = 6.1;
-						TestTargetID = E8E4AB661A1D131C00FCF1B5;
 					};
 				};
 			};
@@ -252,7 +190,6 @@
 			projectRoot = "";
 			targets = (
 				E8E4AB661A1D131C00FCF1B5 /* Jupiter80Librarian */,
-				E8E4AB781A1D131C00FCF1B5 /* Jupiter80LibrarianTests */,
 			);
 		};
 /* End PBXProject section */
@@ -264,13 +201,6 @@
 			files = (
 				E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */,
 				E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E8E4AB771A1D131C00FCF1B5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,23 +229,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E8E4AB751A1D131C00FCF1B5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E8E4AB801A1D131C00FCF1B5 /* Jupiter80LibrarianTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E8E4AB7B1A1D131C00FCF1B5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E8E4AB661A1D131C00FCF1B5 /* Jupiter80Librarian */;
-			targetProxy = E8E4AB7A1A1D131C00FCF1B5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */ = {
@@ -432,44 +346,6 @@
 			};
 			name = Release;
 		};
-		E8E4AB871A1D131C00FCF1B5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Jupiter80LibrarianTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "kimsand.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jupiter80Librarian.app/Contents/MacOS/Jupiter80Librarian";
-			};
-			name = Debug;
-		};
-		E8E4AB881A1D131C00FCF1B5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Jupiter80LibrarianTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "kimsand.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jupiter80Librarian.app/Contents/MacOS/Jupiter80Librarian";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -487,15 +363,6 @@
 			buildConfigurations = (
 				E8E4AB841A1D131C00FCF1B5 /* Debug */,
 				E8E4AB851A1D131C00FCF1B5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E8E4AB861A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter80LibrarianTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E8E4AB871A1D131C00FCF1B5 /* Debug */,
-				E8E4AB881A1D131C00FCF1B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
