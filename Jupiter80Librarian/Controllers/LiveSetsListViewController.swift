@@ -33,33 +33,13 @@ class LiveSetsListViewController: SuperListViewController {
 	}
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LiveSetsListViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
 
 		self.updateSVD()
 	}
 
 	// MARK: Member methods
-
-	func buildDependencyList() {
-		let selectedRowIndexes = self.indexSetFromTypes()
-		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
-
-		selectedRowIndexes.enumerateIndexesUsingBlock {
-			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdLive = self.tableData[index] as! SVDLiveSet
-
-			regSet.addObjectsFromArray(svdLive.registrations)
-		}
-
-		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
-
-		self.regsTableData.removeAll(keepCapacity: true)
-		self.regsTableData += regList
-
-		self.regsTableView.reloadData()
-	}
 
 	func buildSelectionList() {
 		let selectedRowIndexes = self.listTableView.selectedRowIndexes
@@ -226,7 +206,8 @@ class LiveSetsListViewController: SuperListViewController {
 
 		if tableView == self.listTableView {
 			self.buildSelectionList()
-			self.buildDependencyList()
+			self.buildDependencyList(&self.regsTableData)
+			self.regsTableView.reloadData()
 		}
 	}
 
@@ -254,7 +235,7 @@ class LiveSetsListViewController: SuperListViewController {
 										break;
 									}
 
-									index++
+									index += 1
 								}
 							}
 
@@ -295,7 +276,7 @@ class LiveSetsListViewController: SuperListViewController {
 									indices.append(index)
 								}
 
-								index++
+								index += 1
 							}
 
 							// If any rows were matched

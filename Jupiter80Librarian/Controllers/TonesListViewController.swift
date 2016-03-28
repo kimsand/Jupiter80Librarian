@@ -38,49 +38,13 @@ class TonesListViewController: SuperListViewController {
 	}
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TonesListViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
 
 		self.updateSVD()
 	}
 
 	// MARK: Member methods
-
-	func buildDependencyList() {
-		let selectedRowIndexes = self.indexSetFromTypes()
-		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
-		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
-
-		selectedRowIndexes.enumerateIndexesUsingBlock {
-			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-			let svdTone = self.tableData[index] as! SVDTone
-
-			regSet.addObjectsFromArray(svdTone.registrations)
-			liveSet.addObjectsFromArray(svdTone.liveSets)
-
-			// If selected, also add registrations from live sets using the tone
-			if self.livesRegsCheckButton.state == NSOnState {
-				for live in svdTone.liveSets {
-					regSet.addObjectsFromArray(live.registrations)
-				}
-			}
-		}
-
-		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-
-		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
-		let liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
-
-		self.regsTableData.removeAll(keepCapacity: true)
-		self.regsTableData += regList
-
-		self.regsTableView.reloadData()
-
-		self.livesTableData.removeAll(keepCapacity: true)
-		self.livesTableData += liveList
-
-		self.livesTableView.reloadData()
-	}
 
 	func buildSelectionList() {
 		let selectedRowIndexes = self.listTableView.selectedRowIndexes
@@ -248,7 +212,10 @@ class TonesListViewController: SuperListViewController {
 
 		if tableView == self.listTableView {
 			self.buildSelectionList()
-			self.buildDependencyList()
+			let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSOnState
+			self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
+			self.regsTableView.reloadData()
+			self.livesTableView.reloadData()
 		}
 	}
 
@@ -276,7 +243,7 @@ class TonesListViewController: SuperListViewController {
 										break;
 									}
 
-									index++
+									index += 1
 								}
 							}
 
@@ -315,7 +282,7 @@ class TonesListViewController: SuperListViewController {
 									indices.append(index)
 								}
 
-								index++
+								index += 1
 							}
 
 							// If any rows were matched
@@ -343,7 +310,10 @@ class TonesListViewController: SuperListViewController {
 	// MARK: Actions
 
 	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
-		self.buildDependencyList()
+		let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSOnState
+		self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
+		self.regsTableView.reloadData()
+		self.livesTableView.reloadData()
 	}
 
 	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {

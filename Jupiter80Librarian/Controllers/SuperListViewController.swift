@@ -108,6 +108,55 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
 
+	// MARK: Dependency management
+
+	func buildDependencyList(inout regsTableData: [SVDRegistration]) {
+		var livesTableData = [SVDLiveSet]()
+		self.buildDependencyList(&regsTableData, livesTableData: &livesTableData)
+	}
+
+	func buildDependencyList(inout regsTableData: [SVDRegistration], inout livesTableData: [SVDLiveSet], includeRegsFromLiveSets: Bool = false) {
+		let selectedRowIndexes = self.indexSetFromTypes()
+		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
+
+		selectedRowIndexes.enumerateIndexesUsingBlock {
+			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
+
+			switch self.svdSubType {
+			case .LiveSet:
+				let svdLive = self.tableData[index] as! SVDLiveSet
+
+				regSet.addObjectsFromArray(svdLive.registrations)
+			case .Tone:
+				let svdTone = self.tableData[index] as! SVDTone
+
+				regSet.addObjectsFromArray(svdTone.registrations)
+				liveSet.addObjectsFromArray(svdTone.liveSets)
+
+				// If selected, also add registrations from live sets using the tone
+				if includeRegsFromLiveSets {
+					for live in svdTone.liveSets {
+						regSet.addObjectsFromArray(live.registrations)
+					}
+				}
+			default:
+				break
+			}
+		}
+
+		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
+
+		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
+		let liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
+
+		regsTableData.removeAll(keepCapacity: true)
+		regsTableData += regList
+
+		livesTableData.removeAll(keepCapacity: true)
+		livesTableData += liveList
+	}
+
 	// MARK: Text colors based on sound type and sound name
 
 	func textColorForRegistrationName(regName: String) -> NSColor {

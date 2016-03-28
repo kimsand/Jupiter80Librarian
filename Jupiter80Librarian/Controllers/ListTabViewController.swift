@@ -17,7 +17,7 @@ class ListTabViewController: NSTabViewController {
 	var svdFile: SVDFile?
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListTabViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
 		super.viewDidLoad()
 	}
 

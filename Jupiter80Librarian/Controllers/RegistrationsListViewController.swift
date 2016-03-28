@@ -27,7 +27,7 @@ class RegistrationsListViewController: SuperListViewController {
 	}
 
     override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileDidUpdate:", name: "svdFileDidUpdate", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RegistrationsListViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
         super.viewDidLoad()
 
 		self.updateSVD()
@@ -196,7 +196,7 @@ class RegistrationsListViewController: SuperListViewController {
 										break;
 									}
 
-									index++
+									index += 1
 								}
 							}
 
@@ -237,7 +237,7 @@ class RegistrationsListViewController: SuperListViewController {
 									indices.append(index)
 								}
 
-								index++
+								index += 1
 							}
 
 							// If any rows were matched

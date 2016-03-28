@@ -277,7 +277,7 @@ class SVDFile: NSObject {
 		for byte in Array(restBytes.reverse()) {
 			let convertedNumber = Int(byte) * Int(pow(Double(2), Double(nrOfBits + iteration)))
 			number += convertedNumber
-			iteration++
+			iteration += 1
 		}
 
 		return number
@@ -322,7 +322,7 @@ class SVDFile: NSObject {
 			let secondBits = twoBytes & bitmasks[bitmaskIndex]
 			let bitsShifted = [secondBits >> shiftbits[bitmaskIndex]]
 
-			bitmaskIndex++
+			bitmaskIndex += 1
 
 			if bitmaskIndex > 7 {
 				// The bitmasks repeat each eight iteration, so reset the index
@@ -332,7 +332,7 @@ class SVDFile: NSObject {
 			// 7 bytes shifted contain 8 bytes of information unshifted.
 			// For each second byte, skip incrementing the index by 1.
 			if bitmaskIndex != 1 {
-				byteIndex++
+				byteIndex += 1
 			}
 
 			// Store the one unshifted byte extracted from the two shifted bytes

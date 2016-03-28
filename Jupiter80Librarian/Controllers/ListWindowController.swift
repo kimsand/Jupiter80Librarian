@@ -10,8 +10,8 @@ import Cocoa
 
 class ListWindowController: NSWindowController {
     override func windowDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileWasChosen:", name: "svdFileWasChosen", object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "svdFileIsInvalid:", name: "svdFileIsInvalid", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListWindowController.svdFileWasChosen(_:)), name: "svdFileWasChosen", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListWindowController.svdFileIsInvalid(_:)), name: "svdFileIsInvalid", object: nil)
 
 		super.windowDidLoad()
 
