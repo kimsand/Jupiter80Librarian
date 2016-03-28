@@ -157,6 +157,84 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		livesTableData += liveList
 	}
 
+	func filterDependencies() {
+		guard let svdFile = self.svdFile else {
+			return
+		}
+
+		let selectedSegment = self.dependencySegmentedControl.selectedSegment
+		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
+
+		var filteredTypes: [SVDType] = []
+		let selectedTypes: [SVDType]
+		let svdFileTypes: [SVDType]
+
+		switch self.svdSubType {
+		case .Registration:
+			svdFileTypes = svdFile.registrations as [SVDType]
+			selectedTypes = Model.singleton.selectedRegistrations as [SVDType]
+		case .LiveSet:
+			svdFileTypes = svdFile.liveSets as [SVDType]
+			selectedTypes = Model.singleton.selectedLiveSets as [SVDType]
+		case .Tone:
+			svdFileTypes = svdFile.tones as [SVDType]
+			selectedTypes = Model.singleton.selectedTones as [SVDType]
+		}
+
+		switch segmentTag {
+		case DependencySegment.All.rawValue:
+			filteredTypes = svdFileTypes
+		case DependencySegment.Selected.rawValue:
+			for svdType in selectedTypes {
+				filteredTypes.append(svdType)
+			}
+		case DependencySegment.Used.rawValue:
+			for svdType in svdFileTypes {
+				switch self.svdSubType {
+				case .Registration:
+					break
+				case .LiveSet:
+					if let svdLive = svdType as? SVDLiveSet {
+						if svdLive.registrations.count > 0 {
+							filteredTypes.append(svdType)
+						}
+					}
+				case .Tone:
+					if let svdTone = svdType as? SVDTone {
+						if svdTone.liveSets.count > 0
+							|| svdTone.registrations.count > 0 {
+							filteredTypes.append(svdType)
+						}
+					}
+				}
+			}
+		case DependencySegment.Unused.rawValue:
+			for svdType in svdFileTypes {
+				switch self.svdSubType {
+				case .Registration:
+					break
+				case .LiveSet:
+					if let svdLive = svdType as? SVDLiveSet {
+						if svdLive.registrations.count <= 0 {
+							filteredTypes.append(svdType)
+						}
+					}
+				case .Tone:
+					if let svdTone = svdType as? SVDTone {
+						if svdTone.liveSets.count <= 0
+							&& svdTone.registrations.count <= 0 {
+							filteredTypes.append(svdType)
+						}
+					}
+				}
+			}
+		default:
+			return
+		}
+
+		self.updateTableFromList(filteredTypes)
+	}
+
 	// MARK: Text colors based on sound type and sound name
 
 	func textColorForRegistrationName(regName: String) -> NSColor {
@@ -238,6 +316,20 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 		if toneName == "INIT SYNTH" {
 			self.isInitSound = true
+		}
+	}
+
+	// MARK: Actions
+
+	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+		self.filterDependencies()
+	}
+
+	// MARK: Notifications
+
+	func svdFileDidUpdate(notification: NSNotification) {
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.updateSVD()
 		}
 	}
 }

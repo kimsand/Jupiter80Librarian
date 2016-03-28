@@ -82,40 +82,6 @@ class LiveSetsListViewController: SuperListViewController {
 		Model.singleton.selectedLiveSets = (Model.singleton.selectedLiveSets as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
 	}
 
-	func filterDependencies() {
-		var filteredLiveSets: [SVDLiveSet] = []
-
-		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
-
-		if let svdFile = self.svdFile {
-			switch segmentTag {
-			case DependencySegment.All.rawValue:
-				filteredLiveSets = svdFile.liveSets
-			case DependencySegment.Selected.rawValue:
-				for svdLive in Model.singleton.selectedLiveSets {
-					filteredLiveSets.append(svdLive)
-				}
-			case DependencySegment.Used.rawValue:
-				for svdLive in svdFile.liveSets {
-					if svdLive.registrations.count > 0 {
-						filteredLiveSets.append(svdLive)
-					}
-				}
-			case DependencySegment.Unused.rawValue:
-				for svdLive in svdFile.liveSets {
-					if svdLive.registrations.count <= 0 {
-						filteredLiveSets.append(svdLive)
-					}
-				}
-			default:
-				return
-			}
-		}
-
-		self.updateTableFromList(filteredLiveSets)
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -298,20 +264,6 @@ class LiveSetsListViewController: SuperListViewController {
 					}
 				}
 			}
-		}
-	}
-
-	// MARK: Actions
-
-	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
-		self.filterDependencies()
-	}
-
-	// MARK: Notifications
-
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.updateSVD()
 		}
 	}
 }

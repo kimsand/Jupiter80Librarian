@@ -87,42 +87,6 @@ class TonesListViewController: SuperListViewController {
 		Model.singleton.selectedTones = (Model.singleton.selectedTones as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDTone]
 	}
 
-	func filterDependencies() {
-		var filteredTones: [SVDTone] = []
-
-		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
-
-		if let svdFile = self.svdFile {
-			switch segmentTag {
-			case DependencySegment.All.rawValue:
-				filteredTones = svdFile.tones
-			case DependencySegment.Selected.rawValue:
-				for svdTone in Model.singleton.selectedTones {
-					filteredTones.append(svdTone)
-				}
-			case DependencySegment.Used.rawValue:
-				for svdTone in svdFile.tones {
-					if svdTone.liveSets.count > 0
-					|| svdTone.registrations.count > 0 {
-						filteredTones.append(svdTone)
-					}
-				}
-			case DependencySegment.Unused.rawValue:
-				for svdTone in svdFile.tones {
-					if svdTone.liveSets.count <= 0
-					&& svdTone.registrations.count <= 0 {
-						filteredTones.append(svdTone)
-					}
-				}
-			default:
-				return
-			}
-		}
-
-		self.updateTableFromList(filteredTones)
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -314,17 +278,5 @@ class TonesListViewController: SuperListViewController {
 		self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
 		self.regsTableView.reloadData()
 		self.livesTableView.reloadData()
-	}
-
-	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
-		self.filterDependencies()
-	}
-
-	// MARK: Notifications
-
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.updateSVD()
-		}
 	}
 }

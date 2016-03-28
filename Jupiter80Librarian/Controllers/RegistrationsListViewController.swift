@@ -76,28 +76,6 @@ class RegistrationsListViewController: SuperListViewController {
 		Model.singleton.selectedRegistrations = (Model.singleton.selectedRegistrations as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
 	}
 
-	func filterDependencies() {
-		var filteredRegs: [SVDRegistration] = []
-
-		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
-
-		if let svdFile = self.svdFile {
-			switch segmentTag {
-			case DependencySegment.All.rawValue:
-				filteredRegs = svdFile.registrations
-			case DependencySegment.Selected.rawValue:
-				for svdReg in Model.singleton.selectedRegistrations {
-					filteredRegs.append(svdReg)
-				}
-			default:
-				return
-			}
-		}
-
-		self.updateTableFromList(filteredRegs)
-	}
-
 	// MARK: Table view
 
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -259,20 +237,6 @@ class RegistrationsListViewController: SuperListViewController {
 					}
 				}
 			}
-		}
-	}
-
-	// MARK: Actions
-
-	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
-		self.filterDependencies()
-	}
-
-	// MARK: Notifications
-
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
-			self.updateSVD()
 		}
 	}
 }
