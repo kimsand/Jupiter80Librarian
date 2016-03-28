@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ufwb version="1.14">
+    <grammar name="Jupiter-80 SVD" start="id:1" author="Kim André Sand" fileextension="SVD" uti="public.assembly-source">
+        <description>Grammar for Jupiter-80 SVD files. Also supports Jupiter-50 SVD files.</description>
+        <structure name="Jupiter-80 SVD" id="1" encoding="ISO_8859-1:1987" endian="big" signed="no">
+            <structure name="Header" id="2">
+                <binary name="Pre" id="3" fillcolor="0555FB" length="16"/>
+                <structure name="REG" id="4" length="0">
+                    <binary name="REG" mustmatch="yes" id="5" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="REG" value="524547"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="REG post" id="6" length="7"/>
+                </structure>
+                <structure name="LIV" id="8">
+                    <binary name="LIV pre" id="9" length="6"/>
+                    <binary name="LIV" mustmatch="yes" id="10" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="LIV" value="4C4956"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="LIV post" id="11" length="7"/>
+                </structure>
+                <structure name="SHP" id="13">
+                    <binary name="SHP pre" id="14" length="6"/>
+                    <binary name="SHP" mustmatch="yes" id="15" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="SHP" value="534850"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="SHP post" id="16" length="7"/>
+                </structure>
+                <structure name="VCL" id="18" repeatmin="0">
+                    <binary name="VCL pre" id="19" fillcolor="0175FF" length="6"/>
+                    <binary name="VCL" mustmatch="yes" id="20" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="VCL" value="56434C"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="VCL post" id="21" fillcolor="0066FF" length="7"/>
+                </structure>
+                <structure name="SYS" id="23" repeatmin="0">
+                    <binary name="SYS pre" id="24" length="6"/>
+                    <binary name="SYS" mustmatch="yes" id="25" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="SYS" value="535953"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="SYS post" id="26" length="7"/>
+                </structure>
+                <structure name="RBN" id="28" repeatmin="0">
+                    <binary name="RBN pre" id="29" length="6"/>
+                    <binary name="RBN" mustmatch="yes" id="30" length="3">
+                        <fixedvalues>
+                            <fixedvalue name="RBN" value="52424E"/>
+                        </fixedvalues>
+                    </binary>
+                    <binary name="RBN post" id="31" length="7"/>
+                </structure>
+                <binary name="Post" id="33" length="6"/>
+            </structure>
+            <number name="Nr of registrations" id="35" type="integer" length="4"/>
+            <binary name="Registrations meta" id="36" fillcolor="BD64E8" length="12"/>
+            <structure name="Registration" id="37" repeat="id:35" repeatmax="-1">
+                <string name="Registration name" id="38" fillcolor="F3D0DB" type="fixed-length" length="16"/>
+                <binary name="Xorro" id="39" length="36"/>
+                <structure name="Upper meta" id="40" length="7">
+                    <binary name="Upper type" id="41" fillcolor="7ECC13" length="1"/>
+                    <binary name="Upper position" id="42" fillcolor="7ECC13" length="2"/>
+                    <binary name="Upper volume" id="43" fillcolor="7ECC13" length="1"/>
+                    <binary name="Upper octave" id="44" fillcolor="7ECC13" length="1"/>
+                    <binary name="Upper post" id="45" fillcolor="7ECC13" length="2"/>
+                </structure>
+                <structure name="Lower meta" id="47" length="7">
+                    <binary name="Lower type" id="48" fillcolor="9F7317" length="1"/>
+                    <binary name="Lower position" id="49" fillcolor="9F7317" length="2"/>
+                    <binary name="Lower volume" id="50" fillcolor="9F7317" length="1"/>
+                    <binary name="Lower octave" id="51" fillcolor="9F7317" length="1"/>
+                    <binary name="Lower post" id="52" fillcolor="9F7317" length="2"/>
+                </structure>
+                <structure name="Solo meta" id="54" length="7">
+                    <binary name="Solo type" id="55" fillcolor="8605F8" length="1"/>
+                    <binary name="Solo position" id="56" fillcolor="8605F8" length="2"/>
+                    <binary name="Solo post" id="57" fillcolor="8605F8" length="4"/>
+                </structure>
+                <structure name="Perc meta" id="59" length="7">
+                    <binary name="Perc type" id="60" length="1"/>
+                    <number name="Perc position" id="61" type="integer" length="2"/>
+                    <binary name="Perc post" id="62" length="4"/>
+                </structure>
+                <structure name="Anna" id="64" length="0">
+                    <binary name="Anna" id="65" fillcolor="FF9200" repeatmin="16" repeatmax="16" length="12">
+                        <fixedvalues>
+                            <fixedvalue name="Anna" value="800101010003FBF03FE40000"/>
+                        </fixedvalues>
+                    </binary>
+                </structure>
+                <binary name="Cedrik" id="67" fillcolor="AA7941" length="22"/>
+                <structure name="Bendik" id="68">
+                    <binary name="Bendik" id="69" fillcolor="FEFB00" repeatmin="7" repeatmax="7" length="21">
+                        <fixedvalues>
+                            <fixedvalue name="Cedrik" value="E000570002B80015C000AE000570002B80015C000A"/>
+                        </fixedvalues>
+                    </binary>
+                </structure>
+                <binary name="Fiona" id="71" fillcolor="906B17" length="60"/>
+                <binary name="Franz" id="72" fillcolor="189AA0" repeatmin="2" repeatmax="2" length="38"/>
+                <binary name="Gulars" id="73" fillcolor="E9C70C" repeatmin="2" repeatmax="2" length="34"/>
+                <binary name="Hedda" id="74" fillcolor="982AED" repeatmin="2" repeatmax="2" length="30"/>
+                <binary name="Diana" id="75" fillcolor="16BE18" length="51"/>
+            </structure>
+            <number name="Nr of livesets" id="77" type="integer" length="4"/>
+            <binary name="Livesets meta" id="78" fillcolor="E7EB93" length="12"/>
+            <structure name="Live Set" id="79" repeat="id:77" repeatmax="-1">
+                <string name="Live set name" id="80" fillcolor="F3D0D9" type="fixed-length" length="16"/>
+                <binary name="Qorum" id="81" fillcolor="A71647" length="397"/>
+                <structure name="Live set meta" id="82" length="38" repeatmin="4" repeatmax="4">
+                    <binary name="Tone pre" id="83" fillcolor="6D8B17" length="2"/>
+                    <binary name="Tone type" id="84" length="1"/>
+                    <number name="Tone position" id="85" type="integer" length="2"/>
+                    <binary name="Tone post" id="86" length="33"/>
+                </structure>
+                <structure name="Jonas" id="88" repeatmin="4" repeatmax="4">
+                    <binary name="Kadri" id="89" fillcolor="218917" length="37"/>
+                    <binary name="Ludde" id="90" fillcolor="21AB16" length="41"/>
+                </structure>
+                <binary name="Helle" id="92" fillcolor="187D2C" repeatmin="4" repeatmax="4" length="34"/>
+                <binary name="Ulrik" id="93" fillcolor="C2FC02" length="21"/>
+                <binary name="Rongar" id="94" fillcolor="1CBE15" repeatmin="4" repeatmax="4" length="33"/>
+            </structure>
+            <number name="Nr of tones" id="96" type="integer" length="4"/>
+            <binary name="Tones meta" id="97" fillcolor="97179E" length="12"/>
+            <structure name="Tone" id="98" repeat="id:96" repeatmax="-1">
+                <string name="Tone name" id="99" fillcolor="F2CAD3" type="fixed-length" length="12"/>
+                <binary name="Tone meta" id="100" fillcolor="B267E8" length="18"/>
+                <structure name="Subtone" id="101" length="0" repeatmin="3" repeatmax="3">
+                    <number name="Subtone osc type" id="102" type="integer" length="1" display="hex"/>
+                    <binary name="Subtone pre" id="103" fillcolor="CB13CC" length="38"/>
+                    <number name="Subtone waveform" id="104" type="integer" length="2" display="hex"/>
+                    <binary name="Subtone post" id="105" length="5"/>
+                </structure>
+            </structure>
+        </structure>
+    </grammar>
+</ufwb>
