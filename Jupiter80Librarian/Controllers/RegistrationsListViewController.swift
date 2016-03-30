@@ -163,9 +163,10 @@ class RegistrationsListViewController: SuperListViewController {
 						if let orderNr = Int(textField.stringValue) {
 							scrollToOrderNr(orderNr)
 						}
-					} else if self.tableData.count > 0 {
+					} else {
 						// Only process the text field when text was entered
-						if textField.stringValue.characters.count > 0 {
+						if self.tableData.count > 0 &&
+							textField.stringValue.characters.count > 0 {
 							var nameIndices: [(String, Int)] = []
 							var index = 0
 
@@ -195,11 +196,15 @@ class RegistrationsListViewController: SuperListViewController {
 
 							let text = textField.stringValue.lowercaseString
 
-							filterListOnNameIndices(nameIndices, text: text)
+							if let filteredRegs = filteredListForNameIndices(nameIndices, text: text) as? [SVDRegistration] {
+								Model.singleton.filteredRegistrations = filteredRegs
+							}
 						} else {
 							if let allRegs = svdFile?.registrations {
 								self.updateTableFromList(allRegs)
 							}
+
+							Model.singleton.filteredRegistrations = [SVDRegistration]()
 						}
 					}
 				}

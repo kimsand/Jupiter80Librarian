@@ -196,9 +196,10 @@ class TonesListViewController: SuperListViewController {
 						if let orderNr = Int(textField.stringValue) {
 							scrollToOrderNr(orderNr)
 						}
-					} else if self.tableData.count > 0 {
+					} else {
 						// Only process the text field when text was entered
-						if textField.stringValue.characters.count > 0 {
+						if textField.stringValue.characters.count > 0 &&
+							self.tableData.count > 0 {
 							var nameIndices: [(String, Int)] = []
 							var index = 0
 
@@ -226,11 +227,15 @@ class TonesListViewController: SuperListViewController {
 
 							let text = textField.stringValue.lowercaseString
 
-							filterListOnNameIndices(nameIndices, text: text)
+							if let filteredTones = filteredListForNameIndices(nameIndices, text: text) as? [SVDTone] {
+								Model.singleton.filteredTones = filteredTones
+							}
 						} else {
 							if let allTones = svdFile?.tones {
 								self.updateTableFromList(allTones)
 							}
+
+							Model.singleton.filteredTones = [SVDTone]()
 						}
 					}
 				}

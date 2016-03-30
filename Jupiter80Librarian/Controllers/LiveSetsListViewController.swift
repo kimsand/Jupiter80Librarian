@@ -190,9 +190,10 @@ class LiveSetsListViewController: SuperListViewController {
 						if let orderNr = Int(textField.stringValue) {
 							scrollToOrderNr(orderNr)
 						}
-					} else if self.tableData.count > 0 {
+					} else {
 						// Only process the text field when text was entered
-						if textField.stringValue.characters.count > 0 {
+						if self.tableData.count > 0 &&
+							textField.stringValue.characters.count > 0 {
 							var nameIndices: [(String, Int)] = []
 							var index = 0
 
@@ -222,11 +223,15 @@ class LiveSetsListViewController: SuperListViewController {
 
 							let text = textField.stringValue.lowercaseString
 
-							filterListOnNameIndices(nameIndices, text: text)
+							if let filteredLives = filteredListForNameIndices(nameIndices, text: text) as? [SVDLiveSet] {
+								Model.singleton.filteredLiveSets = filteredLives
+							}
 						} else {
 							if let allLiveSets = svdFile?.liveSets {
 								self.updateTableFromList(allLiveSets)
 							}
+
+							Model.singleton.filteredLiveSets = [SVDLiveSet]()
 						}
 					}
 				}

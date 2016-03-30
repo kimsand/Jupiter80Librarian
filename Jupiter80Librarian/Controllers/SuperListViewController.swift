@@ -166,6 +166,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
 		var filteredTypes: [SVDType] = []
+		let searchFilteredTypes: [SVDType]
 		let selectedTypes: [SVDType]
 		let svdFileTypes: [SVDType]
 
@@ -173,23 +174,51 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		case .Registration:
 			svdFileTypes = svdFile.registrations as [SVDType]
 			selectedTypes = Model.singleton.selectedRegistrations as [SVDType]
+			searchFilteredTypes = Model.singleton.filteredRegistrations as [SVDType]
 		case .LiveSet:
 			svdFileTypes = svdFile.liveSets as [SVDType]
 			selectedTypes = Model.singleton.selectedLiveSets as [SVDType]
+			searchFilteredTypes = Model.singleton.filteredLiveSets as [SVDType]
 		case .Tone:
 			svdFileTypes = svdFile.tones as [SVDType]
 			selectedTypes = Model.singleton.selectedTones as [SVDType]
+			searchFilteredTypes = Model.singleton.filteredTones as [SVDType]
 		}
 
 		switch segmentTag {
 		case DependencySegment.All.rawValue:
-			filteredTypes = svdFileTypes
+			if searchFilteredTypes.count > 0 {
+				filteredTypes = searchFilteredTypes
+			} else {
+				filteredTypes = svdFileTypes
+			}
 		case DependencySegment.Selected.rawValue:
-			for svdType in selectedTypes {
+			var listOfTypes: [SVDType]
+
+			if searchFilteredTypes.count > 0 {
+				listOfTypes = [SVDType]()
+				for svdType in searchFilteredTypes {
+					if selectedTypes.contains(svdType) {
+						listOfTypes.append(svdType)
+					}
+				}
+			} else {
+				listOfTypes = selectedTypes
+			}
+
+			for svdType in listOfTypes {
 				filteredTypes.append(svdType)
 			}
 		case DependencySegment.Used.rawValue:
-			for svdType in svdFileTypes {
+			var listOfTypes: [SVDType]
+
+			if searchFilteredTypes.count > 0 {
+				listOfTypes = searchFilteredTypes
+			} else {
+				listOfTypes = svdFileTypes
+			}
+
+			for svdType in listOfTypes {
 				switch self.svdSubType {
 				case .Registration:
 					break
@@ -209,7 +238,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 				}
 			}
 		case DependencySegment.Unused.rawValue:
-			for svdType in svdFileTypes {
+			var listOfTypes: [SVDType]
+
+			if searchFilteredTypes.count > 0 {
+				listOfTypes = searchFilteredTypes
+			} else {
+				listOfTypes = svdFileTypes
+			}
+
+			for svdType in listOfTypes {
 				switch self.svdSubType {
 				case .Registration:
 					break
@@ -337,7 +374,9 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 	}
 
-	func filterListOnNameIndices(nameIndices: [(String, Int)], text: String) {
+	func filteredListForNameIndices(nameIndices: [(String, Int)], text: String) -> [SVDType] {
+		var filteredTypes: [SVDType] = []
+
 		if nameIndices.count > 0 {
 			var indices = [Int]()
 
@@ -349,16 +388,16 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 			// If any rows were matched
 			if indices.count > 0 {
-				var filteredTypes: [SVDType] = []
-
 				for index in indices {
 					let svdType = self.tableData[index]
 					filteredTypes.append(svdType)
 				}
-
-				self.updateTableFromList(filteredTypes)
 			}
 		}
+
+		self.updateTableFromList(filteredTypes)
+
+		return filteredTypes
 	}
 
 	// MARK: Actions

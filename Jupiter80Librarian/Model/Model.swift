@@ -18,6 +18,10 @@ class Model: NSObject {
 	var selectedLiveSets: [SVDLiveSet] = []
 	var selectedTones: [SVDTone] = []
 
+	var filteredRegistrations: [SVDRegistration] = []
+	var filteredLiveSets: [SVDLiveSet] = []
+	var filteredTones: [SVDTone] = []
+
 	class var singleton: Model {
 		return sharedInstance
 	}
