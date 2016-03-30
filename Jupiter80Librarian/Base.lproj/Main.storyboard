@@ -96,7 +96,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Jupiter80Librarian" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Jupiter_80_Librarian" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="43" y="-142"/>
@@ -104,7 +104,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" customClass="ListWindowController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="ListWindowController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -122,7 +122,7 @@
         <!--List Tab View Controller-->
         <scene sceneID="VTu-cm-Pgj">
             <objects>
-                <tabViewController selectedTabViewItemIndex="0" id="SLb-HG-aUL" customClass="ListTabViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" id="SLb-HG-aUL" customClass="ListTabViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="Registrations" identifier="" id="uac-fx-EqK"/>
                         <tabViewItem label="Live Sets" identifier="" id="Cqe-dd-WM4"/>
@@ -150,7 +150,7 @@
         <!--Registrations List View Controller-->
         <scene sceneID="Wpb-3a-l1u">
             <objects>
-                <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qlx-up-juK">
                         <rect key="frame" x="0.0" y="0.0" width="696" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -582,7 +582,7 @@
         <!--Live Sets List View Controller-->
         <scene sceneID="h3a-yE-8Mz">
             <objects>
-                <viewController id="dEo-n4-BPa" customClass="LiveSetsListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dEo-n4-BPa" customClass="LiveSetsListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NqS-F5-gb4">
                         <rect key="frame" x="0.0" y="0.0" width="852" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1144,7 +1144,7 @@
         <!--Tones List View Controller-->
         <scene sceneID="Tye-xE-s0W">
             <objects>
-                <viewController id="Itn-By-bsi" customClass="TonesListViewController" customModule="Jupiter80Librarian" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Itn-By-bsi" customClass="TonesListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="XEr-KP-Wlw">
                         <rect key="frame" x="0.0" y="0.0" width="915" height="423"/>
                         <autoresizingMask key="autoresizingMask"/>
