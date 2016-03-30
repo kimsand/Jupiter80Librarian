@@ -41,7 +41,7 @@
 		E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDLiveSet.swift; path = Model/SVDLiveSet.swift; sourceTree = "<group>"; };
 		E8B2BF4D1A3794CA00FC669D /* SVDTone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDTone.swift; path = Model/SVDTone.swift; sourceTree = "<group>"; };
 		E8D493E91C4B7A3500763598 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Macros.swift; path = Utility/Macros.swift; sourceTree = "<group>"; };
-		E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jupiter80Librarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8E4AB671A1D131C00FCF1B5 /* Jupiter-80 Librarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jupiter-80 Librarian.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8E4AB6B1A1D131C00FCF1B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8E4AB6C1A1D131C00FCF1B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		E8E4AB681A1D131C00FCF1B5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */,
+				E8E4AB671A1D131C00FCF1B5 /* Jupiter-80 Librarian.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,9 +143,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E8E4AB661A1D131C00FCF1B5 /* Jupiter80Librarian */ = {
+		E8E4AB661A1D131C00FCF1B5 /* Jupiter-80 Librarian */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8E4AB831A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter80Librarian" */;
+			buildConfigurationList = E8E4AB831A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter-80 Librarian" */;
 			buildPhases = (
 				E8E4AB631A1D131C00FCF1B5 /* Sources */,
 				E8E4AB641A1D131C00FCF1B5 /* Frameworks */,
@@ -155,9 +155,9 @@
 			);
 			dependencies = (
 			);
-			name = Jupiter80Librarian;
+			name = "Jupiter-80 Librarian";
 			productName = Jupiter80Librarian;
-			productReference = E8E4AB671A1D131C00FCF1B5 /* Jupiter80Librarian.app */;
+			productReference = E8E4AB671A1D131C00FCF1B5 /* Jupiter-80 Librarian.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -189,7 +189,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E8E4AB661A1D131C00FCF1B5 /* Jupiter80Librarian */,
+				E8E4AB661A1D131C00FCF1B5 /* Jupiter-80 Librarian */,
 			);
 		};
 /* End PBXProject section */
@@ -360,7 +360,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E8E4AB831A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter80Librarian" */ = {
+		E8E4AB831A1D131C00FCF1B5 /* Build configuration list for PBXNativeTarget "Jupiter-80 Librarian" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E8E4AB841A1D131C00FCF1B5 /* Debug */,
