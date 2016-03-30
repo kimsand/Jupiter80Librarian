@@ -223,10 +223,10 @@ class LiveSetsListViewController: SuperListViewController {
 							let text = textField.stringValue.lowercaseString
 
 							filterListOnNameIndices(nameIndices, text: text)
-						}
-					} else {
-						if let allLiveSets = svdFile?.liveSets {
-							self.updateTableFromList(allLiveSets)
+						} else {
+							if let allLiveSets = svdFile?.liveSets {
+								self.updateTableFromList(allLiveSets)
+							}
 						}
 					}
 				}
