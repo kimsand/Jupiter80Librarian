@@ -18,6 +18,10 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	@IBOutlet var orderTextField: NSTextField!
 	@IBOutlet var nameTextField: NSTextField!
+	@IBOutlet var layer1TextField: NSTextField?
+	@IBOutlet var layer2TextField: NSTextField?
+	@IBOutlet var layer3TextField: NSTextField?
+	@IBOutlet var layer4TextField: NSTextField?
 
 	@IBOutlet var listTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
@@ -356,7 +360,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 	}
 
-	// MARK: Text field
+	// MARK: Text field filtering
 
 	func scrollToOrderNr(orderNr: Int) {
 		var index = 0
@@ -395,9 +399,186 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			}
 		}
 
-		self.updateTableFromList(filteredTypes)
-
 		return filteredTypes
+	}
+
+	func filterOnTextField(textField: NSTextField) {
+		let text = textField.stringValue.lowercaseString
+		let filteredTypes: [SVDType]
+
+		switch self.svdSubType {
+		case .Registration:
+			let nameIndices = self.nameIndicesForRegistrationTextField(textField)
+			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
+
+			if let filteredRegs = filteredTypes as? [SVDRegistration] {
+				Model.singleton.filteredRegistrations = filteredRegs
+			}
+		case .LiveSet:
+			let nameIndices = self.nameIndicesForLiveSetTextField(textField)
+			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
+
+			if let filteredLives = filteredTypes as? [SVDLiveSet] {
+				Model.singleton.filteredLiveSets = filteredLives
+			}
+		case .Tone:
+			let nameIndices = self.nameIndicesForToneTextField(textField)
+			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
+
+			if let filteredTones = filteredTypes as? [SVDTone] {
+				Model.singleton.filteredTones = filteredTones
+			}
+		}
+
+		self.updateTableFromList(filteredTypes)
+	}
+
+	func resetTextFieldFilters() {
+		if let svdFile = self.svdFile {
+			let allTypes: [SVDType]
+
+			switch self.svdSubType {
+			case .Registration:
+				allTypes = svdFile.registrations
+				Model.singleton.filteredRegistrations = [SVDRegistration]()
+			case .LiveSet:
+				allTypes = svdFile.liveSets
+				Model.singleton.filteredLiveSets = [SVDLiveSet]()
+			case .Tone:
+				allTypes = svdFile.tones
+				Model.singleton.filteredTones = [SVDTone]()
+			}
+
+			self.updateTableFromList(allTypes)
+		}
+	}
+
+	func nameIndicesForRegistrationTextField(textField: NSTextField) -> [(String, Int)] {
+		var nameIndices: [(String, Int)] = []
+		var index = 0
+
+		for svdReg in self.tableData as! [SVDRegistration] {
+			if let name = self.nameForRegistrationTextField(textField, svdReg: svdReg) {
+				nameIndices.append((name, index))
+			}
+
+			index += 1
+		}
+
+		return nameIndices
+	}
+
+	func nameIndicesForLiveSetTextField(textField: NSTextField) -> [(String, Int)] {
+		var nameIndices: [(String, Int)] = []
+		var index = 0
+
+		for svdLive in self.tableData as! [SVDLiveSet] {
+			if let name = self.nameForLiveSetTextField(textField, svdLive: svdLive) {
+				nameIndices.append((name, index))
+			}
+
+			index += 1
+		}
+
+		return nameIndices
+	}
+
+	func nameIndicesForToneTextField(textField: NSTextField) -> [(String, Int)] {
+		var nameIndices: [(String, Int)] = []
+		var index = 0
+
+		for svdTone in self.tableData as! [SVDTone] {
+			if let name = self.nameForToneTextField(textField, svdTone: svdTone) {
+				nameIndices.append((name, index))
+			}
+
+			index += 1
+		}
+
+		return nameIndices
+	}
+
+	func nameForRegistrationTextField(textField: NSTextField, svdReg: SVDRegistration) -> String? {
+		var name: String?
+
+		if textField == self.nameTextField {
+			name = svdReg.regName
+		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+			name = svdReg.upperName
+		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+			name = svdReg.lowerName
+		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+			name = svdReg.soloName
+		} else if let layer4TextField = self.layer4TextField where textField == layer4TextField {
+			name = svdReg.percName
+		}
+
+		return name
+	}
+
+	func nameForLiveSetTextField(textField: NSTextField, svdLive: SVDLiveSet) -> String? {
+		var name: String?
+
+		if textField == self.nameTextField {
+			name = svdLive.liveName
+		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+			name = svdLive.layer1Name
+		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+			name = svdLive.layer2Name
+		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+			name = svdLive.layer3Name
+		} else if let layer4TextField = self.layer4TextField where textField == layer4TextField {
+			name = svdLive.layer4Name
+		}
+
+		return name
+	}
+
+	func nameForToneTextField(textField: NSTextField, svdTone: SVDTone) -> String? {
+		var name: String?
+
+		if textField == self.nameTextField {
+			name = svdTone.toneName
+		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+			name = svdTone.partial1Name
+		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+			name = svdTone.partial2Name
+		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+			name = svdTone.partial3Name
+		}
+
+		return name
+	}
+
+	// MARK: Text field delegate
+
+	override func controlTextDidEndEditing(obj: NSNotification) {
+		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
+			// Only process the text field when the Return key was pressed
+			if textMovement == NSReturnTextMovement {
+				if let textField = obj.object as? NSTextField {
+					// The order field matches one and only one row number
+					if textField == self.orderTextField {
+						// Only process the text field when text was entered
+						if let orderNr = Int(textField.stringValue) {
+							scrollToOrderNr(orderNr)
+						}
+					} else {
+						// TODO:
+						// Reset the search filter by calling filterDependencies()
+						// Filter based on the content of ALL filter text fields
+
+						// Only process the text field when text was entered
+						if self.tableData.count > 0 &&
+							textField.stringValue.characters.count > 0 {
+							filterOnTextField(textField)
+						} else {
+							resetTextFieldFilters()
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// MARK: Actions

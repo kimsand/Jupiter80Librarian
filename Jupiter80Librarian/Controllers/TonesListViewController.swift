@@ -9,10 +9,6 @@
 import Cocoa
 
 class TonesListViewController: SuperListViewController {
-	@IBOutlet var partial1TextField: NSTextField!
-	@IBOutlet var partial2TextField: NSTextField!
-	@IBOutlet var partial3TextField: NSTextField!
-
 	@IBOutlet var partial1Column: NSTableColumn!
 	@IBOutlet var partial2Column: NSTableColumn!
 	@IBOutlet var partial3Column: NSTableColumn!
@@ -180,66 +176,6 @@ class TonesListViewController: SuperListViewController {
 			self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
 			self.regsTableView.reloadData()
 			self.livesTableView.reloadData()
-		}
-	}
-
-	// MARK: Text field
-
-	override func controlTextDidEndEditing(obj: NSNotification) {
-		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
-			// Only process the text field when the Return key was pressed
-			if textMovement == NSReturnTextMovement {
-				if let textField = obj.object as? NSTextField {
-					// The order field matches one and only one row number
-					if textField == self.orderTextField {
-						// Only process the text field when text was entered
-						if let orderNr = Int(textField.stringValue) {
-							scrollToOrderNr(orderNr)
-						}
-					} else {
-						// Only process the text field when text was entered
-						if textField.stringValue.characters.count > 0 &&
-							self.tableData.count > 0 {
-							var nameIndices: [(String, Int)] = []
-							var index = 0
-
-							for svdTone in self.tableData as! [SVDTone] {
-								var name: String?
-
-								if textField == self.nameTextField {
-									name = svdTone.toneName
-								} else if textField == self.partial1TextField {
-									name = svdTone.partial1Name
-								} else if textField == self.partial2TextField {
-									name = svdTone.partial2Name
-								} else if textField == self.partial3TextField {
-									name = svdTone.partial3Name
-								} else {
-									break // unsupported field
-								}
-
-								if name != nil {
-									nameIndices.append((name!, index))
-								}
-
-								index += 1
-							}
-
-							let text = textField.stringValue.lowercaseString
-
-							if let filteredTones = filteredListForNameIndices(nameIndices, text: text) as? [SVDTone] {
-								Model.singleton.filteredTones = filteredTones
-							}
-						} else {
-							if let allTones = svdFile?.tones {
-								self.updateTableFromList(allTones)
-							}
-
-							Model.singleton.filteredTones = [SVDTone]()
-						}
-					}
-				}
-			}
 		}
 	}
 

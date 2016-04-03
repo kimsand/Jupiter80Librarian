@@ -9,11 +9,6 @@
 import Cocoa
 
 class LiveSetsListViewController: SuperListViewController {
-	@IBOutlet var layer1TextField: NSTextField!
-	@IBOutlet var layer2TextField: NSTextField!
-	@IBOutlet var layer3TextField: NSTextField!
-	@IBOutlet var layer4TextField: NSTextField!
-
 	@IBOutlet var layer1Column: NSTableColumn!
 	@IBOutlet var layer2Column: NSTableColumn!
 	@IBOutlet var layer3Column: NSTableColumn!
@@ -174,68 +169,6 @@ class LiveSetsListViewController: SuperListViewController {
 			self.buildSelectionList()
 			self.buildDependencyList(&self.regsTableData)
 			self.regsTableView.reloadData()
-		}
-	}
-
-	// MARK: Text field
-
-	override func controlTextDidEndEditing(obj: NSNotification) {
-		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
-			// Only process the text field when the Return key was pressed
-			if textMovement == NSReturnTextMovement {
-				if let textField = obj.object as? NSTextField {
-					// The order field matches one and only one row number
-					if textField == self.orderTextField {
-						// Only process the text field when text was entered
-						if let orderNr = Int(textField.stringValue) {
-							scrollToOrderNr(orderNr)
-						}
-					} else {
-						// Only process the text field when text was entered
-						if self.tableData.count > 0 &&
-							textField.stringValue.characters.count > 0 {
-							var nameIndices: [(String, Int)] = []
-							var index = 0
-
-							for svdLive in self.tableData as! [SVDLiveSet] {
-								var name: String?
-
-								if textField == self.nameTextField {
-									name = svdLive.liveName
-								} else if textField == self.layer1TextField {
-									name = svdLive.layer1Name
-								} else if textField == self.layer2TextField {
-									name = svdLive.layer2Name
-								} else if textField == self.layer3TextField {
-									name = svdLive.layer3Name
-								} else if textField == self.layer4TextField {
-									name = svdLive.layer4Name
-								} else {
-									break // unsupported field
-								}
-
-								if name != nil {
-									nameIndices.append((name!, index))
-								}
-								
-								index += 1
-							}
-
-							let text = textField.stringValue.lowercaseString
-
-							if let filteredLives = filteredListForNameIndices(nameIndices, text: text) as? [SVDLiveSet] {
-								Model.singleton.filteredLiveSets = filteredLives
-							}
-						} else {
-							if let allLiveSets = svdFile?.liveSets {
-								self.updateTableFromList(allLiveSets)
-							}
-
-							Model.singleton.filteredLiveSets = [SVDLiveSet]()
-						}
-					}
-				}
-			}
 		}
 	}
 

@@ -9,11 +9,6 @@
 import Cocoa
 
 class RegistrationsListViewController: SuperListViewController {
-	@IBOutlet var upperTextField: NSTextField!
-	@IBOutlet var lowerTextField: NSTextField!
-	@IBOutlet var soloTextField: NSTextField!
-	@IBOutlet var percTextField: NSTextField!
-
 	@IBOutlet var upperColumn: NSTableColumn!
 	@IBOutlet var lowerColumn: NSTableColumn!
 	@IBOutlet var soloColumn: NSTableColumn!
@@ -149,67 +144,4 @@ class RegistrationsListViewController: SuperListViewController {
 			self.buildSelectionList()
 		}
 	}
-
-	// MARK: Text field
-
-	override func controlTextDidEndEditing(obj: NSNotification) {
-		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
-			// Only process the text field when the Return key was pressed
-			if textMovement == NSReturnTextMovement {
-				if let textField = obj.object as? NSTextField {
-					// The order field matches one and only one row number
-					if textField == self.orderTextField {
-						// Only process the text field when text was entered
-						if let orderNr = Int(textField.stringValue) {
-							scrollToOrderNr(orderNr)
-						}
-					} else {
-						// Only process the text field when text was entered
-						if self.tableData.count > 0 &&
-							textField.stringValue.characters.count > 0 {
-							var nameIndices: [(String, Int)] = []
-							var index = 0
-
-							for svdReg in self.tableData as! [SVDRegistration] {
-								var name: String?
-
-								if textField == self.nameTextField {
-									name = svdReg.regName
-								} else if textField == self.upperTextField {
-									name = svdReg.upperName
-								} else if textField == self.lowerTextField {
-									name = svdReg.lowerName
-								} else if textField == self.soloTextField {
-									name = svdReg.soloName
-								} else if textField == self.percTextField {
-									name = svdReg.percName
-								} else {
-									break // unsupported field
-								}
-
-								if name != nil {
-									nameIndices.append((name!, index))
-								}
-								
-								index += 1
-							}
-
-							let text = textField.stringValue.lowercaseString
-
-							if let filteredRegs = filteredListForNameIndices(nameIndices, text: text) as? [SVDRegistration] {
-								Model.singleton.filteredRegistrations = filteredRegs
-							}
-						} else {
-							if let allRegs = svdFile?.registrations {
-								self.updateTableFromList(allRegs)
-							}
-
-							Model.singleton.filteredRegistrations = [SVDRegistration]()
-						}
-					}
-				}
-			}
-		}
-	}
-
 }

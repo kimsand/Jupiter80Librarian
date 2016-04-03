@@ -559,19 +559,19 @@
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="NKg-Je-Ilr" id="r4c-Gk-FIp"/>
+                        <outlet property="layer1TextField" destination="zRL-cR-TgN" id="RVd-jJ-dVc"/>
+                        <outlet property="layer2TextField" destination="eTY-Zw-Jqg" id="n8x-a9-ZIM"/>
+                        <outlet property="layer3TextField" destination="KgT-2T-3Hi" id="Qeq-C7-04f"/>
+                        <outlet property="layer4TextField" destination="XI6-Db-D9A" id="lav-00-1l0"/>
                         <outlet property="listTableView" destination="wmi-dU-VAB" id="QYu-P0-Gbj"/>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
-                        <outlet property="lowerTextField" destination="eTY-Zw-Jqg" id="fZk-OH-N2J"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
                         <outlet property="nameTextField" destination="Xw6-AB-64C" id="Z81-20-9GB"/>
                         <outlet property="orderColumn" destination="iSA-ug-Ybs" id="POl-jN-n1b"/>
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
-                        <outlet property="percTextField" destination="XI6-Db-D9A" id="NGC-pa-qRy"/>
                         <outlet property="soloColumn" destination="J36-ND-y2m" id="TCM-sz-9fZ"/>
-                        <outlet property="soloTextField" destination="KgT-2T-3Hi" id="Vgj-k8-bBZ"/>
                         <outlet property="upperColumn" destination="XLo-3x-p7D" id="Sb2-5v-o0v"/>
-                        <outlet property="upperTextField" destination="zRL-cR-TgN" id="NCe-zG-ueC"/>
                     </connections>
                 </viewController>
                 <customObject id="b80-qo-hF8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1758,6 +1758,9 @@
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="v9X-Ag-jBs" id="eeu-bm-VG8"/>
+                        <outlet property="layer1TextField" destination="1Hc-UL-j0q" id="i3m-uz-cCN"/>
+                        <outlet property="layer2TextField" destination="TLj-e2-N9E" id="YI2-Ac-OQ2"/>
+                        <outlet property="layer3TextField" destination="zBg-ZV-aVZ" id="0vX-dz-hJC"/>
                         <outlet property="listTableView" destination="aAC-VF-slb" id="sem-pR-use"/>
                         <outlet property="liveNameColumn" destination="8vY-nd-VAl" id="igB-1e-EVh"/>
                         <outlet property="liveOrderColumn" destination="9VO-7q-MxK" id="4jP-Cn-gfT"/>
@@ -1768,11 +1771,8 @@
                         <outlet property="orderColumn" destination="sbJ-Hb-YgZ" id="ZYe-2a-Igm"/>
                         <outlet property="orderTextField" destination="EdM-5U-rXV" id="Vce-0W-V3Z"/>
                         <outlet property="partial1Column" destination="pj9-Z8-6AR" id="gRa-nA-RoN"/>
-                        <outlet property="partial1TextField" destination="1Hc-UL-j0q" id="E7P-J6-2iT"/>
                         <outlet property="partial2Column" destination="nlc-sQ-s3u" id="Kcu-pV-r8g"/>
-                        <outlet property="partial2TextField" destination="TLj-e2-N9E" id="QBI-eI-bnO"/>
                         <outlet property="partial3Column" destination="eNw-Nr-ncT" id="4X3-zZ-7bb"/>
-                        <outlet property="partial3TextField" destination="zBg-ZV-aVZ" id="zaz-Z9-Nq1"/>
                         <outlet property="regNameColumn" destination="5IU-pB-qLd" id="1SP-zB-78D"/>
                         <outlet property="regOrderColumn" destination="pKk-NK-zBH" id="iTO-aE-XVF"/>
                         <outlet property="regsTableView" destination="nl9-rX-pey" id="6qf-n0-TZy"/>
