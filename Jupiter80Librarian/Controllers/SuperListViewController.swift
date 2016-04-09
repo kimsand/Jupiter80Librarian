@@ -103,7 +103,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return indexSet
 	}
 
-	func updateTableFromList(svdTypes: [SVDType]) {
+	func updateTableFromTypeList(svdTypes: [SVDType]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += svdTypes
 		self.listTableView.reloadData()
@@ -161,15 +161,16 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		livesTableData += liveList
 	}
 
-	func filterDependencies() {
+	func typeListFilteredOnDependencies(ignoreSearchFilter doIgnoreSearchFilter: Bool = true) -> [SVDType] {
+		var filteredTypes: [SVDType] = []
+
 		guard let svdFile = self.svdFile else {
-			return
+			return filteredTypes
 		}
 
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
 		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
 
-		var filteredTypes: [SVDType] = []
 		let searchFilteredTypes: [SVDType]
 		let selectedTypes: [SVDType]
 		let svdFileTypes: [SVDType]
@@ -178,15 +179,27 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		case .Registration:
 			svdFileTypes = svdFile.registrations as [SVDType]
 			selectedTypes = Model.singleton.selectedRegistrations as [SVDType]
-			searchFilteredTypes = Model.singleton.filteredRegistrations as [SVDType]
+			if !doIgnoreSearchFilter {
+				searchFilteredTypes = Model.singleton.filteredRegistrations as [SVDType]
+			} else {
+				searchFilteredTypes = []
+			}
 		case .LiveSet:
 			svdFileTypes = svdFile.liveSets as [SVDType]
 			selectedTypes = Model.singleton.selectedLiveSets as [SVDType]
-			searchFilteredTypes = Model.singleton.filteredLiveSets as [SVDType]
+			if !doIgnoreSearchFilter {
+				searchFilteredTypes = Model.singleton.filteredLiveSets as [SVDType]
+			} else {
+				searchFilteredTypes = []
+			}
 		case .Tone:
 			svdFileTypes = svdFile.tones as [SVDType]
 			selectedTypes = Model.singleton.selectedTones as [SVDType]
-			searchFilteredTypes = Model.singleton.filteredTones as [SVDType]
+			if !doIgnoreSearchFilter {
+				searchFilteredTypes = Model.singleton.filteredTones as [SVDType]
+			} else {
+				searchFilteredTypes = []
+			}
 		}
 
 		switch segmentTag {
@@ -270,10 +283,10 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 				}
 			}
 		default:
-			return
+			return filteredTypes
 		}
 
-		self.updateTableFromList(filteredTypes)
+		return filteredTypes
 	}
 
 	// MARK: Text colors based on sound type and sound name
@@ -378,7 +391,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 	}
 
-	func filteredListForNameIndices(nameIndices: [(String, Int)], text: String) -> [SVDType] {
+	func filteredListForNameIndices(nameIndices: [(String, Int)], text: String, typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes: [SVDType] = []
 
 		if nameIndices.count > 0 {
@@ -393,7 +406,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			// If any rows were matched
 			if indices.count > 0 {
 				for index in indices {
-					let svdType = self.tableData[index]
+					let svdType = typeList[index]
 					filteredTypes.append(svdType)
 				}
 			}
@@ -402,62 +415,85 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return filteredTypes
 	}
 
-	func filterOnTextField(textField: NSTextField) {
+	func typeListFilteredOnTextFieldsForTypeList(typeList: [SVDType]) -> [SVDType] {
+		var filteredTypes = typeList
+
+		if self.nameTextField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(self.nameTextField, typeList: filteredTypes)
+		}
+
+		if let layer1TextField = self.layer1TextField where layer1TextField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer1TextField, typeList: filteredTypes)
+		}
+
+		if let layer2TextField = self.layer2TextField where layer2TextField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer2TextField, typeList: filteredTypes)
+		}
+
+		if let layer3TextField = self.layer3TextField where layer3TextField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer3TextField, typeList: filteredTypes)
+		}
+
+		if let layer4TextField = self.layer4TextField where layer4TextField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer4TextField, typeList: filteredTypes)
+		}
+
+		return filteredTypes
+	}
+
+	func typeListFilteredOnTextField(textField: NSTextField, typeList: [SVDType]) -> [SVDType] {
 		let text = textField.stringValue.lowercaseString
-		let filteredTypes: [SVDType]
+		var filteredTypes = typeList
 
 		switch self.svdSubType {
 		case .Registration:
-			let nameIndices = self.nameIndicesForRegistrationTextField(textField)
-			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
-
-			if let filteredRegs = filteredTypes as? [SVDRegistration] {
-				Model.singleton.filteredRegistrations = filteredRegs
+			if let regList = typeList as? [SVDRegistration] {
+				let nameIndices = self.nameIndicesForRegistrationTextField(textField, regList: regList)
+				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
 			}
 		case .LiveSet:
-			let nameIndices = self.nameIndicesForLiveSetTextField(textField)
-			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
-
-			if let filteredLives = filteredTypes as? [SVDLiveSet] {
-				Model.singleton.filteredLiveSets = filteredLives
+			if let liveList = typeList as? [SVDLiveSet] {
+				let nameIndices = self.nameIndicesForLiveSetTextField(textField, liveList: liveList)
+				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
 			}
 		case .Tone:
-			let nameIndices = self.nameIndicesForToneTextField(textField)
-			filteredTypes = filteredListForNameIndices(nameIndices, text: text)
-
-			if let filteredTones = filteredTypes as? [SVDTone] {
-				Model.singleton.filteredTones = filteredTones
+			if let toneList = filteredTypes as? [SVDTone] {
+				let nameIndices = self.nameIndicesForToneTextField(textField, toneList: toneList)
+				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
 			}
 		}
 
-		self.updateTableFromList(filteredTypes)
+		return filteredTypes
 	}
 
-	func resetTextFieldFilters() {
-		if let svdFile = self.svdFile {
-			let allTypes: [SVDType]
-
-			switch self.svdSubType {
-			case .Registration:
-				allTypes = svdFile.registrations
+	func resetTextFieldFiltersFromTypeList(typeList: [SVDType]) {
+		switch self.svdSubType {
+		case .Registration:
+			if let filteredRegs = typeList as? [SVDRegistration] {
+				Model.singleton.filteredRegistrations = filteredRegs
+			} else {
 				Model.singleton.filteredRegistrations = [SVDRegistration]()
-			case .LiveSet:
-				allTypes = svdFile.liveSets
+			}
+		case .LiveSet:
+			if let filteredLives = typeList as? [SVDLiveSet] {
+				Model.singleton.filteredLiveSets = filteredLives
+			} else {
 				Model.singleton.filteredLiveSets = [SVDLiveSet]()
-			case .Tone:
-				allTypes = svdFile.tones
+			}
+		case .Tone:
+			if let filteredTones = typeList as? [SVDTone] {
+				Model.singleton.filteredTones = filteredTones
+			} else {
 				Model.singleton.filteredTones = [SVDTone]()
 			}
-
-			self.updateTableFromList(allTypes)
 		}
 	}
 
-	func nameIndicesForRegistrationTextField(textField: NSTextField) -> [(String, Int)] {
+	func nameIndicesForRegistrationTextField(textField: NSTextField, regList: [SVDRegistration]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
-		for svdReg in self.tableData as! [SVDRegistration] {
+		for svdReg in regList {
 			if let name = self.nameForRegistrationTextField(textField, svdReg: svdReg) {
 				nameIndices.append((name, index))
 			}
@@ -468,11 +504,11 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return nameIndices
 	}
 
-	func nameIndicesForLiveSetTextField(textField: NSTextField) -> [(String, Int)] {
+	func nameIndicesForLiveSetTextField(textField: NSTextField, liveList: [SVDLiveSet]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
-		for svdLive in self.tableData as! [SVDLiveSet] {
+		for svdLive in liveList {
 			if let name = self.nameForLiveSetTextField(textField, svdLive: svdLive) {
 				nameIndices.append((name, index))
 			}
@@ -483,11 +519,11 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return nameIndices
 	}
 
-	func nameIndicesForToneTextField(textField: NSTextField) -> [(String, Int)] {
+	func nameIndicesForToneTextField(textField: NSTextField, toneList: [SVDTone]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
-		for svdTone in self.tableData as! [SVDTone] {
+		for svdTone in toneList {
 			if let name = self.nameForToneTextField(textField, svdTone: svdTone) {
 				nameIndices.append((name, index))
 			}
@@ -564,17 +600,14 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 							scrollToOrderNr(orderNr)
 						}
 					} else {
-						// TODO:
-						// Reset the search filter by calling filterDependencies()
-						// Filter based on the content of ALL filter text fields
+						// Reset to the list filtered by the dependency segment
+						var filteredTypes = typeListFilteredOnDependencies()
 
-						// Only process the text field when text was entered
-						if self.tableData.count > 0 &&
-							textField.stringValue.characters.count > 0 {
-							filterOnTextField(textField)
-						} else {
-							resetTextFieldFilters()
-						}
+						// Filter based on the content of ALL filter text fields
+						filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
+						resetTextFieldFiltersFromTypeList(filteredTypes)
+
+						updateTableFromTypeList(filteredTypes)
 					}
 				}
 			}
@@ -584,7 +617,8 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	// MARK: Actions
 
 	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
-		self.filterDependencies()
+		let filteredTypes = typeListFilteredOnDependencies(ignoreSearchFilter: false)
+		updateTableFromTypeList(filteredTypes)
 	}
 
 	// MARK: Notifications
