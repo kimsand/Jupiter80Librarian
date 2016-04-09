@@ -17,11 +17,11 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	}
 
 	@IBOutlet var orderTextField: NSTextField!
-	@IBOutlet var nameTextField: NSTextField!
-	@IBOutlet var layer1TextField: NSTextField?
-	@IBOutlet var layer2TextField: NSTextField?
-	@IBOutlet var layer3TextField: NSTextField?
-	@IBOutlet var layer4TextField: NSTextField?
+	@IBOutlet var nameSearchField: NSSearchField!
+	@IBOutlet var layer1SearchField: NSSearchField?
+	@IBOutlet var layer2SearchField: NSSearchField?
+	@IBOutlet var layer3SearchField: NSSearchField?
+	@IBOutlet var layer4SearchField: NSSearchField?
 
 	@IBOutlet var listTableView: NSTableView!
 	@IBOutlet var orderColumn: NSTableColumn!
@@ -436,24 +436,24 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func typeListFilteredOnTextFieldsForTypeList(typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes = typeList
 
-		if self.nameTextField.stringValue.characters.count > 0 {
-			filteredTypes = typeListFilteredOnTextField(self.nameTextField, typeList: filteredTypes)
+		if self.nameSearchField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(self.nameSearchField, typeList: filteredTypes)
 		}
 
-		if let layer1TextField = self.layer1TextField where layer1TextField.stringValue.characters.count > 0 {
-			filteredTypes = typeListFilteredOnTextField(layer1TextField, typeList: filteredTypes)
+		if let layer1SearchField = self.layer1SearchField where layer1SearchField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer1SearchField, typeList: filteredTypes)
 		}
 
-		if let layer2TextField = self.layer2TextField where layer2TextField.stringValue.characters.count > 0 {
-			filteredTypes = typeListFilteredOnTextField(layer2TextField, typeList: filteredTypes)
+		if let layer2SearchField = self.layer2SearchField where layer2SearchField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer2SearchField, typeList: filteredTypes)
 		}
 
-		if let layer3TextField = self.layer3TextField where layer3TextField.stringValue.characters.count > 0 {
-			filteredTypes = typeListFilteredOnTextField(layer3TextField, typeList: filteredTypes)
+		if let layer3SearchField = self.layer3SearchField where layer3SearchField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer3SearchField, typeList: filteredTypes)
 		}
 
-		if let layer4TextField = self.layer4TextField where layer4TextField.stringValue.characters.count > 0 {
-			filteredTypes = typeListFilteredOnTextField(layer4TextField, typeList: filteredTypes)
+		if let layer4SearchField = self.layer4SearchField where layer4SearchField.stringValue.characters.count > 0 {
+			filteredTypes = typeListFilteredOnTextField(layer4SearchField, typeList: filteredTypes)
 		}
 
 		return filteredTypes
@@ -555,15 +555,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func nameForRegistrationTextField(textField: NSTextField, svdReg: SVDRegistration) -> String? {
 		var name: String?
 
-		if textField == self.nameTextField {
+		if textField == self.nameSearchField {
 			name = svdReg.regName
-		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
 			name = svdReg.upperName
-		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
 			name = svdReg.lowerName
-		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
 			name = svdReg.soloName
-		} else if let layer4TextField = self.layer4TextField where textField == layer4TextField {
+		} else if let layer4SearchField = self.layer4SearchField where textField == layer4SearchField {
 			name = svdReg.percName
 		}
 
@@ -573,15 +573,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func nameForLiveSetTextField(textField: NSTextField, svdLive: SVDLiveSet) -> String? {
 		var name: String?
 
-		if textField == self.nameTextField {
+		if textField == self.nameSearchField {
 			name = svdLive.liveName
-		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
 			name = svdLive.layer1Name
-		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
 			name = svdLive.layer2Name
-		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
 			name = svdLive.layer3Name
-		} else if let layer4TextField = self.layer4TextField where textField == layer4TextField {
+		} else if let layer4SearchField = self.layer4SearchField where textField == layer4SearchField {
 			name = svdLive.layer4Name
 		}
 
@@ -591,42 +591,41 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func nameForToneTextField(textField: NSTextField, svdTone: SVDTone) -> String? {
 		var name: String?
 
-		if textField == self.nameTextField {
+		if textField == self.nameSearchField {
 			name = svdTone.toneName
-		} else if let layer1TextField = self.layer1TextField where textField == layer1TextField {
+		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
 			name = svdTone.partial1Name
-		} else if let layer2TextField = self.layer2TextField where textField == layer2TextField {
+		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
 			name = svdTone.partial2Name
-		} else if let layer3TextField = self.layer3TextField where textField == layer3TextField {
+		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
 			name = svdTone.partial3Name
 		}
 
 		return name
 	}
 
-	// MARK: Text field delegate
+	// MARK: Text (search) field delegate
 
 	override func controlTextDidEndEditing(obj: NSNotification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
 			// Only process the text field when the Return key was pressed
+			// TODO: A search field should also handle the cancel button (empty string without Return)
 			if textMovement == NSReturnTextMovement {
-				if let textField = obj.object as? NSTextField {
-					// The order field matches one and only one row number
-					if textField == self.orderTextField {
-						// Only process the text field when text was entered
-						if let orderNr = Int(textField.stringValue) {
-							scrollToOrderNr(orderNr)
-						}
-					} else {
-						// Reset to the list filtered by the dependency segment
-						var filteredTypes = typeListFilteredOnDependencies()
-
-						// Filter based on the content of ALL filter text fields
-						filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
-						resetTextFieldFiltersFromTypeList(filteredTypes)
-
-						updateTableFromTypeList(filteredTypes)
+				// The order field matches one and only one row number
+				if let textField = obj.object as? NSTextField where textField == orderTextField {
+					// Only process the text field when text was entered
+					if let orderNr = Int(textField.stringValue) {
+						scrollToOrderNr(orderNr)
 					}
+				} else {
+					// Reset to the list filtered by the dependency segment
+					var filteredTypes = typeListFilteredOnDependencies()
+
+					// Filter based on the content of ALL filter text fields
+					filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
+					resetTextFieldFiltersFromTypeList(filteredTypes)
+
+					updateTableFromTypeList(filteredTypes)
 				}
 			}
 		}

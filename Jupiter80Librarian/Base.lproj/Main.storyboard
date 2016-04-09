@@ -160,7 +160,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="1ng-I3-vEw"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Order" drawsBackground="YES" id="gvy-vl-Q4l">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Go To" drawsBackground="YES" id="gvy-vl-Q4l">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -169,76 +169,76 @@
                                     <outlet property="delegate" destination="3Ww-72-gvd" id="fPw-H6-DIf"/>
                                 </connections>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xw6-AB-64C">
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zGD-wn-XWJ">
                                 <rect key="frame" x="63" y="374" width="130" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="gpF-RD-22h"/>
+                                    <constraint firstAttribute="width" constant="130" id="ZVF-rn-TOF"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Registration Name" drawsBackground="YES" id="3bD-Ra-EJa">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="zVE-x7-Q30">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="3Ww-72-gvd" id="XhB-7e-hTt"/>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="YRk-Qm-Wfu"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zRL-cR-TgN">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2N-xf-jDg">
                                 <rect key="frame" x="196" y="374" width="130" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="Xc5-n8-6pV"/>
+                                    <constraint firstAttribute="width" constant="130" id="N8W-D3-6zI"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Upper Live Set" drawsBackground="YES" id="odI-Zr-lVw">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="hec-IM-q3d">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="3Ww-72-gvd" id="E5I-51-yNi"/>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="21h-eY-3Hn"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eTY-Zw-Jqg">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lru-yG-GJv">
                                 <rect key="frame" x="329" y="374" width="130" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="zB3-ME-9kf"/>
+                                    <constraint firstAttribute="width" constant="130" id="e8h-cY-wv2"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Lower Live Set" drawsBackground="YES" id="BuQ-Xw-FUL">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="hB1-Eh-Afl">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="3Ww-72-gvd" id="VJx-WA-c7g"/>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="zhx-9K-lew"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KgT-2T-3Hi">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pAR-kq-GJx">
                                 <rect key="frame" x="462" y="374" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="gbo-QV-Pbw"/>
+                                    <constraint firstAttribute="width" constant="110" id="sMD-a7-bUv"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Solo Tone" drawsBackground="YES" id="uvf-4k-gtv">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="7jy-Zq-haa">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="3Ww-72-gvd" id="J73-gB-uaL"/>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="Mgz-9c-AZZ"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XI6-Db-D9A">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L6X-Vc-oAP">
                                 <rect key="frame" x="575" y="374" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="Tky-sT-hIH"/>
+                                    <constraint firstAttribute="width" constant="110" id="56R-4N-cWQ"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Perc Tone" drawsBackground="YES" id="i40-Dn-VCb">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="6Oz-sr-pKg">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="3Ww-72-gvd" id="nuZ-su-B8r"/>
+                                    <outlet property="delegate" destination="3Ww-72-gvd" id="FKJ-rK-R5L"/>
                                 </connections>
-                            </textField>
+                            </searchField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-pY-YV9" userLabel="Registrations List Scroll View">
                                 <rect key="frame" x="8" y="29" width="680" height="341"/>
                                 <clipView key="contentView" id="5qS-B2-psh">
@@ -534,24 +534,23 @@
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="xgZ-f6-Fov" firstAttribute="top" secondItem="eTY-Zw-Jqg" secondAttribute="top" id="83X-OR-Sly"/>
-                            <constraint firstItem="eTY-Zw-Jqg" firstAttribute="leading" secondItem="zRL-cR-TgN" secondAttribute="trailing" constant="3" id="9sZ-Fe-TVS"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="8" id="ARV-3a-GhK"/>
-                            <constraint firstItem="KgT-2T-3Hi" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="GHm-bA-2gt"/>
+                            <constraint firstItem="L6X-Vc-oAP" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="IdZ-yE-0gD"/>
                             <constraint firstItem="NKg-Je-Ilr" firstAttribute="top" secondItem="Kap-pY-YV9" secondAttribute="bottom" constant="4" id="JiJ-pg-2Dq"/>
-                            <constraint firstItem="XI6-Db-D9A" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="M56-2Y-lo9"/>
+                            <constraint firstItem="X2N-xf-jDg" firstAttribute="leading" secondItem="zGD-wn-XWJ" secondAttribute="trailing" constant="3" id="QX5-Do-ikP"/>
+                            <constraint firstItem="Lru-yG-GJv" firstAttribute="leading" secondItem="X2N-xf-jDg" secondAttribute="trailing" constant="3" id="Syk-zA-laR"/>
+                            <constraint firstItem="L6X-Vc-oAP" firstAttribute="leading" secondItem="pAR-kq-GJx" secondAttribute="trailing" constant="3" id="U7L-Zu-N01"/>
+                            <constraint firstItem="pAR-kq-GJx" firstAttribute="leading" secondItem="Lru-yG-GJv" secondAttribute="trailing" constant="3" id="aN0-I2-CEg"/>
                             <constraint firstItem="ct6-Sw-b04" firstAttribute="centerY" secondItem="NKg-Je-Ilr" secondAttribute="centerY" constant="-1" id="avM-Sz-nhg"/>
-                            <constraint firstItem="XI6-Db-D9A" firstAttribute="leading" secondItem="KgT-2T-3Hi" secondAttribute="trailing" constant="3" id="bsd-hS-LN6"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="bottom" constant="4" id="dIh-KL-Wis"/>
-                            <constraint firstItem="Xw6-AB-64C" firstAttribute="leading" secondItem="xgZ-f6-Fov" secondAttribute="trailing" constant="3" id="fQd-ZS-zBc"/>
-                            <constraint firstItem="Xw6-AB-64C" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="hPq-rl-Lci"/>
+                            <constraint firstItem="pAR-kq-GJx" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="ePx-Pr-8vc"/>
+                            <constraint firstItem="X2N-xf-jDg" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="fFf-fu-9W8"/>
+                            <constraint firstItem="zGD-wn-XWJ" firstAttribute="leading" secondItem="xgZ-f6-Fov" secondAttribute="trailing" constant="3" id="gTF-lC-Df6"/>
                             <constraint firstItem="NKg-Je-Ilr" firstAttribute="leading" secondItem="ct6-Sw-b04" secondAttribute="trailing" constant="8" id="hbq-5Y-Io6"/>
                             <constraint firstAttribute="trailing" secondItem="Kap-pY-YV9" secondAttribute="trailing" constant="8" id="iIv-8r-ozW"/>
-                            <constraint firstItem="KgT-2T-3Hi" firstAttribute="leading" secondItem="eTY-Zw-Jqg" secondAttribute="trailing" constant="3" id="loS-wb-jQH"/>
-                            <constraint firstItem="zRL-cR-TgN" firstAttribute="leading" secondItem="Xw6-AB-64C" secondAttribute="trailing" constant="3" id="mOu-Mq-rw4"/>
-                            <constraint firstItem="Kap-pY-YV9" firstAttribute="trailing" secondItem="XI6-Db-D9A" secondAttribute="trailing" constant="3" id="oi0-vI-Nmp"/>
-                            <constraint firstItem="zRL-cR-TgN" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="rk1-2Z-XcD"/>
+                            <constraint firstItem="Lru-yG-GJv" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="iwa-he-nZa"/>
                             <constraint firstAttribute="bottom" secondItem="NKg-Je-Ilr" secondAttribute="bottom" constant="4" id="vlO-fp-eO0"/>
+                            <constraint firstItem="zGD-wn-XWJ" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="xN7-ec-ZvX"/>
                             <constraint firstItem="xgZ-f6-Fov" firstAttribute="top" secondItem="qlx-up-juK" secondAttribute="top" constant="4" id="xdy-UX-Xlc"/>
                             <constraint firstItem="ct6-Sw-b04" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="10" id="zP0-uN-Oz8"/>
                             <constraint firstItem="xgZ-f6-Fov" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="10" id="zQa-YL-249"/>
@@ -559,14 +558,14 @@
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="NKg-Je-Ilr" id="r4c-Gk-FIp"/>
-                        <outlet property="layer1TextField" destination="zRL-cR-TgN" id="RVd-jJ-dVc"/>
-                        <outlet property="layer2TextField" destination="eTY-Zw-Jqg" id="n8x-a9-ZIM"/>
-                        <outlet property="layer3TextField" destination="KgT-2T-3Hi" id="Qeq-C7-04f"/>
-                        <outlet property="layer4TextField" destination="XI6-Db-D9A" id="lav-00-1l0"/>
+                        <outlet property="layer1SearchField" destination="X2N-xf-jDg" id="rVM-hF-R3e"/>
+                        <outlet property="layer2SearchField" destination="Lru-yG-GJv" id="bc5-67-ws6"/>
+                        <outlet property="layer3SearchField" destination="pAR-kq-GJx" id="qqV-le-sy8"/>
+                        <outlet property="layer4SearchField" destination="L6X-Vc-oAP" id="Sm3-Bh-68a"/>
                         <outlet property="listTableView" destination="wmi-dU-VAB" id="QYu-P0-Gbj"/>
                         <outlet property="lowerColumn" destination="ait-WL-OKP" id="56C-Et-IU6"/>
                         <outlet property="nameColumn" destination="aLg-Z9-J8h" id="8kX-gA-sr9"/>
-                        <outlet property="nameTextField" destination="Xw6-AB-64C" id="Z81-20-9GB"/>
+                        <outlet property="nameSearchField" destination="zGD-wn-XWJ" id="3GB-Jx-7Kw"/>
                         <outlet property="orderColumn" destination="iSA-ug-Ybs" id="POl-jN-n1b"/>
                         <outlet property="orderTextField" destination="xgZ-f6-Fov" id="PVx-Yz-y5r"/>
                         <outlet property="percColumn" destination="n7b-jU-j6k" id="c6P-Vf-sUX"/>
@@ -592,7 +591,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="uXd-oz-jVO"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Order" drawsBackground="YES" id="aTz-SJ-3A1">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Go To" drawsBackground="YES" id="aTz-SJ-3A1">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -601,76 +600,76 @@
                                     <outlet property="delegate" destination="dEo-n4-BPa" id="MKq-Ex-FDa"/>
                                 </connections>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BFC-zF-MBE">
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aip-S2-Brl">
                                 <rect key="frame" x="63" y="444" width="130" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="8V9-AJ-cea"/>
+                                    <constraint firstAttribute="width" constant="130" id="YWv-wz-Mmr"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Live Set Name" drawsBackground="YES" id="U3t-A1-2E5">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="upT-Wy-mpk">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="dEo-n4-BPa" id="iXx-jA-WFs"/>
+                                    <outlet property="delegate" destination="dEo-n4-BPa" id="dkr-nk-sB5"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u7O-sZ-mxq">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bxs-Z7-1FZ">
                                 <rect key="frame" x="196" y="444" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="HXm-E8-rxm"/>
+                                    <constraint firstAttribute="width" constant="110" id="Lfe-8p-9Zr"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Layer 1 Tone" drawsBackground="YES" id="HCA-Cx-rl6">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="mOy-oQ-LLc">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="dEo-n4-BPa" id="Pca-jO-sBD"/>
+                                    <outlet property="delegate" destination="dEo-n4-BPa" id="szV-Wk-s8X"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FHq-9C-rMp">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ipc-98-oYa">
                                 <rect key="frame" x="309" y="444" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="OYc-Mz-Gqt"/>
+                                    <constraint firstAttribute="width" constant="110" id="1WP-8R-2s1"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Layer 2 Tone" drawsBackground="YES" id="uCn-QN-giM">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="68l-0i-gcO">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="dEo-n4-BPa" id="EWT-aM-EYQ"/>
+                                    <outlet property="delegate" destination="dEo-n4-BPa" id="R98-5x-dUz"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bxE-cg-XgT">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eW2-wG-cUc">
                                 <rect key="frame" x="422" y="444" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="KUw-1s-VT1"/>
+                                    <constraint firstAttribute="width" constant="110" id="MHn-Ka-9jI"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Layer 3 Tone" drawsBackground="YES" id="Gad-gA-f04">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="of3-af-GjB">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="dEo-n4-BPa" id="fpZ-D2-lDb"/>
+                                    <outlet property="delegate" destination="dEo-n4-BPa" id="Kzw-SU-zkA"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-kn-2jy">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OQu-3W-8YU">
                                 <rect key="frame" x="535" y="444" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="mnW-d6-wTh"/>
+                                    <constraint firstAttribute="width" constant="110" id="wJY-tD-Yzs"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Layer 4 Tone" drawsBackground="YES" id="Lx5-HO-y3Q">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="GZo-ug-lgD">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="dEo-n4-BPa" id="rBh-Lw-43a"/>
+                                    <outlet property="delegate" destination="dEo-n4-BPa" id="xNO-RF-thv"/>
                                 </connections>
-                            </textField>
+                            </searchField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGc-nR-PWx" userLabel="Live Sets List Scroll View">
                                 <rect key="frame" x="8" y="29" width="640" height="411"/>
                                 <clipView key="contentView" id="Oat-31-7Ur">
@@ -1091,45 +1090,45 @@
                         <constraints>
                             <constraint firstItem="HGc-nR-PWx" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="8" id="3Q4-tM-QjJ"/>
                             <constraint firstItem="AoN-II-0Rh" firstAttribute="leading" secondItem="THR-Ko-UDz" secondAttribute="trailing" constant="8" id="3ns-qw-1yu"/>
-                            <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="BFC-zF-MBE" secondAttribute="top" id="5cy-IO-cgi"/>
-                            <constraint firstItem="bbd-kn-2jy" firstAttribute="leading" secondItem="bxE-cg-XgT" secondAttribute="trailing" constant="3" id="7tf-Mb-evo"/>
-                            <constraint firstItem="FHq-9C-rMp" firstAttribute="top" secondItem="bxE-cg-XgT" secondAttribute="top" id="Ado-Vi-WdO"/>
-                            <constraint firstItem="FHq-9C-rMp" firstAttribute="top" secondItem="u7O-sZ-mxq" secondAttribute="top" id="BsV-aS-Fm8"/>
+                            <constraint firstItem="OQu-3W-8YU" firstAttribute="leading" secondItem="eW2-wG-cUc" secondAttribute="trailing" constant="3" id="4ee-lm-0Xa"/>
+                            <constraint firstItem="bxs-Z7-1FZ" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="top" id="8ji-7g-1nk"/>
+                            <constraint firstItem="eW2-wG-cUc" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="top" id="9fk-gI-guW"/>
+                            <constraint firstItem="HGc-nR-PWx" firstAttribute="trailing" secondItem="OQu-3W-8YU" secondAttribute="trailing" constant="3" id="AVI-1d-cA4"/>
+                            <constraint firstItem="ipc-98-oYa" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="top" id="B7p-Cg-S07"/>
+                            <constraint firstItem="Aip-S2-Brl" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="top" id="EsZ-0j-beD"/>
                             <constraint firstItem="AoN-II-0Rh" firstAttribute="top" secondItem="HGc-nR-PWx" secondAttribute="bottom" constant="4" id="Hfu-wM-hKV"/>
                             <constraint firstAttribute="trailing" secondItem="w93-je-2uQ" secondAttribute="trailing" constant="8" id="Iar-k4-IjP"/>
                             <constraint firstItem="HGc-nR-PWx" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="bottom" constant="4" id="KFi-nQ-xWm"/>
                             <constraint firstItem="lsy-kW-jef" firstAttribute="leading" secondItem="w93-je-2uQ" secondAttribute="leading" id="MdB-2j-jbo"/>
+                            <constraint firstItem="bxs-Z7-1FZ" firstAttribute="leading" secondItem="Aip-S2-Brl" secondAttribute="trailing" constant="3" id="MqN-fV-MYu"/>
                             <constraint firstItem="w93-je-2uQ" firstAttribute="top" secondItem="HGc-nR-PWx" secondAttribute="top" id="OcT-em-fxF"/>
                             <constraint firstItem="THR-Ko-UDz" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="10" id="Ogw-lG-LZh"/>
-                            <constraint firstItem="bxE-cg-XgT" firstAttribute="top" secondItem="bbd-kn-2jy" secondAttribute="top" id="R9w-kO-Jrj"/>
-                            <constraint firstItem="u7O-sZ-mxq" firstAttribute="top" secondItem="BFC-zF-MBE" secondAttribute="top" id="avF-WD-wWh"/>
-                            <constraint firstItem="FHq-9C-rMp" firstAttribute="leading" secondItem="u7O-sZ-mxq" secondAttribute="trailing" constant="3" id="dqB-qn-c3l"/>
-                            <constraint firstItem="BFC-zF-MBE" firstAttribute="leading" secondItem="Zqk-Sr-eCa" secondAttribute="trailing" constant="3" id="gKu-eg-v4P"/>
+                            <constraint firstItem="Aip-S2-Brl" firstAttribute="leading" secondItem="Zqk-Sr-eCa" secondAttribute="trailing" constant="3" id="ZBw-4w-GWj"/>
+                            <constraint firstItem="ipc-98-oYa" firstAttribute="leading" secondItem="bxs-Z7-1FZ" secondAttribute="trailing" constant="3" id="fnE-W9-HIa"/>
                             <constraint firstAttribute="bottom" secondItem="AoN-II-0Rh" secondAttribute="bottom" constant="4" id="gyo-Ah-fOs"/>
-                            <constraint firstItem="u7O-sZ-mxq" firstAttribute="leading" secondItem="BFC-zF-MBE" secondAttribute="trailing" constant="3" id="hjB-OC-VJB"/>
                             <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="NqS-F5-gb4" secondAttribute="top" constant="4" id="kGQ-1T-VVA"/>
-                            <constraint firstItem="HGc-nR-PWx" firstAttribute="trailing" secondItem="bbd-kn-2jy" secondAttribute="trailing" constant="3" id="mIv-6o-ZXk"/>
                             <constraint firstItem="Zqk-Sr-eCa" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="10" id="mSU-8K-NlY"/>
                             <constraint firstItem="THR-Ko-UDz" firstAttribute="centerY" secondItem="AoN-II-0Rh" secondAttribute="centerY" constant="-1" id="pGs-Ib-Wol"/>
-                            <constraint firstItem="bxE-cg-XgT" firstAttribute="leading" secondItem="FHq-9C-rMp" secondAttribute="trailing" constant="3" id="t8r-VU-bAc"/>
+                            <constraint firstItem="lsy-kW-jef" firstAttribute="centerY" secondItem="Zqk-Sr-eCa" secondAttribute="centerY" id="soV-f5-Af0"/>
                             <constraint firstItem="w93-je-2uQ" firstAttribute="leading" secondItem="HGc-nR-PWx" secondAttribute="trailing" constant="8" id="vRh-ql-Q82"/>
-                            <constraint firstItem="lsy-kW-jef" firstAttribute="centerY" secondItem="bbd-kn-2jy" secondAttribute="centerY" id="vTu-sh-N4l"/>
                             <constraint firstItem="w93-je-2uQ" firstAttribute="bottom" secondItem="HGc-nR-PWx" secondAttribute="bottom" id="wJQ-Ay-18j"/>
+                            <constraint firstItem="eW2-wG-cUc" firstAttribute="leading" secondItem="ipc-98-oYa" secondAttribute="trailing" constant="3" id="yeR-JV-S1P"/>
+                            <constraint firstItem="OQu-3W-8YU" firstAttribute="top" secondItem="Zqk-Sr-eCa" secondAttribute="top" id="zi8-Ao-gJw"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="AoN-II-0Rh" id="iO1-65-0ZW"/>
                         <outlet property="layer1Column" destination="tln-J8-DUw" id="s5i-lG-rWg"/>
-                        <outlet property="layer1TextField" destination="u7O-sZ-mxq" id="dVn-wB-BsH"/>
+                        <outlet property="layer1SearchField" destination="bxs-Z7-1FZ" id="uVw-U2-wXk"/>
                         <outlet property="layer2Column" destination="09Q-4R-6lF" id="s3Z-Ol-4gh"/>
-                        <outlet property="layer2TextField" destination="FHq-9C-rMp" id="Rmr-tm-Ng6"/>
+                        <outlet property="layer2SearchField" destination="ipc-98-oYa" id="feH-R3-Hnh"/>
                         <outlet property="layer3Column" destination="g55-NC-Odc" id="XjM-TU-1PY"/>
-                        <outlet property="layer3TextField" destination="bxE-cg-XgT" id="o8x-eQ-1zO"/>
+                        <outlet property="layer3SearchField" destination="eW2-wG-cUc" id="t5J-lR-NYV"/>
                         <outlet property="layer4Column" destination="PtD-4K-0cf" id="gaW-3w-cG7"/>
-                        <outlet property="layer4TextField" destination="bbd-kn-2jy" id="Kr8-9Z-uV2"/>
+                        <outlet property="layer4SearchField" destination="OQu-3W-8YU" id="v8l-wf-3hg"/>
                         <outlet property="listTableView" destination="r5f-iV-MwK" id="vbB-7w-nG6"/>
                         <outlet property="nameColumn" destination="Ld9-M5-6XD" id="UCq-tg-NtP"/>
-                        <outlet property="nameTextField" destination="BFC-zF-MBE" id="970-Sd-Gom"/>
+                        <outlet property="nameSearchField" destination="Aip-S2-Brl" id="I6q-z1-3RA"/>
                         <outlet property="orderColumn" destination="Rle-Ma-pKE" id="7pd-5D-Piv"/>
                         <outlet property="orderTextField" destination="Zqk-Sr-eCa" id="Sl9-lU-IdS"/>
                         <outlet property="regNameColumn" destination="XA9-eM-rUw" id="NAQ-wm-Nyz"/>
@@ -1154,7 +1153,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="4Q2-f1-Msp"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Order" drawsBackground="YES" id="kCt-Ie-2bg">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Go To" drawsBackground="YES" id="kCt-Ie-2bg">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1163,62 +1162,62 @@
                                     <outlet property="delegate" destination="Itn-By-bsi" id="AqT-WA-xlB"/>
                                 </connections>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lRz-J1-qRp">
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="on6-fg-CZD">
                                 <rect key="frame" x="63" y="397" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="Ie1-4t-zep"/>
+                                    <constraint firstAttribute="width" constant="110" id="pVo-ge-67h"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Tone Name" drawsBackground="YES" id="ZiJ-2J-CGP">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="3QG-EG-Iq0">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="Itn-By-bsi" id="2OR-Ee-UMq"/>
+                                    <outlet property="delegate" destination="Itn-By-bsi" id="LnN-PV-V5a"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Hc-UL-j0q">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vip-ra-TNz">
                                 <rect key="frame" x="176" y="397" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="jiX-8u-LB1"/>
+                                    <constraint firstAttribute="width" constant="110" id="QWT-n8-DIo"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Partial 1" drawsBackground="YES" id="8ay-XF-BbS">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="veb-OY-5eA">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="Itn-By-bsi" id="yda-b7-y9E"/>
+                                    <outlet property="delegate" destination="Itn-By-bsi" id="7Sf-e1-mbf"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TLj-e2-N9E">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gLB-gM-lpu">
                                 <rect key="frame" x="289" y="397" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="kGD-6t-cik"/>
+                                    <constraint firstAttribute="width" constant="110" id="Ru7-w0-LL0"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Partial 2" drawsBackground="YES" id="Jqs-78-wtH">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="LOH-ux-G5O">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="Itn-By-bsi" id="9QZ-pz-dUs"/>
+                                    <outlet property="delegate" destination="Itn-By-bsi" id="b4Y-zs-TFh"/>
                                 </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zBg-ZV-aVZ">
+                            </searchField>
+                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aTt-d9-Bzu">
                                 <rect key="frame" x="402" y="397" width="110" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="UpD-JW-DY1"/>
+                                    <constraint firstAttribute="width" constant="110" id="lL3-gb-9sq"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Partial 3" drawsBackground="YES" id="ezj-f8-4B7">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="Z2H-5q-Jd7">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
+                                </searchFieldCell>
                                 <connections>
-                                    <outlet property="delegate" destination="Itn-By-bsi" id="mCS-c0-ybW"/>
+                                    <outlet property="delegate" destination="Itn-By-bsi" id="fhI-gp-Tym"/>
                                 </connections>
-                            </textField>
+                            </searchField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoQ-09-3wC" userLabel="Tones List Scroll View">
                                 <rect key="frame" x="8" y="29" width="507" height="364"/>
                                 <clipView key="contentView" id="Akp-OT-UiV">
@@ -1724,50 +1723,50 @@
                             </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="on6-fg-CZD" firstAttribute="leading" secondItem="EdM-5U-rXV" secondAttribute="trailing" constant="3" id="0AI-Fj-bLA"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="top" secondItem="AoQ-09-3wC" secondAttribute="top" id="1lJ-O5-phT"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="bottom" secondItem="AoQ-09-3wC" secondAttribute="bottom" id="1lv-gR-PiS"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="leading" secondItem="AoQ-09-3wC" secondAttribute="trailing" constant="8" id="4q8-XZ-ELm"/>
-                            <constraint firstItem="lRz-J1-qRp" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="top" id="8Bb-jc-5e7"/>
-                            <constraint firstItem="lRz-J1-qRp" firstAttribute="top" secondItem="1Hc-UL-j0q" secondAttribute="top" id="8Y9-aU-I3S"/>
+                            <constraint firstItem="vip-ra-TNz" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="top" id="6Zm-rY-JEV"/>
+                            <constraint firstItem="gLB-gM-lpu" firstAttribute="leading" secondItem="vip-ra-TNz" secondAttribute="trailing" constant="3" id="BGt-dN-1qH"/>
                             <constraint firstItem="ZQo-jZ-LGl" firstAttribute="leading" secondItem="TUi-q8-sDY" secondAttribute="leading" id="BKg-6a-ynU"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="top" secondItem="ZQo-jZ-LGl" secondAttribute="top" id="Bme-Ka-Wxl"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="leading" secondItem="ZQo-jZ-LGl" secondAttribute="trailing" constant="8" id="C2d-3U-Wtj"/>
                             <constraint firstItem="v9X-Ag-jBs" firstAttribute="top" secondItem="AoQ-09-3wC" secondAttribute="bottom" constant="4" id="H8H-Ed-wNH"/>
                             <constraint firstAttribute="trailing" secondItem="4FU-Nw-3iK" secondAttribute="trailing" constant="8" id="Han-M7-Vmc"/>
                             <constraint firstAttribute="bottom" secondItem="v9X-Ag-jBs" secondAttribute="bottom" constant="4" id="JYb-Qk-f1J"/>
-                            <constraint firstItem="TUi-q8-sDY" firstAttribute="centerY" secondItem="zBg-ZV-aVZ" secondAttribute="centerY" id="MYY-Pk-Zzs"/>
+                            <constraint firstItem="TUi-q8-sDY" firstAttribute="centerY" secondItem="EdM-5U-rXV" secondAttribute="centerY" id="OcL-vM-PnK"/>
+                            <constraint firstItem="on6-fg-CZD" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="top" id="Pcz-bQ-D0Y"/>
                             <constraint firstItem="EdM-5U-rXV" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="10" id="Qok-oN-XDY"/>
+                            <constraint firstItem="vip-ra-TNz" firstAttribute="leading" secondItem="on6-fg-CZD" secondAttribute="trailing" constant="3" id="R2N-s5-CPK"/>
+                            <constraint firstItem="AoQ-09-3wC" firstAttribute="trailing" secondItem="aTt-d9-Bzu" secondAttribute="trailing" constant="3" id="R2o-wf-pxC"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="centerY" secondItem="v9X-Ag-jBs" secondAttribute="centerY" id="RdQ-XL-GiD"/>
-                            <constraint firstItem="TLj-e2-N9E" firstAttribute="leading" secondItem="1Hc-UL-j0q" secondAttribute="trailing" constant="3" id="Sx1-XT-j31"/>
+                            <constraint firstItem="gLB-gM-lpu" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="top" id="SFQ-Tq-QF4"/>
                             <constraint firstAttribute="trailing" secondItem="jFx-f8-nuF" secondAttribute="trailing" id="UUR-QN-Bez"/>
                             <constraint firstItem="uHL-fy-jXh" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="10" id="UyR-nL-tOh"/>
                             <constraint firstItem="uHL-fy-jXh" firstAttribute="centerY" secondItem="v9X-Ag-jBs" secondAttribute="centerY" constant="-1" id="cir-Pw-lbJ"/>
-                            <constraint firstItem="1Hc-UL-j0q" firstAttribute="top" secondItem="TLj-e2-N9E" secondAttribute="top" id="gnB-99-aAo"/>
-                            <constraint firstItem="zBg-ZV-aVZ" firstAttribute="top" secondItem="TLj-e2-N9E" secondAttribute="top" id="h9J-ep-cIJ"/>
+                            <constraint firstItem="aTt-d9-Bzu" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="top" id="glF-Sn-Rrn"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="leading" secondItem="XEr-KP-Wlw" secondAttribute="leading" constant="8" id="huT-27-2g4"/>
                             <constraint firstItem="jFx-f8-nuF" firstAttribute="leading" secondItem="FAP-61-lw1" secondAttribute="leading" id="lap-lR-lYB"/>
-                            <constraint firstItem="1Hc-UL-j0q" firstAttribute="leading" secondItem="lRz-J1-qRp" secondAttribute="trailing" constant="3" id="myM-Ic-BBc"/>
+                            <constraint firstItem="aTt-d9-Bzu" firstAttribute="leading" secondItem="gLB-gM-lpu" secondAttribute="trailing" constant="3" id="qS1-Ac-B9h"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="bottom" secondItem="ZQo-jZ-LGl" secondAttribute="bottom" id="rWt-rP-ito"/>
-                            <constraint firstItem="AoQ-09-3wC" firstAttribute="trailing" secondItem="zBg-ZV-aVZ" secondAttribute="trailing" constant="3" id="tOv-Ms-ieh"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="bottom" constant="4" id="tTw-vb-xQu"/>
-                            <constraint firstItem="zBg-ZV-aVZ" firstAttribute="leading" secondItem="TLj-e2-N9E" secondAttribute="trailing" constant="3" id="tmA-VG-ldg"/>
                             <constraint firstItem="v9X-Ag-jBs" firstAttribute="leading" secondItem="uHL-fy-jXh" secondAttribute="trailing" constant="8" id="wa3-aP-oXB"/>
                             <constraint firstItem="EdM-5U-rXV" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" constant="4" id="xBc-bH-ytN"/>
-                            <constraint firstItem="lRz-J1-qRp" firstAttribute="leading" secondItem="EdM-5U-rXV" secondAttribute="trailing" constant="3" id="yF1-NP-GFK"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="dependencySegmentedControl" destination="v9X-Ag-jBs" id="eeu-bm-VG8"/>
-                        <outlet property="layer1TextField" destination="1Hc-UL-j0q" id="i3m-uz-cCN"/>
-                        <outlet property="layer2TextField" destination="TLj-e2-N9E" id="YI2-Ac-OQ2"/>
-                        <outlet property="layer3TextField" destination="zBg-ZV-aVZ" id="0vX-dz-hJC"/>
+                        <outlet property="layer1SearchField" destination="vip-ra-TNz" id="RZU-8x-Vdb"/>
+                        <outlet property="layer2SearchField" destination="gLB-gM-lpu" id="mbe-9H-jri"/>
+                        <outlet property="layer3SearchField" destination="aTt-d9-Bzu" id="kJP-R7-jbW"/>
                         <outlet property="listTableView" destination="aAC-VF-slb" id="sem-pR-use"/>
                         <outlet property="liveNameColumn" destination="8vY-nd-VAl" id="igB-1e-EVh"/>
                         <outlet property="liveOrderColumn" destination="9VO-7q-MxK" id="4jP-Cn-gfT"/>
                         <outlet property="livesRegsCheckButton" destination="jFx-f8-nuF" id="1op-IO-aTE"/>
                         <outlet property="livesTableView" destination="FAP-61-lw1" id="mFh-LV-ngx"/>
                         <outlet property="nameColumn" destination="WQJ-pd-UlD" id="MQN-tC-b7z"/>
-                        <outlet property="nameTextField" destination="lRz-J1-qRp" id="x0y-Vw-N1h"/>
+                        <outlet property="nameSearchField" destination="on6-fg-CZD" id="wdk-Sf-Yu2"/>
                         <outlet property="orderColumn" destination="sbJ-Hb-YgZ" id="ZYe-2a-Igm"/>
                         <outlet property="orderTextField" destination="EdM-5U-rXV" id="Vce-0W-V3Z"/>
                         <outlet property="partial1Column" destination="pj9-Z8-6AR" id="gRa-nA-RoN"/>
@@ -1780,7 +1779,7 @@
                 </viewController>
                 <customObject id="ozS-04-h7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2024" y="242"/>
+            <point key="canvasLocation" x="2023.5" y="241.5"/>
         </scene>
     </scenes>
 </document>
