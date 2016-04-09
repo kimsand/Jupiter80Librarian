@@ -106,6 +106,10 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func updateTableFromTypeList(svdTypes: [SVDType]) {
 		self.tableData.removeAll(keepCapacity: true)
 		self.tableData += svdTypes
+
+		// Sort according to the selected table view sort descriptors
+		self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(listTableView.sortDescriptors) as! [SVDType]
+
 		self.listTableView.reloadData()
 
 		let indexSet = self.indexSetFromTypes()
