@@ -398,11 +398,25 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func filteredListForNameIndices(nameIndices: [(String, Int)], text: String, typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes: [SVDType] = []
 
+		// Search for each word in the search string separately
+		let textParts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+
 		if nameIndices.count > 0 {
 			var indices = [Int]()
 
 			for (name, index) in nameIndices {
-				if name.lowercaseString.hasPrefix(text) {
+				let nameText = name.lowercaseString
+				var doesMatchAllParts = true
+
+				// The name must contain all words in the search string to be a match
+				for textPart in textParts {
+					if !nameText.containsString(textPart) {
+						doesMatchAllParts = false
+						break
+					}
+				}
+
+				if doesMatchAllParts {
 					indices.append(index)
 				}
 			}
