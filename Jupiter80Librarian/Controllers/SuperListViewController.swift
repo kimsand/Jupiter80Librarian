@@ -608,16 +608,18 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	override func controlTextDidEndEditing(obj: NSNotification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
-			// Only process the text field when the Return key was pressed
-			// TODO: A search field should also handle the cancel button (empty string without Return)
-			if textMovement == NSReturnTextMovement {
-				// The order field matches one and only one row number
-				if let textField = obj.object as? NSTextField where textField == orderTextField {
-					// Only process the text field when text was entered
+			if let textField = obj.object as? NSTextField where textField == orderTextField {
+				// Only process the text field when the Return key was pressed
+				if textMovement == NSReturnTextMovement {
+					// The order field matches one and only one row number
 					if let orderNr = Int(textField.stringValue) {
 						scrollToOrderNr(orderNr)
 					}
-				} else {
+				}
+			} else if let searchField = obj.object as? NSSearchField {
+				// TODO: A search field should also handle the cancel button (empty string without Return)
+				if textMovement == NSReturnTextMovement ||
+				(textMovement == NSOtherTextMovement && searchField.stringValue.characters.count == 0) {
 					// Reset to the list filtered by the dependency segment
 					var filteredTypes = typeListFilteredOnDependencies()
 
@@ -626,6 +628,8 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 					resetTextFieldFiltersFromTypeList(filteredTypes)
 
 					updateTableFromTypeList(filteredTypes)
+				} else {
+					searchField.stringValue = ""
 				}
 			}
 		}
