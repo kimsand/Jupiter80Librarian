@@ -10,9 +10,9 @@ import Cocoa
 
 // TODO: Use an enum to indicate subtype until Interface Builder supports generics
 enum SVDSubType {
-	case Registration
-	case LiveSet
-	case Tone
+	case registration
+	case liveSet
+	case tone
 }
 
 class SVDType: NSObject {

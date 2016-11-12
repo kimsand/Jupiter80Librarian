@@ -17,12 +17,12 @@ class ListTabViewController: NSTabViewController {
 	var svdFile: SVDFile?
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListTabViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(ListTabViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 	}
 
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+	func svdFileDidUpdate(_ notification: Notification) {
+		DispatchQueue.main.async { () -> Void in
 			self.svdFile = self.model.openedSVDFile
 
 			if self.svdFile != nil {

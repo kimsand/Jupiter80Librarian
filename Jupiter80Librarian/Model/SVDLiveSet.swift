@@ -11,10 +11,10 @@ import Cocoa
 private let kLiveNameLength = 0x10
 
 class SVDLiveSet: SVDType {
-	private var liveLayer1Bytes = SVDBytes(location: 0x19F, length: 0x3)
-	private var liveLayer2Bytes = SVDBytes(location: 0x1C5, length: 0x3)
-	private var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
-	private var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
+	fileprivate var liveLayer1Bytes = SVDBytes(location: 0x19F, length: 0x3)
+	fileprivate var liveLayer2Bytes = SVDBytes(location: 0x1C5, length: 0x3)
+	fileprivate var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
+	fileprivate var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
 
 	var liveName: String!
 	var registrations: [SVDRegistration] = []
@@ -38,7 +38,7 @@ class SVDLiveSet: SVDType {
 		self.liveLayer4Bytes.location += liveBytes.location
 	}
 
-	func addDependencyToRegistration(svdRegistration: SVDRegistration) {
+	func addDependencyToRegistration(_ svdRegistration: SVDRegistration) {
 		// Ignore Registrations that are not initialized
 		if svdRegistration.regName != "INIT REGIST" {
 			self.registrations.append(svdRegistration)
@@ -57,15 +57,15 @@ class SVDLiveSet: SVDType {
 		self.layer4Name = self.layerNames[3]
 	}
 
-	func findDependenciesForLayerBytes(layerBytes: SVDBytes) {
+	func findDependenciesForLayerBytes(_ layerBytes: SVDBytes) {
 		let layerMetaData = self.svdFile.unshiftedBytesFromBytes(layerBytes)
-		let layerLocationData = layerMetaData.subdataWithRange(NSRange(location: 1, length: 2))
-		let layerTypeData = layerMetaData.subdataWithRange(NSRange(location: 0, length: 1))
+		let layerLocationData = layerMetaData.subdata(in: 1..<1+2)
+		let layerTypeData = layerMetaData.subdata(in: 0..<0+1)
 		let layerToneType = self.svdFile.partTypeFromData(layerTypeData)
 
 		self.layerToneTypes.append(layerToneType)
 
-		if layerToneType.mainType == .Synth {
+		if layerToneType.mainType == .synth {
 			let layerLocation = svdFile.numberFromData(layerLocationData, nrOfBits: 7)
 			let layerTone = svdFile.tones[layerLocation]
 			self.layerTones.append(layerTone)

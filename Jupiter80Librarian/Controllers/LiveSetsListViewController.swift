@@ -24,11 +24,11 @@ class LiveSetsListViewController: SuperListViewController {
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.svdSubType = .LiveSet
+		self.svdSubType = .liveSet
 	}
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LiveSetsListViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(LiveSetsListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
 		self.updateSVD()
@@ -48,16 +48,16 @@ class LiveSetsListViewController: SuperListViewController {
 		var unselectedLiveSets: [SVDLiveSet] = []
 
 		for liveSet in Model.singleton.selectedLiveSets {
-			if selectedLiveSets.indexOf(liveSet) == nil
-				&& self.tableData.indexOf(liveSet) != nil {
+			if selectedLiveSets.index(of: liveSet) == nil
+				&& self.tableData.index(of: liveSet) != nil {
 					unselectedLiveSets.append(liveSet)
 			}
 		}
 
 		// Add rows that are newly selected
 		for liveSet in selectedLiveSets {
-			if unselectedLiveSets.indexOf(liveSet) == nil {
-				if Model.singleton.selectedLiveSets.indexOf(liveSet) == nil {
+			if unselectedLiveSets.index(of: liveSet) == nil {
+				if Model.singleton.selectedLiveSets.index(of: liveSet) == nil {
 					Model.singleton.selectedLiveSets.append(liveSet)
 				}
 			}
@@ -65,21 +65,21 @@ class LiveSetsListViewController: SuperListViewController {
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedLiveSets {
-			let foundIndex = Model.singleton.selectedLiveSets.indexOf(liveSet)
+			let foundIndex = Model.singleton.selectedLiveSets.index(of: liveSet)
 
 			if foundIndex != nil {
-				Model.singleton.selectedLiveSets.removeAtIndex(foundIndex!)
+				Model.singleton.selectedLiveSets.remove(at: foundIndex!)
 			}
 		}
 
 		// Sort the array by orderNr when done updating
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		Model.singleton.selectedLiveSets = (Model.singleton.selectedLiveSets as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
+		Model.singleton.selectedLiveSets = (Model.singleton.selectedLiveSets as NSArray).sortedArray(using: [sortDesc]) as! [SVDLiveSet]
 	}
 
 	// MARK: Table view
 
-	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+	func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == self.listTableView {
@@ -91,13 +91,13 @@ class LiveSetsListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
+	func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+		let result = tableView.make(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 
-		result.textField?.textColor = NSColor.blackColor()
+		result.textField?.textColor = NSColor.black
 
 		var columnValue: String = ""
-		var textColor = NSColor.blackColor()
+		var textColor = NSColor.black
 
 
 		if tableView == self.listTableView {
@@ -152,17 +152,17 @@ class LiveSetsListViewController: SuperListViewController {
 		return result
 	}
 
-	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
 		if tableView == self.regsTableView {
-			self.regsTableData = (self.regsTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
+			self.regsTableData = (self.regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDLiveSet]
+			self.tableData = (self.tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
 		}
 
 		tableView.reloadData()
 	}
 
-	func tableViewSelectionDidChange(notification: NSNotification) {
+	func tableViewSelectionDidChange(_ notification: Notification) {
 		let tableView = notification.object as! NSTableView
 
 		if tableView == self.listTableView {

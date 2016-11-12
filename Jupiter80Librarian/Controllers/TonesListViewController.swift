@@ -30,11 +30,11 @@ class TonesListViewController: SuperListViewController {
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.svdSubType = .Tone
+		self.svdSubType = .tone
 	}
 
 	override func viewDidLoad() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TonesListViewController.svdFileDidUpdate(_:)), name: "svdFileDidUpdate", object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(TonesListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
 		self.updateSVD()
@@ -54,16 +54,16 @@ class TonesListViewController: SuperListViewController {
 		var unselectedTones: [SVDTone] = []
 
 		for tone in Model.singleton.selectedTones {
-			if selectedTones.indexOf(tone) == nil
-				&& self.tableData.indexOf(tone) != nil {
+			if selectedTones.index(of: tone) == nil
+				&& self.tableData.index(of: tone) != nil {
 					unselectedTones.append(tone)
 			}
 		}
 
 		// Add rows that are newly selected
 		for tone in selectedTones {
-			if unselectedTones.indexOf(tone) == nil {
-				if Model.singleton.selectedTones.indexOf(tone) == nil {
+			if unselectedTones.index(of: tone) == nil {
+				if Model.singleton.selectedTones.index(of: tone) == nil {
 					Model.singleton.selectedTones.append(tone)
 				}
 			}
@@ -71,21 +71,21 @@ class TonesListViewController: SuperListViewController {
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedTones {
-			let foundIndex = Model.singleton.selectedTones.indexOf(liveSet)
+			let foundIndex = Model.singleton.selectedTones.index(of: liveSet)
 
 			if foundIndex != nil {
-				Model.singleton.selectedTones.removeAtIndex(foundIndex!)
+				Model.singleton.selectedTones.remove(at: foundIndex!)
 			}
 		}
 
 		// Sort the array by orderNr when done updating
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		Model.singleton.selectedTones = (Model.singleton.selectedTones as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDTone]
+		Model.singleton.selectedTones = (Model.singleton.selectedTones as NSArray).sortedArray(using: [sortDesc]) as! [SVDTone]
 	}
 
 	// MARK: Table view
 
-	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+	func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == self.listTableView {
@@ -99,14 +99,14 @@ class TonesListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+	func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		let result = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner:self) as! NSTableCellView
-		result.textField?.textColor = NSColor.blackColor()
+		let result = tableView.make(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
+		result.textField?.textColor = NSColor.black
 
 		var columnValue: String = ""
-		var textColor = NSColor.blackColor()
+		var textColor = NSColor.black
 
 		if tableView == self.listTableView {
 			let svdTone = self.tableData[row] as! SVDTone
@@ -155,19 +155,19 @@ class TonesListViewController: SuperListViewController {
 		return result
 	}
 
-	func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
 		if tableView == self.livesTableView {
-			self.livesTableData = (self.livesTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDLiveSet]
+			self.livesTableData = (self.livesTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
 		} else if tableView == self.regsTableView {
-			self.regsTableData = (self.regsTableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDRegistration]
+			self.regsTableData = (self.regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors) as! [SVDTone]
+			self.tableData = (self.tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDTone]
 		}
 
 		tableView.reloadData()
 	}
 
-	func tableViewSelectionDidChange(notification: NSNotification) {
+	func tableViewSelectionDidChange(_ notification: Notification) {
 		let tableView = notification.object as! NSTableView
 
 		if tableView == self.listTableView {
@@ -181,7 +181,7 @@ class TonesListViewController: SuperListViewController {
 
 	// MARK: Actions
 
-	@IBAction func liveRegsCheckButtonClicked(sender: NSButton) {
+	@IBAction func liveRegsCheckButtonClicked(_ sender: NSButton) {
 		let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSOnState
 		self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
 		self.regsTableView.reloadData()

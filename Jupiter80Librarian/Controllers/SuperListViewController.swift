@@ -10,10 +10,10 @@ import Cocoa
 
 class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 	enum DependencySegment: Int {
-		case All = 1
-		case Selected
-		case Used
-		case Unused
+		case all = 1
+		case selected
+		case used
+		case unused
 	}
 
 	@IBOutlet var orderTextField: NSTextField!
@@ -42,14 +42,14 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	required init?(coder: NSCoder) {
 		// Set a dummy value to satisfy compiler. The actual value is set by the sub class.
-		svdSubType = .Registration
+		svdSubType = .registration
 		super.init(coder: coder)
 	}
 
 	override func viewDidAppear() {
 		super.viewDidAppear()
 
-		NSApplication.sharedApplication().mainWindow?.makeFirstResponder(self.listTableView)
+		NSApplication.shared().mainWindow?.makeFirstResponder(self.listTableView)
 	}
 
 	// MARK: Member methods
@@ -58,14 +58,14 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		self.svdFile = self.model.openedSVDFile
 
 		if let svdFile = self.svdFile {
-			self.tableData.removeAll(keepCapacity: true)
+			self.tableData.removeAll(keepingCapacity: true)
 
 			switch svdSubType {
-			case .Registration:
+			case .registration:
 				self.tableData += svdFile.registrations as [SVDType]
-			case .LiveSet:
+			case .liveSet:
 				self.tableData += svdFile.liveSets as [SVDType]
-			case .Tone:
+			case .tone:
 				self.tableData += svdFile.tones as [SVDType]
 			}
 		}
@@ -73,42 +73,42 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		self.listTableView.reloadData()
 	}
 
-	func indexSetFromTypes() -> NSIndexSet {
+	func indexSetFromTypes() -> IndexSet {
 		let indexSet = NSMutableIndexSet()
 
 		let selectedTypes: [SVDType]
 		let tableData: [SVDType]
 
 		switch svdSubType {
-		case .Registration:
+		case .registration:
 			selectedTypes = Model.singleton.selectedRegistrations as [SVDType]
 			tableData = self.tableData as [SVDType]
-		case .LiveSet:
+		case .liveSet:
 			selectedTypes = Model.singleton.selectedLiveSets as [SVDType]
 			tableData = self.tableData as [SVDType]
-		case .Tone:
+		case .tone:
 			selectedTypes = Model.singleton.selectedTones as [SVDType]
 			tableData = self.tableData as [SVDType]
 		}
 
 		// Keep selection when updating the list view
 		for selectedType in selectedTypes {
-			let index = tableData.indexOf(selectedType)
+			let index = tableData.index(of: selectedType)
 
 			if index != nil {
-				indexSet.addIndex(index!)
+				indexSet.add(index!)
 			}
 		}
 
-		return indexSet
+		return indexSet as IndexSet
 	}
 
-	func updateTableFromTypeList(svdTypes: [SVDType]) {
-		self.tableData.removeAll(keepCapacity: true)
+	func updateTableFromTypeList(_ svdTypes: [SVDType]) {
+		self.tableData.removeAll(keepingCapacity: true)
 		self.tableData += svdTypes
 
 		// Sort according to the selected table view sort descriptors
-		self.tableData = (self.tableData as NSArray).sortedArrayUsingDescriptors(listTableView.sortDescriptors) as! [SVDType]
+		self.tableData = (self.tableData as NSArray).sortedArray(using: listTableView.sortDescriptors) as! [SVDType]
 
 		self.listTableView.reloadData()
 
@@ -118,50 +118,50 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Dependency management
 
-	func buildDependencyList(inout regsTableData: [SVDRegistration]) {
+	func buildDependencyList(_ regsTableData: inout [SVDRegistration]) {
 		var livesTableData = [SVDLiveSet]()
 		self.buildDependencyList(&regsTableData, livesTableData: &livesTableData)
 	}
 
-	func buildDependencyList(inout regsTableData: [SVDRegistration], inout livesTableData: [SVDLiveSet], includeRegsFromLiveSets: Bool = false) {
+	func buildDependencyList(_ regsTableData: inout [SVDRegistration], livesTableData: inout [SVDLiveSet], includeRegsFromLiveSets: Bool = false) {
 		let selectedRowIndexes = self.indexSetFromTypes()
 		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
-		selectedRowIndexes.enumerateIndexesUsingBlock {
+		(selectedRowIndexes as NSIndexSet).enumerate({
 			(index: Int, finished: UnsafeMutablePointer<ObjCBool>) -> Void in
-
+			
 			switch self.svdSubType {
-			case .LiveSet:
+			case .liveSet:
 				let svdLive = self.tableData[index] as! SVDLiveSet
-
-				regSet.addObjectsFromArray(svdLive.registrations)
-			case .Tone:
+				
+				regSet.addObjects(from: svdLive.registrations)
+			case .tone:
 				let svdTone = self.tableData[index] as! SVDTone
-
-				regSet.addObjectsFromArray(svdTone.registrations)
-				liveSet.addObjectsFromArray(svdTone.liveSets)
-
+				
+				regSet.addObjects(from: svdTone.registrations)
+				liveSet.addObjects(from: svdTone.liveSets)
+				
 				// If selected, also add registrations from live sets using the tone
 				if includeRegsFromLiveSets {
 					for live in svdTone.liveSets {
-						regSet.addObjectsFromArray(live.registrations)
+						regSet.addObjects(from: live.registrations)
 					}
 				}
 			default:
 				break
 			}
-		}
+		})
 
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
 
-		let regList = (regSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDRegistration]
-		let liveList = (liveSet.allObjects as NSArray).sortedArrayUsingDescriptors([sortDesc]) as! [SVDLiveSet]
+		let regList = (regSet.allObjects as NSArray).sortedArray(using: [sortDesc]) as! [SVDRegistration]
+		let liveList = (liveSet.allObjects as NSArray).sortedArray(using: [sortDesc]) as! [SVDLiveSet]
 
-		regsTableData.removeAll(keepCapacity: true)
+		regsTableData.removeAll(keepingCapacity: true)
 		regsTableData += regList
 
-		livesTableData.removeAll(keepCapacity: true)
+		livesTableData.removeAll(keepingCapacity: true)
 		livesTableData += liveList
 	}
 
@@ -173,14 +173,14 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 
 		let selectedSegment = self.dependencySegmentedControl.selectedSegment
-		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tagForSegment(selectedSegment)
+		let segmentTag = (self.dependencySegmentedControl.cell as! NSSegmentedCell).tag(forSegment: selectedSegment)
 
 		let searchFilteredTypes: [SVDType]
 		let selectedTypes: [SVDType]
 		let svdFileTypes: [SVDType]
 
 		switch self.svdSubType {
-		case .Registration:
+		case .registration:
 			svdFileTypes = svdFile.registrations as [SVDType]
 			selectedTypes = Model.singleton.selectedRegistrations as [SVDType]
 			if !doIgnoreSearchFilter {
@@ -188,7 +188,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			} else {
 				searchFilteredTypes = []
 			}
-		case .LiveSet:
+		case .liveSet:
 			svdFileTypes = svdFile.liveSets as [SVDType]
 			selectedTypes = Model.singleton.selectedLiveSets as [SVDType]
 			if !doIgnoreSearchFilter {
@@ -196,7 +196,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			} else {
 				searchFilteredTypes = []
 			}
-		case .Tone:
+		case .tone:
 			svdFileTypes = svdFile.tones as [SVDType]
 			selectedTypes = Model.singleton.selectedTones as [SVDType]
 			if !doIgnoreSearchFilter {
@@ -207,13 +207,13 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 
 		switch segmentTag {
-		case DependencySegment.All.rawValue:
+		case DependencySegment.all.rawValue:
 			if searchFilteredTypes.count > 0 {
 				filteredTypes = searchFilteredTypes
 			} else {
 				filteredTypes = svdFileTypes
 			}
-		case DependencySegment.Selected.rawValue:
+		case DependencySegment.selected.rawValue:
 			var listOfTypes: [SVDType]
 
 			if searchFilteredTypes.count > 0 {
@@ -230,7 +230,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			for svdType in listOfTypes {
 				filteredTypes.append(svdType)
 			}
-		case DependencySegment.Used.rawValue:
+		case DependencySegment.used.rawValue:
 			var listOfTypes: [SVDType]
 
 			if searchFilteredTypes.count > 0 {
@@ -241,15 +241,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 			for svdType in listOfTypes {
 				switch self.svdSubType {
-				case .Registration:
+				case .registration:
 					break
-				case .LiveSet:
+				case .liveSet:
 					if let svdLive = svdType as? SVDLiveSet {
 						if svdLive.registrations.count > 0 {
 							filteredTypes.append(svdType)
 						}
 					}
-				case .Tone:
+				case .tone:
 					if let svdTone = svdType as? SVDTone {
 						if svdTone.liveSets.count > 0
 							|| svdTone.registrations.count > 0 {
@@ -258,7 +258,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 					}
 				}
 			}
-		case DependencySegment.Unused.rawValue:
+		case DependencySegment.unused.rawValue:
 			var listOfTypes: [SVDType]
 
 			if searchFilteredTypes.count > 0 {
@@ -269,15 +269,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 			for svdType in listOfTypes {
 				switch self.svdSubType {
-				case .Registration:
+				case .registration:
 					break
-				case .LiveSet:
+				case .liveSet:
 					if let svdLive = svdType as? SVDLiveSet {
 						if svdLive.registrations.count <= 0 {
 							filteredTypes.append(svdType)
 						}
 					}
-				case .Tone:
+				case .tone:
 					if let svdTone = svdType as? SVDTone {
 						if svdTone.liveSets.count <= 0
 							&& svdTone.registrations.count <= 0 {
@@ -295,65 +295,65 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Text colors based on sound type and sound name
 
-	func textColorForRegistrationName(regName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
+	func textColorForRegistrationName(_ regName: String) -> NSColor {
+		var textColor = NSColor.black
 
 		if self.isInitSound == true || regName == "INIT REGIST" {
-			textColor = .lightGrayColor()
+			textColor = .lightGray
 		}
 
 		return textColor
 	}
 
-	func textColorForLiveSetName(liveName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
+	func textColorForLiveSetName(_ liveName: String) -> NSColor {
+		var textColor = NSColor.black
 
 		if self.isInitSound == true || liveName == "INIT LIVESET" {
-			textColor = .lightGrayColor()
+			textColor = .lightGray
 		}
 
 		return textColor
 	}
 
-	func textColorForToneName(toneName: String) -> NSColor {
-		var textColor = NSColor.blackColor()
+	func textColorForToneName(_ toneName: String) -> NSColor {
+		var textColor = NSColor.black
 
 		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGrayColor()
+			textColor = .lightGray
 		}
 
 		return textColor
 	}
 
-	func textColorForPartType(partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.blackColor()
+	func textColorForPartType(_ partType: SVDPartType) -> NSColor {
+		var textColor = NSColor.black
 
 		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if partType.mainType == .Acoustic {
-			textColor = .purpleColor()
-		} else if partType.mainType == .DrumSet {
-			textColor = .blueColor()
+			textColor = .lightGray
+		} else if partType.mainType == .acoustic {
+			textColor = .purple
+		} else if partType.mainType == .drumSet {
+			textColor = .blue
 		}
 
 		return textColor
 	}
 
-	func textColorForOscType(oscType: SVDOscType) -> NSColor {
-		var textColor = NSColor.blackColor()
+	func textColorForOscType(_ oscType: SVDOscType) -> NSColor {
+		var textColor = NSColor.black
 
 		if self.isInitSound == true {
-			textColor = .lightGrayColor()
-		} else if oscType == .PCM {
-			textColor = .purpleColor()
+			textColor = .lightGray
+		} else if oscType == .pcm {
+			textColor = .purple
 		} else {
-			textColor = .blueColor()
+			textColor = .blue
 		}
 
 		return textColor
 	}
 
-	func setInitStatusForRegistrationName(regName: String) {
+	func setInitStatusForRegistrationName(_ regName: String) {
 		self.isInitSound = false
 
 		if regName == "INIT REGIST" {
@@ -361,7 +361,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 	}
 
-	func setInitStatusForLiveSetName(liveName: String) {
+	func setInitStatusForLiveSetName(_ liveName: String) {
 		self.isInitSound = false
 
 		if liveName == "INIT LIVESET" {
@@ -369,7 +369,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 	}
 
-	func setInitStatusForToneName(toneName: String) {
+	func setInitStatusForToneName(_ toneName: String) {
 		self.isInitSound = false
 
 		if toneName == "INIT SYNTH" {
@@ -379,7 +379,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Text field filtering
 
-	func scrollToOrderNr(orderNr: Int) {
+	func scrollToOrderNr(_ orderNr: Int) {
 		var index = 0
 
 		for svdType in self.tableData {
@@ -391,26 +391,26 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 
 		// Scroll to the first matched row
-		let rect = self.listTableView.rectOfRow(index)
-		self.listTableView.scrollPoint(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
+		let rect = self.listTableView.rect(ofRow: index)
+		self.listTableView.scroll(CGPoint(x: 0, y: rect.origin.y - rect.size.height))
 	}
 
-	func filteredListForNameIndices(nameIndices: [(String, Int)], text: String, typeList: [SVDType]) -> [SVDType] {
+	func filteredListForNameIndices(_ nameIndices: [(String, Int)], text: String, typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes: [SVDType] = []
 
 		// Search for each word in the search string separately
-		let textParts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		let textParts = text.components(separatedBy: CharacterSet.whitespacesAndNewlines)
 
 		if nameIndices.count > 0 {
 			var indices = [Int]()
 
 			for (name, index) in nameIndices {
-				let nameText = name.lowercaseString
+				let nameText = name.lowercased()
 				var doesMatchAllParts = true
 
 				// The name must contain all words in the search string to be a match
 				for textPart in textParts {
-					if !nameText.containsString(textPart) {
+					if !nameText.contains(textPart) {
 						doesMatchAllParts = false
 						break
 					}
@@ -433,48 +433,48 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return filteredTypes
 	}
 
-	func typeListFilteredOnTextFieldsForTypeList(typeList: [SVDType]) -> [SVDType] {
+	func typeListFilteredOnTextFieldsForTypeList(_ typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes = typeList
 
 		if self.nameSearchField.stringValue.characters.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(self.nameSearchField, typeList: filteredTypes)
 		}
 
-		if let layer1SearchField = self.layer1SearchField where layer1SearchField.stringValue.characters.count > 0 {
+		if let layer1SearchField = self.layer1SearchField, layer1SearchField.stringValue.characters.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer1SearchField, typeList: filteredTypes)
 		}
 
-		if let layer2SearchField = self.layer2SearchField where layer2SearchField.stringValue.characters.count > 0 {
+		if let layer2SearchField = self.layer2SearchField, layer2SearchField.stringValue.characters.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer2SearchField, typeList: filteredTypes)
 		}
 
-		if let layer3SearchField = self.layer3SearchField where layer3SearchField.stringValue.characters.count > 0 {
+		if let layer3SearchField = self.layer3SearchField, layer3SearchField.stringValue.characters.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer3SearchField, typeList: filteredTypes)
 		}
 
-		if let layer4SearchField = self.layer4SearchField where layer4SearchField.stringValue.characters.count > 0 {
+		if let layer4SearchField = self.layer4SearchField, layer4SearchField.stringValue.characters.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer4SearchField, typeList: filteredTypes)
 		}
 
 		return filteredTypes
 	}
 
-	func typeListFilteredOnTextField(textField: NSTextField, typeList: [SVDType]) -> [SVDType] {
-		let text = textField.stringValue.lowercaseString
+	func typeListFilteredOnTextField(_ textField: NSTextField, typeList: [SVDType]) -> [SVDType] {
+		let text = textField.stringValue.lowercased()
 		var filteredTypes = typeList
 
 		switch self.svdSubType {
-		case .Registration:
+		case .registration:
 			if let regList = typeList as? [SVDRegistration] {
 				let nameIndices = self.nameIndicesForRegistrationTextField(textField, regList: regList)
 				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
 			}
-		case .LiveSet:
+		case .liveSet:
 			if let liveList = typeList as? [SVDLiveSet] {
 				let nameIndices = self.nameIndicesForLiveSetTextField(textField, liveList: liveList)
 				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
 			}
-		case .Tone:
+		case .tone:
 			if let toneList = filteredTypes as? [SVDTone] {
 				let nameIndices = self.nameIndicesForToneTextField(textField, toneList: toneList)
 				filteredTypes = filteredListForNameIndices(nameIndices, text: text, typeList: filteredTypes)
@@ -484,21 +484,21 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return filteredTypes
 	}
 
-	func resetTextFieldFiltersFromTypeList(typeList: [SVDType]) {
+	func resetTextFieldFiltersFromTypeList(_ typeList: [SVDType]) {
 		switch self.svdSubType {
-		case .Registration:
+		case .registration:
 			if let filteredRegs = typeList as? [SVDRegistration] {
 				Model.singleton.filteredRegistrations = filteredRegs
 			} else {
 				Model.singleton.filteredRegistrations = [SVDRegistration]()
 			}
-		case .LiveSet:
+		case .liveSet:
 			if let filteredLives = typeList as? [SVDLiveSet] {
 				Model.singleton.filteredLiveSets = filteredLives
 			} else {
 				Model.singleton.filteredLiveSets = [SVDLiveSet]()
 			}
-		case .Tone:
+		case .tone:
 			if let filteredTones = typeList as? [SVDTone] {
 				Model.singleton.filteredTones = filteredTones
 			} else {
@@ -507,7 +507,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		}
 	}
 
-	func nameIndicesForRegistrationTextField(textField: NSTextField, regList: [SVDRegistration]) -> [(String, Int)] {
+	func nameIndicesForRegistrationTextField(_ textField: NSTextField, regList: [SVDRegistration]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
@@ -522,7 +522,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return nameIndices
 	}
 
-	func nameIndicesForLiveSetTextField(textField: NSTextField, liveList: [SVDLiveSet]) -> [(String, Int)] {
+	func nameIndicesForLiveSetTextField(_ textField: NSTextField, liveList: [SVDLiveSet]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
@@ -537,7 +537,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return nameIndices
 	}
 
-	func nameIndicesForToneTextField(textField: NSTextField, toneList: [SVDTone]) -> [(String, Int)] {
+	func nameIndicesForToneTextField(_ textField: NSTextField, toneList: [SVDTone]) -> [(String, Int)] {
 		var nameIndices: [(String, Int)] = []
 		var index = 0
 
@@ -552,52 +552,52 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		return nameIndices
 	}
 
-	func nameForRegistrationTextField(textField: NSTextField, svdReg: SVDRegistration) -> String? {
+	func nameForRegistrationTextField(_ textField: NSTextField, svdReg: SVDRegistration) -> String? {
 		var name: String?
 
 		if textField == self.nameSearchField {
 			name = svdReg.regName
-		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
+		} else if let layer1SearchField = self.layer1SearchField, textField == layer1SearchField {
 			name = svdReg.upperName
-		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
+		} else if let layer2SearchField = self.layer2SearchField, textField == layer2SearchField {
 			name = svdReg.lowerName
-		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
+		} else if let layer3SearchField = self.layer3SearchField, textField == layer3SearchField {
 			name = svdReg.soloName
-		} else if let layer4SearchField = self.layer4SearchField where textField == layer4SearchField {
+		} else if let layer4SearchField = self.layer4SearchField, textField == layer4SearchField {
 			name = svdReg.percName
 		}
 
 		return name
 	}
 
-	func nameForLiveSetTextField(textField: NSTextField, svdLive: SVDLiveSet) -> String? {
+	func nameForLiveSetTextField(_ textField: NSTextField, svdLive: SVDLiveSet) -> String? {
 		var name: String?
 
 		if textField == self.nameSearchField {
 			name = svdLive.liveName
-		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
+		} else if let layer1SearchField = self.layer1SearchField, textField == layer1SearchField {
 			name = svdLive.layer1Name
-		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
+		} else if let layer2SearchField = self.layer2SearchField, textField == layer2SearchField {
 			name = svdLive.layer2Name
-		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
+		} else if let layer3SearchField = self.layer3SearchField, textField == layer3SearchField {
 			name = svdLive.layer3Name
-		} else if let layer4SearchField = self.layer4SearchField where textField == layer4SearchField {
+		} else if let layer4SearchField = self.layer4SearchField, textField == layer4SearchField {
 			name = svdLive.layer4Name
 		}
 
 		return name
 	}
 
-	func nameForToneTextField(textField: NSTextField, svdTone: SVDTone) -> String? {
+	func nameForToneTextField(_ textField: NSTextField, svdTone: SVDTone) -> String? {
 		var name: String?
 
 		if textField == self.nameSearchField {
 			name = svdTone.toneName
-		} else if let layer1SearchField = self.layer1SearchField where textField == layer1SearchField {
+		} else if let layer1SearchField = self.layer1SearchField, textField == layer1SearchField {
 			name = svdTone.partial1Name
-		} else if let layer2SearchField = self.layer2SearchField where textField == layer2SearchField {
+		} else if let layer2SearchField = self.layer2SearchField, textField == layer2SearchField {
 			name = svdTone.partial2Name
-		} else if let layer3SearchField = self.layer3SearchField where textField == layer3SearchField {
+		} else if let layer3SearchField = self.layer3SearchField, textField == layer3SearchField {
 			name = svdTone.partial3Name
 		}
 
@@ -606,9 +606,9 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Text (search) field delegate
 
-	override func controlTextDidEndEditing(obj: NSNotification) {
+	override func controlTextDidEndEditing(_ obj: Notification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
-			if let textField = obj.object as? NSTextField where textField == orderTextField {
+			if let textField = obj.object as? NSTextField, textField == orderTextField {
 				// Only process the text field when the Return key was pressed
 				if textMovement == NSReturnTextMovement {
 					// The order field matches one and only one row number
@@ -637,15 +637,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Actions
 
-	@IBAction func dependencySegmentedControlAction(sender: NSSegmentedControl) {
+	@IBAction func dependencySegmentedControlAction(_ sender: NSSegmentedControl) {
 		let filteredTypes = typeListFilteredOnDependencies(ignoreSearchFilter: false)
 		updateTableFromTypeList(filteredTypes)
 	}
 
 	// MARK: Notifications
 
-	func svdFileDidUpdate(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+	func svdFileDidUpdate(_ notification: Notification) {
+		DispatchQueue.main.async { () -> Void in
 			self.updateSVD()
 		}
 	}

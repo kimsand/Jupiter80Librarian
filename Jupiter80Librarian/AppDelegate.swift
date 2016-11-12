@@ -12,22 +12,22 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 	var model: Model?
 
-	func applicationDidFinishLaunching(aNotification: NSNotification) {
+	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		self.model = Model.singleton
 	}
 
-	func applicationWillTerminate(aNotification: NSNotification) {
+	func applicationWillTerminate(_ aNotification: Notification) {
 		// Insert code here to tear down your application
 	}
 
-	func application(sender: NSApplication, openFile filename: String) -> Bool {
-		let fileURL = NSURL(fileURLWithPath: filename)
+	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+		let fileURL = URL(fileURLWithPath: filename)
 		self.openFileURL(fileURL)
 
 		return true
 	}
 
-	func openDocument(sender: AnyObject) {
+	func openDocument(_ sender: AnyObject) {
 		let openPanel = NSOpenPanel()
 
 		openPanel.title = "Roland Jupiter-80/50 SVD file to open"
@@ -36,11 +36,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		let status = openPanel.runModal()
 
-		var fileURL: NSURL?
+		var fileURL: URL?
 
 		switch(status) {
 		case NSFileHandlingPanelOKButton:
-			fileURL = openPanel.URLs.first as NSURL!
+			fileURL = openPanel.urls.first as URL!
 
 			openPanel.close()
 
@@ -49,27 +49,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 
 		// Give the open dialog time to close to avoid it staying open on breakpoints
-		dispatch_after(dispatch_time(
-			DISPATCH_TIME_NOW,
-			Int64(0.2 * Double(NSEC_PER_SEC))
-			), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+		DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { () -> Void in
 			if let fileURL = fileURL {
 				self.openFileURL(fileURL)
 			}
 		})
 	}
 
-	func openFileURL(fileURL: NSURL) {
+	func openFileURL(_ fileURL: URL) {
 		self.model!.fileName = fileURL.lastPathComponent
-		NSNotificationCenter.defaultCenter().postNotificationName("svdFileWasChosen", object: nil)
-		NSDocumentController.sharedDocumentController().noteNewRecentDocumentURL(fileURL)
+		NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileWasChosen"), object: nil)
+		NSDocumentController.shared().noteNewRecentDocumentURL(fileURL)
 
-		NSLog("fileURL: %@", fileURL)
+		DLog("fileURL: \(fileURL)")
 
 		var error: NSError?
-		let fileData: NSData?
+		let fileData: Data?
 		do {
-			fileData = try NSData(contentsOfURL: fileURL, options: [])
+			fileData = try Data(contentsOf: fileURL, options: [])
 		} catch let error1 as NSError {
 			error = error1
 			fileData = nil
@@ -78,14 +75,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 
 		if fileData != nil && error == nil {
-			NSLog("file length: %d", fileData!.length)
+			DLog("file length:\(fileData!.count)")
 
 			let svdFile = SVDFile(fileData: fileData!)
 			self.model!.openedSVDFile = svdFile
 
-			NSNotificationCenter.defaultCenter().postNotificationName("svdFileDidUpdate", object: nil)
+			NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		} else if error != nil {
-			NSLog("error: %@", error!)
+			DLog("error:\(error!)")
 		}
 	}
 }
