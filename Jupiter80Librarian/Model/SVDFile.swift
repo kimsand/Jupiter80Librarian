@@ -417,7 +417,7 @@ class SVDFile: NSObject {
 		}
 
 		// Remove last nibble which belongs to the next byte
-		hexString = hexString.substring(to: hexString.characters.index(before: hexString.endIndex))
+		hexString = String(hexString[..<hexString.index(before: hexString.endIndex)])
 
 		return hexString
 	}

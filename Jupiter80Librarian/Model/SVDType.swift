@@ -18,7 +18,7 @@ enum SVDSubType {
 class SVDType: NSObject {
 	internal let svdFile: SVDFile
 
-	var orderNr: Int
+	@objc var orderNr: Int
 
 	init(svdFile: SVDFile, orderNr: Int) {
 		self.svdFile = svdFile

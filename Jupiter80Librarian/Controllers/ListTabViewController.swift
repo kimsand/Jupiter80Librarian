@@ -21,7 +21,7 @@ class ListTabViewController: NSTabViewController {
 		super.viewDidLoad()
 	}
 
-	func svdFileDidUpdate(_ notification: Notification) {
+	@objc func svdFileDidUpdate(_ notification: Notification) {
 		DispatchQueue.main.async { () -> Void in
 			self.svdFile = self.model.openedSVDFile
 

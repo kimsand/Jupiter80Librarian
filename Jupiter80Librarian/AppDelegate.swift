@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 
-	func openDocument(_ sender: AnyObject) {
+	@objc func openDocument(_ sender: AnyObject) {
 		let openPanel = NSOpenPanel()
 
 		openPanel.title = "Roland Jupiter-80/50 SVD file to open"
@@ -38,14 +38,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		var fileURL: URL?
 
-		switch(status) {
-		case NSFileHandlingPanelOKButton:
-			fileURL = openPanel.urls.first as URL!
+		if status.rawValue == NSFileHandlingPanelOKButton {
+			fileURL = openPanel.urls.first as URL?
 
 			openPanel.close()
-
-		default:
-			return
 		}
 
 		// Give the open dialog time to close to avoid it staying open on breakpoints
@@ -59,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func openFileURL(_ fileURL: URL) {
 		self.model!.fileName = fileURL.lastPathComponent
 		NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileWasChosen"), object: nil)
-		NSDocumentController.shared().noteNewRecentDocumentURL(fileURL)
+		NSDocumentController.shared.noteNewRecentDocumentURL(fileURL)
 
 		DLog("fileURL: \(fileURL)")
 

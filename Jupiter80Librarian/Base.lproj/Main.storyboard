@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -110,6 +112,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="Tfr-jN-B9X"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="SLb-HG-aUL" kind="relationship" relationship="window.shadowedContentViewController" id="B7y-nH-5cH"/>
@@ -132,11 +137,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="message"/>
-                        <tabViewItems/>
+                        <connections>
+                            <outlet property="delegate" destination="SLb-HG-aUL" id="knf-Tl-VMk"/>
+                        </connections>
                     </tabView>
                     <connections>
                         <outlet property="liveTabViewItem" destination="Cqe-dd-WM4" id="NsL-ad-IKi"/>
                         <outlet property="regTabViewItem" destination="uac-fx-EqK" id="gRN-ZG-yDR"/>
+                        <outlet property="tabView" destination="P28-Ay-ov4" id="gg2-k3-2y4"/>
                         <outlet property="toneTabViewItem" destination="35v-JW-GI2" id="itI-K2-82T"/>
                         <segue destination="3Ww-72-gvd" kind="relationship" relationship="tabItems" id="Xyv-zW-Qmm"/>
                         <segue destination="dEo-n4-BPa" kind="relationship" relationship="tabItems" id="f4o-h6-piQ"/>
@@ -496,7 +504,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
@@ -924,7 +931,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="08t-lN-CSv">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
@@ -1045,7 +1051,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="188" id="VIc-7F-hMt"/>
@@ -1104,6 +1109,7 @@
                             <constraint firstItem="w93-je-2uQ" firstAttribute="top" secondItem="HGc-nR-PWx" secondAttribute="top" id="OcT-em-fxF"/>
                             <constraint firstItem="THR-Ko-UDz" firstAttribute="leading" secondItem="NqS-F5-gb4" secondAttribute="leading" constant="10" id="Ogw-lG-LZh"/>
                             <constraint firstItem="Aip-S2-Brl" firstAttribute="leading" secondItem="Zqk-Sr-eCa" secondAttribute="trailing" constant="3" id="ZBw-4w-GWj"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lsy-kW-jef" secondAttribute="trailing" constant="20" symbolic="YES" id="dRd-yR-LBy"/>
                             <constraint firstItem="ipc-98-oYa" firstAttribute="leading" secondItem="bxs-Z7-1FZ" secondAttribute="trailing" constant="3" id="fnE-W9-HIa"/>
                             <constraint firstAttribute="bottom" secondItem="AoN-II-0Rh" secondAttribute="bottom" constant="4" id="gyo-Ah-fOs"/>
                             <constraint firstItem="Zqk-Sr-eCa" firstAttribute="top" secondItem="NqS-F5-gb4" secondAttribute="top" constant="4" id="kGQ-1T-VVA"/>
@@ -1433,7 +1439,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="kvj-cE-Zqc">
                                     <rect key="frame" x="1" y="116" width="235.5" height="16"/>
@@ -1554,7 +1559,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="188" id="x8n-Um-RiT"/>
@@ -1670,7 +1674,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="188" id="eZB-aK-ZPM"/>
@@ -1751,6 +1754,7 @@
                             <constraint firstItem="aTt-d9-Bzu" firstAttribute="leading" secondItem="gLB-gM-lpu" secondAttribute="trailing" constant="3" id="qS1-Ac-B9h"/>
                             <constraint firstItem="4FU-Nw-3iK" firstAttribute="bottom" secondItem="ZQo-jZ-LGl" secondAttribute="bottom" id="rWt-rP-ito"/>
                             <constraint firstItem="AoQ-09-3wC" firstAttribute="top" secondItem="EdM-5U-rXV" secondAttribute="bottom" constant="4" id="tTw-vb-xQu"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TUi-q8-sDY" secondAttribute="trailing" constant="20" symbolic="YES" id="vzP-lL-imz"/>
                             <constraint firstItem="v9X-Ag-jBs" firstAttribute="leading" secondItem="uHL-fy-jXh" secondAttribute="trailing" constant="8" id="wa3-aP-oXB"/>
                             <constraint firstItem="EdM-5U-rXV" firstAttribute="top" secondItem="XEr-KP-Wlw" secondAttribute="top" constant="4" id="xBc-bH-ytN"/>
                         </constraints>

@@ -79,7 +79,7 @@ class LiveSetsListViewController: SuperListViewController {
 
 	// MARK: Table view
 
-	func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == self.listTableView {
@@ -91,8 +91,8 @@ class LiveSetsListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		let result = tableView.make(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
+	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 
 		result.textField?.textColor = NSColor.black
 
@@ -173,3 +173,4 @@ class LiveSetsListViewController: SuperListViewController {
 	}
 
 }
+ 

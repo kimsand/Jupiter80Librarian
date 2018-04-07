@@ -85,7 +85,7 @@ class TonesListViewController: SuperListViewController {
 
 	// MARK: Table view
 
-	func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == self.listTableView {
@@ -99,10 +99,10 @@ class TonesListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		let result = tableView.make(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
+		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.black
 
 		var columnValue: String = ""
@@ -172,7 +172,7 @@ class TonesListViewController: SuperListViewController {
 
 		if tableView == self.listTableView {
 			self.buildSelectionList()
-			let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSOnState
+			let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSControl.StateValue.on
 			self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
 			self.regsTableView.reloadData()
 			self.livesTableView.reloadData()
@@ -182,7 +182,7 @@ class TonesListViewController: SuperListViewController {
 	// MARK: Actions
 
 	@IBAction func liveRegsCheckButtonClicked(_ sender: NSButton) {
-		let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSOnState
+		let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSControl.StateValue.on
 		self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
 		self.regsTableView.reloadData()
 		self.livesTableView.reloadData()

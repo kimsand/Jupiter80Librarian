@@ -73,16 +73,16 @@ class RegistrationsListViewController: SuperListViewController {
 
 	// MARK: Table view
 
-	func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		let nrOfRows = self.tableData.count
 
 		return nrOfRows
 	}
 
-	func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
-		let result = tableView.make(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
+		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = NSColor.black
 
 		let svdReg = self.tableData[row] as! SVDRegistration

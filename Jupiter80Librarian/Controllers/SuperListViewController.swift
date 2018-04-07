@@ -49,7 +49,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	override func viewDidAppear() {
 		super.viewDidAppear()
 
-		NSApplication.shared().mainWindow?.makeFirstResponder(self.listTableView)
+		NSApplication.shared.mainWindow?.makeFirstResponder(self.listTableView)
 	}
 
 	// MARK: Member methods
@@ -436,23 +436,23 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	func typeListFilteredOnTextFieldsForTypeList(_ typeList: [SVDType]) -> [SVDType] {
 		var filteredTypes = typeList
 
-		if self.nameSearchField.stringValue.characters.count > 0 {
+		if self.nameSearchField.stringValue.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(self.nameSearchField, typeList: filteredTypes)
 		}
 
-		if let layer1SearchField = self.layer1SearchField, layer1SearchField.stringValue.characters.count > 0 {
+		if let layer1SearchField = self.layer1SearchField, layer1SearchField.stringValue.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer1SearchField, typeList: filteredTypes)
 		}
 
-		if let layer2SearchField = self.layer2SearchField, layer2SearchField.stringValue.characters.count > 0 {
+		if let layer2SearchField = self.layer2SearchField, layer2SearchField.stringValue.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer2SearchField, typeList: filteredTypes)
 		}
 
-		if let layer3SearchField = self.layer3SearchField, layer3SearchField.stringValue.characters.count > 0 {
+		if let layer3SearchField = self.layer3SearchField, layer3SearchField.stringValue.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer3SearchField, typeList: filteredTypes)
 		}
 
-		if let layer4SearchField = self.layer4SearchField, layer4SearchField.stringValue.characters.count > 0 {
+		if let layer4SearchField = self.layer4SearchField, layer4SearchField.stringValue.count > 0 {
 			filteredTypes = typeListFilteredOnTextField(layer4SearchField, typeList: filteredTypes)
 		}
 
@@ -619,7 +619,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 			} else if let searchField = obj.object as? NSSearchField {
 				// TODO: A search field should also handle the cancel button (empty string without Return)
 				if textMovement == NSReturnTextMovement ||
-				(textMovement == NSOtherTextMovement && searchField.stringValue.characters.count == 0) {
+				(textMovement == NSOtherTextMovement && searchField.stringValue.count == 0) {
 					// Reset to the list filtered by the dependency segment
 					var filteredTypes = typeListFilteredOnDependencies()
 
@@ -644,7 +644,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Notifications
 
-	func svdFileDidUpdate(_ notification: Notification) {
+	@objc func svdFileDidUpdate(_ notification: Notification) {
 		DispatchQueue.main.async { () -> Void in
 			self.updateSVD()
 		}

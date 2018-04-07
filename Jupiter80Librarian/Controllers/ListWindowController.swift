@@ -18,7 +18,7 @@ class ListWindowController: NSWindowController {
 		self.window!.title = "Open a Jupiter-80/50 SVD file"
     }
 
-	func svdFileWasChosen(_ notification: Notification) {
+	@objc func svdFileWasChosen(_ notification: Notification) {
 		DispatchQueue.main.async { () -> Void in
 			if Model.singleton.fileName != nil {
 				self.window!.title = Model.singleton.fileName!
@@ -29,7 +29,7 @@ class ListWindowController: NSWindowController {
 		}
 	}
 
-	func svdFileIsInvalid(_ notification: Notification) {
+	@objc func svdFileIsInvalid(_ notification: Notification) {
 		DispatchQueue.main.async { () -> Void in
 			if Model.singleton.fileName != nil {
 				self.window!.title = "Not a valid Jupiter-80/50 SVD file"
