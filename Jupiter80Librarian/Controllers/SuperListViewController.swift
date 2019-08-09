@@ -296,58 +296,58 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	// MARK: Text colors based on sound type and sound name
 
 	func textColorForRegistrationName(_ regName: String) -> NSColor {
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if self.isInitSound == true || regName == "INIT REGIST" {
-			textColor = .lightGray
+			textColor = .secondaryLabelColor
 		}
 
 		return textColor
 	}
 
 	func textColorForLiveSetName(_ liveName: String) -> NSColor {
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if self.isInitSound == true || liveName == "INIT LIVESET" {
-			textColor = .lightGray
+			textColor = .secondaryLabelColor
 		}
 
 		return textColor
 	}
 
 	func textColorForToneName(_ toneName: String) -> NSColor {
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if self.isInitSound == true || toneName == "INIT SYNTH" {
-			textColor = .lightGray
+			textColor = .secondaryLabelColor
 		}
 
 		return textColor
 	}
 
 	func textColorForPartType(_ partType: SVDPartType) -> NSColor {
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if self.isInitSound == true {
-			textColor = .lightGray
+			textColor = .secondaryLabelColor
 		} else if partType.mainType == .acoustic {
-			textColor = .purple
+			textColor = .systemPurple
 		} else if partType.mainType == .drumSet {
-			textColor = .blue
+			textColor = .systemBlue
 		}
 
 		return textColor
 	}
 
 	func textColorForOscType(_ oscType: SVDOscType) -> NSColor {
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if self.isInitSound == true {
-			textColor = .lightGray
+			textColor = .secondaryLabelColor
 		} else if oscType == .pcm {
-			textColor = .purple
+			textColor = .systemPurple
 		} else {
-			textColor = .blue
+			textColor = .systemBlue
 		}
 
 		return textColor

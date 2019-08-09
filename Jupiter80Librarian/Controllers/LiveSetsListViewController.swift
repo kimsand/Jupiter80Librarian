@@ -94,10 +94,10 @@ class LiveSetsListViewController: SuperListViewController {
 	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 
-		result.textField?.textColor = NSColor.black
+		result.textField?.textColor = .labelColor
 
 		var columnValue: String = ""
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 
 		if tableView == self.listTableView {

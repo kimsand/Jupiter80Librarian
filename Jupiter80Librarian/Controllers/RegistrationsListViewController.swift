@@ -83,11 +83,11 @@ class RegistrationsListViewController: SuperListViewController {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
-		result.textField?.textColor = NSColor.black
+		result.textField?.textColor = .labelColor
 
 		let svdReg = self.tableData[row] as! SVDRegistration
 		var columnValue: String = ""
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if tableColumn == self.nameColumn {
 			columnValue = svdReg.regName
@@ -105,7 +105,7 @@ class RegistrationsListViewController: SuperListViewController {
 					textColor = self.textColorForLiveSetName(columnValue)
 				} else {
 					columnValue = "NOT USED"
-					textColor = NSColor.lightGray
+					textColor = .secondaryLabelColor
 				}
 			}
 		} else if tableColumn == self.soloColumn {

@@ -103,10 +103,10 @@ class TonesListViewController: SuperListViewController {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
-		result.textField?.textColor = NSColor.black
+		result.textField?.textColor = .labelColor
 
 		var columnValue: String = ""
-		var textColor = NSColor.black
+		var textColor = NSColor.labelColor
 
 		if tableView == self.listTableView {
 			let svdTone = self.tableData[row] as! SVDTone
