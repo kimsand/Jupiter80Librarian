@@ -54,16 +54,16 @@ class TonesListViewController: SuperListViewController {
 		var unselectedTones: [SVDTone] = []
 
 		for tone in Model.singleton.selectedTones {
-			if selectedTones.index(of: tone) == nil
-				&& self.tableData.index(of: tone) != nil {
+			if selectedTones.firstIndex(of: tone) == nil
+				&& self.tableData.firstIndex(of: tone) != nil {
 					unselectedTones.append(tone)
 			}
 		}
 
 		// Add rows that are newly selected
 		for tone in selectedTones {
-			if unselectedTones.index(of: tone) == nil {
-				if Model.singleton.selectedTones.index(of: tone) == nil {
+			if unselectedTones.firstIndex(of: tone) == nil {
+				if Model.singleton.selectedTones.firstIndex(of: tone) == nil {
 					Model.singleton.selectedTones.append(tone)
 				}
 			}
@@ -71,7 +71,7 @@ class TonesListViewController: SuperListViewController {
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedTones {
-			let foundIndex = Model.singleton.selectedTones.index(of: liveSet)
+			let foundIndex = Model.singleton.selectedTones.firstIndex(of: liveSet)
 
 			if foundIndex != nil {
 				Model.singleton.selectedTones.remove(at: foundIndex!)

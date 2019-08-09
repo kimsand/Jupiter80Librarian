@@ -93,7 +93,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 		// Keep selection when updating the list view
 		for selectedType in selectedTypes {
-			let index = tableData.index(of: selectedType)
+			let index = tableData.firstIndex(of: selectedType)
 
 			if index != nil {
 				indexSet.add(index!)
@@ -606,7 +606,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 	// MARK: Text (search) field delegate
 
-	override func controlTextDidEndEditing(_ obj: Notification) {
+	func controlTextDidEndEditing(_ obj: Notification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
 			if let textField = obj.object as? NSTextField, textField == orderTextField {
 				// Only process the text field when the Return key was pressed

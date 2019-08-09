@@ -42,16 +42,16 @@ class RegistrationsListViewController: SuperListViewController {
 		var unselectedRegs: [SVDRegistration] = []
 
 		for registration in Model.singleton.selectedRegistrations {
-			if selectedRegs.index(of: registration) == nil
-				&& self.tableData.index(of: registration) != nil {
+			if selectedRegs.firstIndex(of: registration) == nil
+				&& self.tableData.firstIndex(of: registration) != nil {
 					unselectedRegs.append(registration)
 			}
 		}
 
 		// Add rows that are newly selected
 		for registration in selectedRegs {
-			if unselectedRegs.index(of: registration) == nil {
-				if Model.singleton.selectedRegistrations.index(of: registration) == nil {
+			if unselectedRegs.firstIndex(of: registration) == nil {
+				if Model.singleton.selectedRegistrations.firstIndex(of: registration) == nil {
 					Model.singleton.selectedRegistrations.append(registration)
 				}
 			}
@@ -59,7 +59,7 @@ class RegistrationsListViewController: SuperListViewController {
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedRegs {
-			let foundIndex = Model.singleton.selectedRegistrations.index(of: liveSet)
+			let foundIndex = Model.singleton.selectedRegistrations.firstIndex(of: liveSet)
 
 			if foundIndex != nil {
 				Model.singleton.selectedRegistrations.remove(at: foundIndex!)

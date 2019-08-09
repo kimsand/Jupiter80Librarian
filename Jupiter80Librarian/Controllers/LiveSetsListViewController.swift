@@ -48,16 +48,16 @@ class LiveSetsListViewController: SuperListViewController {
 		var unselectedLiveSets: [SVDLiveSet] = []
 
 		for liveSet in Model.singleton.selectedLiveSets {
-			if selectedLiveSets.index(of: liveSet) == nil
-				&& self.tableData.index(of: liveSet) != nil {
+			if selectedLiveSets.firstIndex(of: liveSet) == nil
+				&& self.tableData.firstIndex(of: liveSet) != nil {
 					unselectedLiveSets.append(liveSet)
 			}
 		}
 
 		// Add rows that are newly selected
 		for liveSet in selectedLiveSets {
-			if unselectedLiveSets.index(of: liveSet) == nil {
-				if Model.singleton.selectedLiveSets.index(of: liveSet) == nil {
+			if unselectedLiveSets.firstIndex(of: liveSet) == nil {
+				if Model.singleton.selectedLiveSets.firstIndex(of: liveSet) == nil {
 					Model.singleton.selectedLiveSets.append(liveSet)
 				}
 			}
@@ -65,7 +65,7 @@ class LiveSetsListViewController: SuperListViewController {
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedLiveSets {
-			let foundIndex = Model.singleton.selectedLiveSets.index(of: liveSet)
+			let foundIndex = Model.singleton.selectedLiveSets.firstIndex(of: liveSet)
 
 			if foundIndex != nil {
 				Model.singleton.selectedLiveSets.remove(at: foundIndex!)
