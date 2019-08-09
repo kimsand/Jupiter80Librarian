@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		var fileURL: URL?
 
-		if status.rawValue == NSFileHandlingPanelOKButton {
+        if status == NSApplication.ModalResponse.OK {
 			fileURL = openPanel.urls.first as URL?
 
 			openPanel.close()
