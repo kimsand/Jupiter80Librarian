@@ -168,7 +168,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Kim André Sand";
 				TargetAttributes = {
 					E8E4AB661A1D131C00FCF1B5 = {
@@ -356,6 +356,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Jupiter80Librarian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Jupiter80Librarian;
@@ -371,6 +372,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Jupiter80Librarian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Jupiter80Librarian;
