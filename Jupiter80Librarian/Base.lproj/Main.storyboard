@@ -159,8 +159,8 @@
         <scene sceneID="Wpb-3a-l1u">
             <objects>
                 <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="qlx-up-juK">
-                        <rect key="frame" x="0.0" y="0.0" width="696" height="400"/>
+                    <view key="view" misplaced="YES" id="qlx-up-juK">
+                        <rect key="frame" x="0.0" y="0.0" width="695" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xgZ-f6-Fov">
@@ -248,9 +248,9 @@
                                 </connections>
                             </searchField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-pY-YV9" userLabel="Registrations List Scroll View">
-                                <rect key="frame" x="8" y="29" width="680" height="342"/>
+                                <rect key="frame" x="8" y="29" width="679" height="342"/>
                                 <clipView key="contentView" id="5qS-B2-psh">
-                                    <rect key="frame" x="1" y="0.0" width="678" height="341"/>
+                                    <rect key="frame" x="1" y="0.0" width="677" height="341"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="BXz-sl-4ov" viewBased="YES" id="wmi-dU-VAB">
@@ -505,8 +505,8 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
-                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
+                                    <rect key="frame" x="1" y="325" width="677" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="naT-4D-ebz">
@@ -541,6 +541,7 @@
                             </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="L6X-Vc-oAP" secondAttribute="trailing" constant="10" id="4yH-BZ-WWf"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="8" id="ARV-3a-GhK"/>
                             <constraint firstItem="L6X-Vc-oAP" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="IdZ-yE-0gD"/>
                             <constraint firstItem="NKg-Je-Ilr" firstAttribute="top" secondItem="Kap-pY-YV9" secondAttribute="bottom" constant="4" id="JiJ-pg-2Dq"/>
