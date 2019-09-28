@@ -28,6 +28,7 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	@IBOutlet var nameColumn: NSTableColumn!
 
 	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
+    @IBOutlet var breakingLayoutConstraint: NSLayoutConstraint!
 
 	var model = Model.singleton
 	var svdFile: SVDFile?
@@ -54,7 +55,15 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		NSApplication.shared.mainWindow?.makeFirstResponder(self.listTableView)
 	}
 
-	// MARK: Member methods
+    func deactivateBreakingLayoutConstraint() {
+        NSLayoutConstraint.deactivate([breakingLayoutConstraint])
+    }
+
+    func activateBreakingLayoutConstraint() {
+        NSLayoutConstraint.activate([breakingLayoutConstraint])
+    }
+
+    // MARK: Member methods
 
 	func updateSVD() {
 		self.svdFile = self.model.openedSVDFile

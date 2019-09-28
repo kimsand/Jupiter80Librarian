@@ -31,6 +31,7 @@ class LiveSetsListViewController: SuperListViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(LiveSetsListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
+        deactivateBreakingLayoutConstraint()
 		self.updateSVD()
 	}
 

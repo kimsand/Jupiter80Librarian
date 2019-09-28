@@ -37,6 +37,7 @@ class TonesListViewController: SuperListViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(TonesListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
+        deactivateBreakingLayoutConstraint()
 		self.updateSVD()
 	}
 
