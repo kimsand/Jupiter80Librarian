@@ -38,6 +38,8 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 	var svdSubType: SVDSubType
 	var tableData: [SVDType] = []
 
+    var wasLastCommandDeleteKey = false
+
 	// MARK: Lifecycle
 
 	required init?(coder: NSCoder) {
@@ -115,6 +117,17 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 		let indexSet = self.indexSetFromTypes()
 		self.listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
 	}
+
+    func filterTable() {
+        // Reset to the list filtered by the dependency segment
+        var filteredTypes = typeListFilteredOnDependencies()
+
+        // Filter based on the content of ALL filter text fields
+        filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
+        resetTextFieldFiltersFromTypeList(filteredTypes)
+
+        updateTableFromTypeList(filteredTypes)
+    }
 
 	// MARK: Dependency management
 
@@ -603,40 +616,52 @@ class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableV
 
 		return name
 	}
+}
 
-	// MARK: Text (search) field delegate
+// MARK: Text field delegate
+
+extension SuperListViewController: NSControlTextEditingDelegate {
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        if commandSelector == #selector(NSStandardKeyBindingResponding.deleteBackward(_:)) {
+            wasLastCommandDeleteKey = true
+        }
+        return false
+    }
+
+    func controlTextDidChange(_ obj: Notification) {
+        // Filter the table when the user presses the Clear button on a search field.
+        // Since there is no way to detect that the Clear button was pressed, instead
+        // ensure that the search field was not cleared by using the delete key.
+        if
+            let searchField = obj.object as? NSSearchField,
+            searchField.stringValue.count == 0,
+            wasLastCommandDeleteKey == false {
+            filterTable()
+        }
+
+        wasLastCommandDeleteKey = false
+    }
 
 	func controlTextDidEndEditing(_ obj: Notification) {
 		if let textMovement = obj.userInfo?["NSTextMovement"] as? Int {
 			if let textField = obj.object as? NSTextField, textField == orderTextField {
-				// Only process the text field when the Return key was pressed
 				if textMovement == NSReturnTextMovement {
-					// The order field matches one and only one row number
 					if let orderNr = Int(textField.stringValue) {
 						scrollToOrderNr(orderNr)
 					}
 				}
-			} else if let searchField = obj.object as? NSSearchField {
-				// TODO: A search field should also handle the cancel button (empty string without Return)
-				if textMovement == NSReturnTextMovement ||
-				(textMovement == NSOtherTextMovement && searchField.stringValue.count == 0) {
-					// Reset to the list filtered by the dependency segment
-					var filteredTypes = typeListFilteredOnDependencies()
-
-					// Filter based on the content of ALL filter text fields
-					filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
-					resetTextFieldFiltersFromTypeList(filteredTypes)
-
-					updateTableFromTypeList(filteredTypes)
-				} else {
-					searchField.stringValue = ""
-				}
+			} else if nil != obj.object as? NSSearchField {
+                if textMovement == NSReturnTextMovement {
+                    filterTable()
+                }
 			}
 		}
 	}
+}
 
-	// MARK: Actions
+// MARK: Actions
 
+extension SuperListViewController {
 	@IBAction func dependencySegmentedControlAction(_ sender: NSSegmentedControl) {
 		let filteredTypes = typeListFilteredOnDependencies(ignoreSearchFilter: false)
 		updateTableFromTypeList(filteredTypes)
