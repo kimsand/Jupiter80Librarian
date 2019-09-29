@@ -23,14 +23,14 @@ class TonesListViewController: SuperListViewController {
 
 	@IBOutlet var livesRegsCheckButton: NSButton!
 
-	var livesTableData: [SVDLiveSet] = []
-	var regsTableData: [SVDRegistration] = []
+	private var livesTableData: [SVDLiveSet] = []
+	private var regsTableData: [SVDRegistration] = []
 
 	// MARK: Lifecycle
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.svdSubType = .tone
+		svdSubType = .tone
 	}
 
 	override func viewDidLoad() {
@@ -38,25 +38,25 @@ class TonesListViewController: SuperListViewController {
 		super.viewDidLoad()
 
         deactivateBreakingLayoutConstraint()
-		self.updateSVD()
+		updateSVD()
 	}
 
 	// MARK: Member methods
 
-	func buildSelectionList() {
-		let selectedRowIndexes = self.listTableView.selectedRowIndexes
+	private func buildSelectionList() {
+		let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedTones: [SVDTone] = []
 
 		for index in selectedRowIndexes {
-			let svdTone = self.tableData[index] as! SVDTone
+			let svdTone = tableData[index] as! SVDTone
 			selectedTones.append(svdTone)
 		}
 
 		var unselectedTones: [SVDTone] = []
 
-		for tone in Model.singleton.selectedTones {
+		for tone in model.selectedTones {
 			if selectedTones.firstIndex(of: tone) == nil
-				&& self.tableData.firstIndex(of: tone) != nil {
+				&& tableData.firstIndex(of: tone) != nil {
 					unselectedTones.append(tone)
 			}
 		}
@@ -64,24 +64,24 @@ class TonesListViewController: SuperListViewController {
 		// Add rows that are newly selected
 		for tone in selectedTones {
 			if unselectedTones.firstIndex(of: tone) == nil {
-				if Model.singleton.selectedTones.firstIndex(of: tone) == nil {
-					Model.singleton.selectedTones.append(tone)
+				if model.selectedTones.firstIndex(of: tone) == nil {
+					model.selectedTones.append(tone)
 				}
 			}
 		}
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedTones {
-			let foundIndex = Model.singleton.selectedTones.firstIndex(of: liveSet)
+			let foundIndex = model.selectedTones.firstIndex(of: liveSet)
 
 			if foundIndex != nil {
-				Model.singleton.selectedTones.remove(at: foundIndex!)
+				model.selectedTones.remove(at: foundIndex!)
 			}
 		}
 
 		// Sort the array by orderNr when done updating
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		Model.singleton.selectedTones = (Model.singleton.selectedTones as NSArray).sortedArray(using: [sortDesc]) as! [SVDTone]
+		model.selectedTones = (model.selectedTones as NSArray).sortedArray(using: [sortDesc]) as! [SVDTone]
 	}
 
 	// MARK: Table view
@@ -89,12 +89,12 @@ class TonesListViewController: SuperListViewController {
 	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
-		if tableView == self.listTableView {
-			nrOfRows = self.tableData.count
-		} else if tableView == self.regsTableView {
-			nrOfRows = self.regsTableData.count
-		} else if tableView == self.livesTableView {
-			nrOfRows = self.livesTableData.count
+		if tableView == listTableView {
+			nrOfRows = tableData.count
+		} else if tableView == regsTableView {
+			nrOfRows = regsTableData.count
+		} else if tableView == livesTableView {
+			nrOfRows = livesTableData.count
 		}
 
 		return nrOfRows
@@ -109,24 +109,24 @@ class TonesListViewController: SuperListViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.labelColor
 
-		if tableView == self.listTableView {
-			let svdTone = self.tableData[row] as! SVDTone
+		if tableView == listTableView {
+			let svdTone = tableData[row] as! SVDTone
 
-			if tableColumn == self.nameColumn {
+			if tableColumn == nameColumn {
 				columnValue = svdTone.toneName
-				self.setInitStatusForToneName(columnValue)
-				textColor = self.textColorForToneName(columnValue)
-			} else if tableColumn == self.orderColumn {
+				setInitStatusForToneName(columnValue)
+				textColor = textColorForToneName(columnValue)
+			} else if tableColumn == orderColumn {
 				columnValue = "\(svdTone.orderNr)"
-			} else if tableColumn == self.partial1Column
-				|| tableColumn == self.partial2Column
-				|| tableColumn == self.partial3Column
+			} else if tableColumn == partial1Column
+				|| tableColumn == partial2Column
+				|| tableColumn == partial3Column
 			{
 				var partialNr: Int
 
-				if tableColumn == self.partial1Column {
+				if tableColumn == partial1Column {
 					partialNr = 0
-				} else if tableColumn == self.partial2Column {
+				} else if tableColumn == partial2Column {
 					partialNr = 1
 				} else {
 					partialNr = 2
@@ -134,19 +134,19 @@ class TonesListViewController: SuperListViewController {
 
 				columnValue = svdTone.partialNames[partialNr]
 				let oscType = svdTone.partialOscTypes[partialNr]
-				textColor = self.textColorForOscType(oscType)
+				textColor = textColorForOscType(oscType)
 			}
-		} else if tableView == self.regsTableView {
-			if tableColumn == self.regNameColumn {
-				columnValue = self.regsTableData[row].regName
-			} else if tableColumn == self.regOrderColumn {
-				columnValue = "\(self.regsTableData[row].orderNr)"
+		} else if tableView == regsTableView {
+			if tableColumn == regNameColumn {
+				columnValue = regsTableData[row].regName
+			} else if tableColumn == regOrderColumn {
+				columnValue = "\(regsTableData[row].orderNr)"
 			}
-		} else if tableView == self.livesTableView {
-			if tableColumn == self.liveNameColumn {
-				columnValue = self.livesTableData[row].liveName
-			} else if tableColumn == self.liveOrderColumn {
-				columnValue = "\(self.livesTableData[row].orderNr)"
+		} else if tableView == livesTableView {
+			if tableColumn == liveNameColumn {
+				columnValue = livesTableData[row].liveName
+			} else if tableColumn == liveOrderColumn {
+				columnValue = "\(livesTableData[row].orderNr)"
 			}
 		}
 
@@ -157,12 +157,12 @@ class TonesListViewController: SuperListViewController {
 	}
 
 	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		if tableView == self.livesTableView {
-			self.livesTableData = (self.livesTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
-		} else if tableView == self.regsTableView {
-			self.regsTableData = (self.regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
+		if tableView == livesTableView {
+			livesTableData = (livesTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
+		} else if tableView == regsTableView {
+			regsTableData = (regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData = (self.tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDTone]
+			tableData = (tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDTone]
 		}
 
 		tableView.reloadData()
@@ -171,21 +171,23 @@ class TonesListViewController: SuperListViewController {
 	func tableViewSelectionDidChange(_ notification: Notification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.listTableView {
-			self.buildSelectionList()
-			let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSControl.StateValue.on
-			self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
-			self.regsTableView.reloadData()
-			self.livesTableView.reloadData()
+		if tableView == listTableView {
+			buildSelectionList()
+			let includeRegsFromLiveSets = livesRegsCheckButton.state == NSControl.StateValue.on
+			buildDependencyList(&regsTableData, livesTableData: &livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
+			regsTableView.reloadData()
+			livesTableView.reloadData()
 		}
 	}
+}
 
-	// MARK: Actions
+// MARK: - Actions
 
+extension TonesListViewController {
 	@IBAction func liveRegsCheckButtonClicked(_ sender: NSButton) {
-		let includeRegsFromLiveSets = self.livesRegsCheckButton.state == NSControl.StateValue.on
-		self.buildDependencyList(&self.regsTableData, livesTableData: &self.livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
-		self.regsTableView.reloadData()
-		self.livesTableView.reloadData()
+		let includeRegsFromLiveSets = livesRegsCheckButton.state == NSControl.StateValue.on
+		buildDependencyList(&regsTableData, livesTableData: &livesTableData, includeRegsFromLiveSets: includeRegsFromLiveSets)
+		regsTableView.reloadData()
+		livesTableView.reloadData()
 	}
 }

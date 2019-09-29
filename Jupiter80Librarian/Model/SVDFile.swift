@@ -14,15 +14,15 @@ struct SVDBytes {
 	var length: Int
 
 	init(location: Int, bytes: [UInt8]) {
-		self.location = location
-		self.bytes = bytes
-		self.length = self.bytes.count
+        self.location = location
+        self.bytes = bytes
+		length = bytes.count
 	}
 
 	init(location: Int, length: Int) {
-		self.location = location
-		self.length = length
-		self.bytes = []
+        self.location = location
+        self.length = length
+		bytes = []
 	}
 }
 
@@ -84,16 +84,16 @@ private let kPartTypeDrumSet1 = 0x56
 private let kPartTypeDrumSet2 = 0xD6
 
 class SVDFile: NSObject {
-	fileprivate var nrOfRegsBytes = SVDBytes(location: 0x40, length: 0x4)
-	fileprivate var regBytes = SVDBytes(location: 0x50, length: 0x2F4)
-	fileprivate var nrOfLivesBytes = SVDBytes(location: 0x0, length: 0x4)
-	fileprivate var liveBytes = SVDBytes(location: 0x0, length: 0x48E)
-	fileprivate var nrOfTonesBytes = SVDBytes(location: 0x0, length: 0x4)
-	fileprivate var toneBytes = SVDBytes(location: 0x0, length: 0xA8)
+	private var nrOfRegsBytes = SVDBytes(location: 0x40, length: 0x4)
+	private var regBytes = SVDBytes(location: 0x50, length: 0x2F4)
+	private var nrOfLivesBytes = SVDBytes(location: 0x0, length: 0x4)
+	private var liveBytes = SVDBytes(location: 0x0, length: 0x48E)
+	private var nrOfTonesBytes = SVDBytes(location: 0x0, length: 0x4)
+	private var toneBytes = SVDBytes(location: 0x0, length: 0xA8)
 
-	fileprivate let fileData: Data
+	private let fileData: Data
 
-	fileprivate var isFileValid: Bool = false
+	private var isFileValid = false
 
 	var headerOffset: Int = 0x0
 
@@ -108,34 +108,34 @@ class SVDFile: NSObject {
 	var tones: [SVDTone] = []
 
 	init(fileData: Data) {
-		self.fileData = fileData
+        self.fileData = fileData
 
 		super.init()
 
-		self.isFileValid = self.checkValidityOfData(fileData)
+		isFileValid = checkValidityOfData(fileData)
 
-		if !self.isFileValid {
-			return;
+		if !isFileValid {
+			return
 		}
 
-		self.findHeaderOffset()
-		self.findPartLengths()
-		self.findRegistrations()
-		self.findLiveSets()
-		self.findTones()
+		findHeaderOffset()
+		findPartLengths()
+		findRegistrations()
+		findLiveSets()
+		findTones()
 
-		for svdReg in self.registrations {
+		for svdReg in registrations {
 			svdReg.findDependencies()
 		}
 
-		for svdLive in self.liveSets {
+		for svdLive in liveSets {
 			svdLive.findDependencies()
 		}
 	}
 
-	fileprivate func checkValidityOfData(_ fileData: Data) -> Bool {
+	private func checkValidityOfData(_ fileData: Data) -> Bool {
 		// Check for string SVD
-		let isSVDFile = self.compareData(kBytesSVD)
+		let isSVDFile = compareData(kBytesSVD)
 
 		if !isSVDFile {
 			NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileIsInvalid"), object: nil)
@@ -143,124 +143,124 @@ class SVDFile: NSObject {
 		}
 
 		// Check for string REG
-		let isRegFile = self.compareData(kBytesREG)
+		let isRegFile = compareData(kBytesREG)
 
 		if isRegFile {
 			// Check for string JPTR
-			let isJupiter80File = self.compareData(kBytesJPTR)
+			let isJupiter80File = compareData(kBytesJPTR)
 
 			if isJupiter80File {
-				self.fileFormat = .jupiter80
+				fileFormat = .jupiter80
 			} else {
 				// Check for string JP50
-				let isJupiter50File = self.compareData(kBytesJP50)
+				let isJupiter50File = compareData(kBytesJP50)
 
 				if isJupiter50File {
-					self.fileFormat = .jupiter50
+					fileFormat = .jupiter50
 				}
 			}
 		} else {
 			return false
 		}
 
-		return true;
+		return true
 	}
 
-	fileprivate func findHeaderOffset() {
-		let hasVCLPart = self.compareData(kBytesVCL)
+	private func findHeaderOffset() {
+		let hasVCLPart = compareData(kBytesVCL)
 
 		if hasVCLPart {
-			self.headerOffset += 0x10
+			headerOffset += 0x10
 		}
 
-		let hasSYSPart = self.compareData(kBytesSYS)
+		let hasSYSPart = compareData(kBytesSYS)
 
 		if hasSYSPart {
-			self.headerOffset += 0x10
+			headerOffset += 0x10
 		}
 
-		let hasRBNPart = self.compareData(kBytesRBN)
+		let hasRBNPart = compareData(kBytesRBN)
 
 		if hasRBNPart {
-			self.headerOffset += 0x10
+			headerOffset += 0x10
 		}
 	}
 
-	fileprivate func findPartLengths() {
-		self.regBytes.location += self.headerOffset
-		self.nrOfRegsBytes.location += self.headerOffset
+	private func findPartLengths() {
+		regBytes.location += headerOffset
+		nrOfRegsBytes.location += headerOffset
 
-		self.nrOfRegs = self.numberFromBytes(self.nrOfRegsBytes)
+		nrOfRegs = numberFromBytes(nrOfRegsBytes)
 
-		self.nrOfLivesBytes.location = self.regBytes.location + (self.nrOfRegs * self.regBytes.length)
-		self.nrOfLives = self.numberFromBytes(self.nrOfLivesBytes)
-		self.liveBytes.location = self.nrOfLivesBytes.location + self.nrOfLivesBytes.length + kLiveMetaLength
+		nrOfLivesBytes.location = regBytes.location + (nrOfRegs * regBytes.length)
+		nrOfLives = numberFromBytes(nrOfLivesBytes)
+		liveBytes.location = nrOfLivesBytes.location + nrOfLivesBytes.length + kLiveMetaLength
 
-		self.nrOfTonesBytes.location = self.liveBytes.location + (self.nrOfLives * self.liveBytes.length)
-		self.nrOfTones = self.numberFromBytes(self.nrOfTonesBytes)
-		self.toneBytes.location = self.nrOfTonesBytes.location + self.nrOfTonesBytes.length + kToneMetaLength
+		nrOfTonesBytes.location = liveBytes.location + (nrOfLives * liveBytes.length)
+		nrOfTones = numberFromBytes(nrOfTonesBytes)
+		toneBytes.location = nrOfTonesBytes.location + nrOfTonesBytes.length + kToneMetaLength
 
-		DLog("Nr of regs: \(self.nrOfRegs)")
-		DLog("Nr of lives: \(self.nrOfLives)")
-		DLog("Nr of tones: \(self.nrOfTones)")
+		DLog("Nr of regs: \(nrOfRegs)")
+		DLog("Nr of lives: \(nrOfLives)")
+		DLog("Nr of tones: \(nrOfTones)")
 	}
 
-	fileprivate func findRegistrations() {
-		for index in 0..<self.nrOfRegs {
-			var regBytes = self.regBytes
+	private func findRegistrations() {
+		for index in 0..<nrOfRegs {
+            var regBytes = self.regBytes
 			regBytes.location += (regBytes.length * index)
 
-			let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location - self.headerOffset, orderNr: index + 1)
-			self.registrations.append(registration)
+            let registration = SVDRegistration(svdFile: self, regBytes: regBytes, regBytesOffset: self.regBytes.location - headerOffset, orderNr: index + 1)
+			registrations.append(registration)
 		}
 	}
 
-	fileprivate func findLiveSets() {
-		for index in 0..<self.nrOfLives {
-			var liveBytes = self.liveBytes
+	private func findLiveSets() {
+		for index in 0..<nrOfLives {
+            var liveBytes = self.liveBytes
 			liveBytes.location += (liveBytes.length * index)
 
 			let liveSet = SVDLiveSet(svdFile: self, liveBytes: liveBytes, orderNr: index + 1)
-			self.liveSets.append(liveSet)
+			liveSets.append(liveSet)
 		}
 	}
 
-	fileprivate func findTones() {
-		for index in 0..<self.nrOfTones {
-			var toneBytes = self.toneBytes
+	private func findTones() {
+		for index in 0..<nrOfTones {
+            var toneBytes = self.toneBytes
 			toneBytes.location += (toneBytes.length * index)
 
 			let tone = SVDTone(svdFile: self, toneBytes: toneBytes, orderNr: index + 1)
-			self.tones.append(tone)
+			tones.append(tone)
 		}
 	}
 
 	func dataFromBytes(_ byteStruct: SVDBytes) -> Data {
 		let byteRange: Range = byteStruct.location..<byteStruct.location + byteStruct.length
-		let byteData = self.fileData.subdata(in: byteRange)
+		let byteData = fileData.subdata(in: byteRange)
 
 		return byteData
 	}
 
 	func compareData(_ byteStruct: SVDBytes) -> Bool {
-		let byteData = self.dataFromBytes(byteStruct)
+		let byteData = dataFromBytes(byteStruct)
 		let byteCheck = Data(bytes: UnsafePointer<UInt8>(byteStruct.bytes), count: byteStruct.length)
 
 		return (byteData == byteCheck)
 	}
 
 	func numberFromBytes(_ byteStruct: SVDBytes) -> Int {
-		let byteData = self.dataFromBytes(byteStruct)
+		let byteData = dataFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData, nrOfBits:8)
+		let number = numberFromData(byteData, nrOfBits:8)
 
 		return number
 	}
 
 	func numberFromShiftedBytes(_ byteStruct: SVDBytes) -> Int {
-		let byteData = self.unshiftedBytesFromBytes(byteStruct)
+		let byteData = unshiftedBytesFromBytes(byteStruct)
 
-		let number = self.numberFromData(byteData, nrOfBits:7)
+		let number = numberFromData(byteData, nrOfBits:7)
 
 		return number
 	}
@@ -304,7 +304,7 @@ class SVDFile: NSObject {
 	func unshiftedBytesFromBytes(_ byteStruct: SVDBytes) -> Data {
 		var unshiftedBytes: [UInt8] = []
 
-		let byteData = self.dataFromBytes(byteStruct)
+		let byteData = dataFromBytes(byteStruct)
 
 		// Bitmasks to cycle through in order to retrieve the unshifted bytes
 		let bitmasks: [UInt16] = [0b1111111000000000, 0b0000000111111100, 0b0000001111111000, 0b0000011111110000, 0b0000111111100000, 0b0001111111000000, 0b0011111110000000, 0b0111111100000000]
@@ -348,7 +348,7 @@ class SVDFile: NSObject {
 	}
 
 	func unshiftedNumberFromBytes(_ byteStruct: SVDBytes, nrOfBits: UInt8) -> Int {
-		let byteData = self.dataFromBytes(byteStruct)
+		let byteData = dataFromBytes(byteStruct)
 
 		var oneByte: UInt8 = 0x0
 		(byteData as NSData).getBytes(&oneByte, range: NSRange(location: 0, length: 1))
@@ -358,9 +358,9 @@ class SVDFile: NSObject {
 	}
 
 	func stringFromShiftedBytes(_ byteStruct: SVDBytes) -> String {
-		let data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = unshiftedBytesFromBytes(byteStruct)
 
-		let dataString = self.stringFromData(data)
+		let dataString = stringFromData(data)
 
 		return dataString
 	}
@@ -372,9 +372,9 @@ class SVDFile: NSObject {
 	}
 
 	func partMapKeyFromShiftedBytes(_ byteStruct: SVDBytes, location: Int) -> String {
-		let data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = unshiftedBytesFromBytes(byteStruct)
 
-		let partMapKey = self.partMapKeyFromData(data, location: location)
+		let partMapKey = partMapKeyFromData(data, location: location)
 
 		return partMapKey
 	}
@@ -392,7 +392,7 @@ class SVDFile: NSObject {
 	}
 
 	func hexStringFromShiftedBytes(_ byteStruct: SVDBytes) -> String {
-		let data = self.unshiftedBytesFromBytes(byteStruct)
+		let data = unshiftedBytesFromBytes(byteStruct)
 
 		var byteArray = [UInt8](repeating: 0x0, count: data.count)
 		(data as NSData).getBytes(&byteArray, length:data.count)
@@ -406,7 +406,7 @@ class SVDFile: NSObject {
 	}
 
 	func pcmMapKeyFromNibbleBytes(_ byteStruct: SVDBytes) -> String {
-		let data = self.dataFromBytes(byteStruct)
+		let data = dataFromBytes(byteStruct)
 
 		var byteArray = [UInt8](repeating: 0x0, count: 2)
 		(data as NSData).getBytes(&byteArray, length:2)
@@ -423,7 +423,7 @@ class SVDFile: NSObject {
 	}
 
 	func pcmNameFromNibbleBytes(_ byteStruct: SVDBytes) -> String {
-		let pcmKey = self.pcmMapKeyFromNibbleBytes(byteStruct)
+		let pcmKey = pcmMapKeyFromNibbleBytes(byteStruct)
 
 		var pcmName = kPCMMap[pcmKey]
 
@@ -435,9 +435,9 @@ class SVDFile: NSObject {
 	}
 
 	func partTypeFromBytes(_ byteStruct: SVDBytes) -> SVDPartType {
-		let partTypeData = self.dataFromBytes(byteStruct)
+		let partTypeData = dataFromBytes(byteStruct)
 
-		let partType = self.partTypeFromData(partTypeData)
+		let partType = partTypeFromData(partTypeData)
 
 		return partType
 	}
@@ -490,17 +490,17 @@ class SVDFile: NSObject {
 	}
 
 	func partNameFromShiftedBytes(_ byteStruct: SVDBytes, partType: SVDPartType) -> String {
-		let partKey = self.partMapKeyFromShiftedBytes(byteStruct, location: 0)
+		let partKey = partMapKeyFromShiftedBytes(byteStruct, location: 0)
 
-		let partName = self.partNameFromPartKey(partKey, partType: partType)
+		let partName = partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}
 
 	func partNameFromData(_ byteData: Data, partType: SVDPartType) -> String {
-		let partKey = self.partMapKeyFromData(byteData, location: 0)
+		let partKey = partMapKeyFromData(byteData, location: 0)
 
-		let partName = self.partNameFromPartKey(partKey, partType: partType)
+		let partName = partNameFromPartKey(partKey, partType: partType)
 
 		return partName
 	}

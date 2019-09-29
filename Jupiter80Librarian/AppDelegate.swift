@@ -10,10 +10,10 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-	var model: Model?
+	var model: Model!
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		self.model = Model.singleton
+		model = Model.singleton
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -22,38 +22,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		let fileURL = URL(fileURLWithPath: filename)
-		self.openFileURL(fileURL)
+		openFileURL(fileURL)
 
 		return true
 	}
 
-	@objc func openDocument(_ sender: AnyObject) {
-		let openPanel = NSOpenPanel()
-
-		openPanel.title = "Roland Jupiter-80/50 SVD file to open"
-		openPanel.allowedFileTypes = ["svd", "SVD"]
-		openPanel.canChooseDirectories = false
-
-		let status = openPanel.runModal()
-
-		var fileURL: URL?
-
-        if status == NSApplication.ModalResponse.OK {
-			fileURL = openPanel.urls.first as URL?
-
-			openPanel.close()
-		}
-
-		// Give the open dialog time to close to avoid it staying open on breakpoints
-		DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { () -> Void in
-			if let fileURL = fileURL {
-				self.openFileURL(fileURL)
-			}
-		})
-	}
-
 	func openFileURL(_ fileURL: URL) {
-		self.model!.fileName = fileURL.lastPathComponent
+		model.fileName = fileURL.lastPathComponent
 		NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileWasChosen"), object: nil)
 		NSDocumentController.shared.noteNewRecentDocumentURL(fileURL)
 
@@ -74,11 +49,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			DLog("file length:\(fileData!.count)")
 
 			let svdFile = SVDFile(fileData: fileData!)
-			self.model!.openedSVDFile = svdFile
+			model.openedSVDFile = svdFile
 
 			NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		} else if error != nil {
 			DLog("error:\(error!)")
 		}
 	}
+
+    // MARK: - Actions
+
+    @objc func openDocument(_ sender: AnyObject) {
+        let openPanel = NSOpenPanel()
+
+        openPanel.title = "Roland Jupiter-80/50 SVD file to open"
+        openPanel.allowedFileTypes = ["svd", "SVD"]
+        openPanel.canChooseDirectories = false
+
+        let status = openPanel.runModal()
+
+        var fileURL: URL?
+
+        if status == NSApplication.ModalResponse.OK {
+            fileURL = openPanel.urls.first as URL?
+
+            openPanel.close()
+        }
+
+        // Give the open dialog time to close to avoid it staying open on breakpoints
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { () -> Void in
+            if let fileURL = fileURL {
+                self.openFileURL(fileURL)
+            }
+        })
+    }
 }

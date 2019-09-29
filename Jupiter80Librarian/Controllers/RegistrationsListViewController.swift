@@ -18,32 +18,32 @@ class RegistrationsListViewController: SuperListViewController {
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.svdSubType = .registration
+		svdSubType = .registration
 	}
 
     override func viewDidLoad() {
 		NotificationCenter.default.addObserver(self, selector: #selector(RegistrationsListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
         super.viewDidLoad()
 
-		self.updateSVD()
+		updateSVD()
 	}
 
 	// MARK: Member methods
 
-	func buildSelectionList() {
-		let selectedRowIndexes = self.listTableView.selectedRowIndexes
+	private func buildSelectionList() {
+		let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedRegs: [SVDRegistration] = []
 
 		for index in selectedRowIndexes {
-			let svdReg = self.tableData[index] as! SVDRegistration
+			let svdReg = tableData[index] as! SVDRegistration
 			selectedRegs.append(svdReg)
 		}
 
 		var unselectedRegs: [SVDRegistration] = []
 
-		for registration in Model.singleton.selectedRegistrations {
+		for registration in model.selectedRegistrations {
 			if selectedRegs.firstIndex(of: registration) == nil
-				&& self.tableData.firstIndex(of: registration) != nil {
+				&& tableData.firstIndex(of: registration) != nil {
 					unselectedRegs.append(registration)
 			}
 		}
@@ -51,30 +51,30 @@ class RegistrationsListViewController: SuperListViewController {
 		// Add rows that are newly selected
 		for registration in selectedRegs {
 			if unselectedRegs.firstIndex(of: registration) == nil {
-				if Model.singleton.selectedRegistrations.firstIndex(of: registration) == nil {
-					Model.singleton.selectedRegistrations.append(registration)
+				if model.selectedRegistrations.firstIndex(of: registration) == nil {
+					model.selectedRegistrations.append(registration)
 				}
 			}
 		}
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedRegs {
-			let foundIndex = Model.singleton.selectedRegistrations.firstIndex(of: liveSet)
+			let foundIndex = model.selectedRegistrations.firstIndex(of: liveSet)
 
 			if foundIndex != nil {
-				Model.singleton.selectedRegistrations.remove(at: foundIndex!)
+				model.selectedRegistrations.remove(at: foundIndex!)
 			}
 		}
 
 		// Sort the array by orderNr when done updating
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		Model.singleton.selectedRegistrations = (Model.singleton.selectedRegistrations as NSArray).sortedArray(using: [sortDesc]) as! [SVDRegistration]
+		model.selectedRegistrations = (model.selectedRegistrations as NSArray).sortedArray(using: [sortDesc]) as! [SVDRegistration]
 	}
 
 	// MARK: Table view
 
 	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
-		let nrOfRows = self.tableData.count
+		let nrOfRows = tableData.count
 
 		return nrOfRows
 	}
@@ -85,44 +85,44 @@ class RegistrationsListViewController: SuperListViewController {
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 		result.textField?.textColor = .labelColor
 
-		let svdReg = self.tableData[row] as! SVDRegistration
+		let svdReg = tableData[row] as! SVDRegistration
 		var columnValue: String = ""
 		var textColor = NSColor.labelColor
 
-		if tableColumn == self.nameColumn {
+		if tableColumn == nameColumn {
 			columnValue = svdReg.regName
-			self.setInitStatusForRegistrationName(columnValue)
-			textColor = self.textColorForRegistrationName(columnValue)
-		} else if tableColumn == self.orderColumn {
+			setInitStatusForRegistrationName(columnValue)
+			textColor = textColorForRegistrationName(columnValue)
+		} else if tableColumn == orderColumn {
 			columnValue = "\(svdReg.orderNr)"
-		} else if tableColumn == self.upperColumn {
+		} else if tableColumn == upperColumn {
 			columnValue = svdReg.upperName as String
-			textColor = self.textColorForLiveSetName(columnValue)
-		} else if tableColumn == self.lowerColumn {
-			if self.svdFile != nil {
-				if self.svdFile!.fileFormat == .jupiter80 {
+			textColor = textColorForLiveSetName(columnValue)
+		} else if tableColumn == lowerColumn {
+			if svdFile != nil {
+				if svdFile!.fileFormat == .jupiter80 {
 					columnValue = svdReg.lowerName as String
-					textColor = self.textColorForLiveSetName(columnValue)
+					textColor = textColorForLiveSetName(columnValue)
 				} else {
 					columnValue = "NOT USED"
 					textColor = .secondaryLabelColor
 				}
 			}
-		} else if tableColumn == self.soloColumn {
+		} else if tableColumn == soloColumn {
 			columnValue = svdReg.soloName
 
 			if svdReg.soloTone != nil {
-				textColor = self.textColorForToneName(columnValue)
+				textColor = textColorForToneName(columnValue)
 			} else {
-				textColor = self.textColorForPartType(svdReg.soloToneType!)
+				textColor = textColorForPartType(svdReg.soloToneType!)
 			}
-		} else if tableColumn == self.percColumn {
+		} else if tableColumn == percColumn {
 			columnValue = svdReg.percName
 
 			if svdReg.percTone != nil {
-				textColor = self.textColorForToneName(columnValue)
+				textColor = textColorForToneName(columnValue)
 			} else {
-				textColor = self.textColorForPartType(svdReg.percToneType!)
+				textColor = textColorForPartType(svdReg.percToneType!)
 			}
 		}
 
@@ -133,15 +133,15 @@ class RegistrationsListViewController: SuperListViewController {
 	}
 
 	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-		self.tableData = (self.tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
+		tableData = (tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		tableView.reloadData()
 	}
 
 	func tableViewSelectionDidChange(_ notification: Notification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.listTableView {
-			self.buildSelectionList()
+		if tableView == listTableView {
+			buildSelectionList()
 		}
 	}
 }

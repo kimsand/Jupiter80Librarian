@@ -11,17 +11,17 @@ import Cocoa
 private let kRegNameLength = 0x10
 
 class SVDRegistration: SVDType {
-	fileprivate var regUpperBytes = SVDBytes(location: 0x85, length: 0x2)
-	fileprivate var regLowerBytes = SVDBytes(location: 0x8C, length: 0x2)
-	fileprivate var regSoloBytes = SVDBytes(location: 0x93, length: 0x2)
-	fileprivate var regPercBytes = SVDBytes(location: 0x9A, length: 0x2)
+	private var regUpperBytes = SVDBytes(location: 0x85, length: 0x2)
+	private var regLowerBytes = SVDBytes(location: 0x8C, length: 0x2)
+	private var regSoloBytes = SVDBytes(location: 0x93, length: 0x2)
+	private var regPercBytes = SVDBytes(location: 0x9A, length: 0x2)
 
-	fileprivate var regUpperTypeBytes = SVDBytes(location: 0x84, length: 0x1)
-	fileprivate var regLowerTypeBytes = SVDBytes(location: 0x8B, length: 0x1)
-	fileprivate var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
-	fileprivate var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
+	private var regUpperTypeBytes = SVDBytes(location: 0x84, length: 0x1)
+	private var regLowerTypeBytes = SVDBytes(location: 0x8B, length: 0x1)
+	private var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
+	private var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
 
-	var regName: String!
+	let regName: String
 	var upperName: String!
 	var lowerName: String!
 	var soloName: String!
@@ -34,67 +34,67 @@ class SVDRegistration: SVDType {
 	var percTone: SVDTone?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int, orderNr: Int) {
-		super.init(svdFile: svdFile, orderNr: orderNr)
+        let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
+        regName = svdFile.stringFromShiftedBytes(regNameBytes)
 
-		let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
-		self.regName = self.svdFile.stringFromShiftedBytes(regNameBytes)
+        super.init(svdFile: svdFile, orderNr: orderNr)
 
-		self.regUpperBytes.location += regBytes.location - regBytesOffset
-		self.regLowerBytes.location += regBytes.location - regBytesOffset
-		self.regSoloBytes.location += regBytes.location - regBytesOffset
-		self.regPercBytes.location += regBytes.location - regBytesOffset
+		regUpperBytes.location += regBytes.location - regBytesOffset
+		regLowerBytes.location += regBytes.location - regBytesOffset
+		regSoloBytes.location += regBytes.location - regBytesOffset
+		regPercBytes.location += regBytes.location - regBytesOffset
 
-		self.regUpperTypeBytes.location += regBytes.location - regBytesOffset
-		self.regLowerTypeBytes.location += regBytes.location - regBytesOffset
-		self.regSoloTypeBytes.location += regBytes.location - regBytesOffset
-		self.regPercTypeBytes.location += regBytes.location - regBytesOffset
+		regUpperTypeBytes.location += regBytes.location - regBytesOffset
+		regLowerTypeBytes.location += regBytes.location - regBytesOffset
+		regSoloTypeBytes.location += regBytes.location - regBytesOffset
+		regPercTypeBytes.location += regBytes.location - regBytesOffset
 	}
 
-	fileprivate func regPartLocationForRegPartBytes(_ regPartBytes: SVDBytes) -> Data {
-		let regPartLocation = self.svdFile.unshiftedBytesFromBytes(regPartBytes)
+	private func regPartLocationForRegPartBytes(_ regPartBytes: SVDBytes) -> Data {
+		let regPartLocation = svdFile.unshiftedBytesFromBytes(regPartBytes)
 
 		return regPartLocation
 	}
 
 	func findDependencies() {
-		let upperLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regUpperBytes)
-		let lowerLiveSetLocation = self.svdFile.numberFromShiftedBytes(self.regLowerBytes)
+		let upperLiveSetLocation = svdFile.numberFromShiftedBytes(regUpperBytes)
+		let lowerLiveSetLocation = svdFile.numberFromShiftedBytes(regLowerBytes)
 
-		self.upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
-		self.upperName = self.upperLiveSet.liveName
+		upperLiveSet = svdFile.liveSets[upperLiveSetLocation]
+		upperName = upperLiveSet.liveName
 
-		if self.svdFile.fileFormat == .jupiter80 {
-			self.lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
-			self.lowerName = self.lowerLiveSet.liveName
+		if svdFile.fileFormat == .jupiter80 {
+			lowerLiveSet = svdFile.liveSets[lowerLiveSetLocation]
+			lowerName = lowerLiveSet.liveName
 		}
 
-		self.upperLiveSet.addDependencyToRegistration(self)
+		upperLiveSet.addDependencyToRegistration(self)
 
-		if self.svdFile.fileFormat == .jupiter80 {
-			self.lowerLiveSet.addDependencyToRegistration(self)
+		if svdFile.fileFormat == .jupiter80 {
+			lowerLiveSet.addDependencyToRegistration(self)
 		}
 
-		self.soloToneType = self.svdFile.partTypeFromBytes(self.regSoloTypeBytes)
-		self.percToneType = self.svdFile.partTypeFromBytes(self.regPercTypeBytes)
+		soloToneType = svdFile.partTypeFromBytes(regSoloTypeBytes)
+		percToneType = svdFile.partTypeFromBytes(regPercTypeBytes)
 
-		if self.soloToneType!.mainType == .synth {
-			let soloToneLocation = self.svdFile.numberFromShiftedBytes(self.regSoloBytes)
+		if soloToneType.mainType == .synth {
+			let soloToneLocation = svdFile.numberFromShiftedBytes(regSoloBytes)
 
-			self.soloTone = svdFile.tones[soloToneLocation]
-			self.soloTone?.addDependencyToRegistration(self)
-			self.soloName = self.soloTone!.toneName
+			soloTone = svdFile.tones[soloToneLocation]
+			soloTone?.addDependencyToRegistration(self)
+			soloName = soloTone!.toneName
 		} else {
-			self.soloName = svdFile.partNameFromShiftedBytes(self.regSoloBytes, partType: self.soloToneType)
+			soloName = svdFile.partNameFromShiftedBytes(regSoloBytes, partType: soloToneType)
 		}
 
-		if self.percToneType!.mainType == .synth {
-			let percToneLocation = self.svdFile.numberFromShiftedBytes(self.regPercBytes)
+		if percToneType.mainType == .synth {
+			let percToneLocation = svdFile.numberFromShiftedBytes(regPercBytes)
 
-			self.percTone = svdFile.tones[percToneLocation]
-			self.percTone?.addDependencyToRegistration(self)
-			self.percName = self.percTone!.toneName
+			percTone = svdFile.tones[percToneLocation]
+			percTone?.addDependencyToRegistration(self)
+			percName = percTone!.toneName
 		} else {
-			self.percName = svdFile.partNameFromShiftedBytes(self.regPercBytes, partType: self.percToneType)
+			percName = svdFile.partNameFromShiftedBytes(regPercBytes, partType: percToneType)
 		}
 	}
 }

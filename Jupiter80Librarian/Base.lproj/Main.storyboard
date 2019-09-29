@@ -159,7 +159,7 @@
         <scene sceneID="Wpb-3a-l1u">
             <objects>
                 <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="qlx-up-juK">
+                    <view key="view" id="qlx-up-juK">
                         <rect key="frame" x="0.0" y="0.0" width="696" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>

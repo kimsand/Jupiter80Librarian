@@ -18,13 +18,13 @@ class LiveSetsListViewController: SuperListViewController {
 	@IBOutlet var regNameColumn: NSTableColumn!
 	@IBOutlet var regOrderColumn: NSTableColumn!
 
-	var regsTableData: [SVDRegistration] = []
+	private var regsTableData: [SVDRegistration] = []
 
-	// MARK: Lifecycle
+	// MARK: - Lifecycle
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
-		self.svdSubType = .liveSet
+		svdSubType = .liveSet
 	}
 
 	override func viewDidLoad() {
@@ -32,25 +32,26 @@ class LiveSetsListViewController: SuperListViewController {
 		super.viewDidLoad()
 
         deactivateBreakingLayoutConstraint()
-		self.updateSVD()
+		updateSVD()
 	}
 
-	// MARK: Member methods
+	// MARK: - Member methods
 
-	func buildSelectionList() {
-		let selectedRowIndexes = self.listTableView.selectedRowIndexes
+	private func buildSelectionList() {
+		let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedLiveSets: [SVDLiveSet] = []
 
 		for index in selectedRowIndexes {
-			let svdLive = self.tableData[index] as! SVDLiveSet
-			selectedLiveSets.append(svdLive)
+            if let svdLive = tableData[index] as? SVDLiveSet {
+                selectedLiveSets.append(svdLive)
+            }
 		}
 
 		var unselectedLiveSets: [SVDLiveSet] = []
 
-		for liveSet in Model.singleton.selectedLiveSets {
+		for liveSet in model.selectedLiveSets {
 			if selectedLiveSets.firstIndex(of: liveSet) == nil
-				&& self.tableData.firstIndex(of: liveSet) != nil {
+				&& tableData.firstIndex(of: liveSet) != nil {
 					unselectedLiveSets.append(liveSet)
 			}
 		}
@@ -58,35 +59,33 @@ class LiveSetsListViewController: SuperListViewController {
 		// Add rows that are newly selected
 		for liveSet in selectedLiveSets {
 			if unselectedLiveSets.firstIndex(of: liveSet) == nil {
-				if Model.singleton.selectedLiveSets.firstIndex(of: liveSet) == nil {
-					Model.singleton.selectedLiveSets.append(liveSet)
+				if model.selectedLiveSets.firstIndex(of: liveSet) == nil {
+					model.selectedLiveSets.append(liveSet)
 				}
 			}
 		}
 
 		// Remove rows that are newly unselected
 		for liveSet in unselectedLiveSets {
-			let foundIndex = Model.singleton.selectedLiveSets.firstIndex(of: liveSet)
-
-			if foundIndex != nil {
-				Model.singleton.selectedLiveSets.remove(at: foundIndex!)
-			}
+            if let foundIndex = model.selectedLiveSets.firstIndex(of: liveSet) {
+                model.selectedLiveSets.remove(at: foundIndex)
+            }
 		}
 
 		// Sort the array by orderNr when done updating
 		let sortDesc = NSSortDescriptor(key: "orderNr", ascending: true)
-		Model.singleton.selectedLiveSets = (Model.singleton.selectedLiveSets as NSArray).sortedArray(using: [sortDesc]) as! [SVDLiveSet]
+		model.selectedLiveSets = (model.selectedLiveSets as NSArray).sortedArray(using: [sortDesc]) as! [SVDLiveSet]
 	}
 
-	// MARK: Table view
+	// MARK: - Table view
 
 	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
-		if tableView == self.listTableView {
-			nrOfRows = self.tableData.count
-		} else if tableView == self.regsTableView {
-			nrOfRows = self.regsTableData.count
+		if tableView == listTableView {
+			nrOfRows = tableData.count
+		} else if tableView == regsTableView {
+			nrOfRows = regsTableData.count
 		}
 
 		return nrOfRows
@@ -100,50 +99,49 @@ class LiveSetsListViewController: SuperListViewController {
 		var columnValue: String = ""
 		var textColor = NSColor.labelColor
 
+        if tableView == regsTableView {
+            if tableColumn == regNameColumn {
+                columnValue = regsTableData[row].regName
+            } else if tableColumn == regOrderColumn {
+                columnValue = "\(regsTableData[row].orderNr)"
+            }
+        } else if tableView == listTableView {
+			let svdLive = tableData[row] as! SVDLiveSet
 
-		if tableView == self.listTableView {
-			let svdLive = self.tableData[row] as! SVDLiveSet
-
-			if tableColumn == self.nameColumn {
+			if tableColumn == nameColumn {
 				columnValue = svdLive.liveName
-				self.setInitStatusForLiveSetName(columnValue)
-				textColor = self.textColorForLiveSetName(columnValue)
-			} else if tableColumn == self.orderColumn {
+				setInitStatusForLiveSetName(columnValue)
+				textColor = textColorForLiveSetName(columnValue)
+			} else if tableColumn == orderColumn {
 				columnValue = "\(svdLive.orderNr)"
-			} else if tableColumn == self.layer1Column
-				|| tableColumn == self.layer2Column
-				|| tableColumn == self.layer3Column
-				|| tableColumn == self.layer4Column
+			} else if tableColumn == layer1Column
+				|| tableColumn == layer2Column
+				|| tableColumn == layer3Column
+				|| tableColumn == layer4Column
 			{
 				var layerNr: Int
 
-				if tableColumn == self.layer1Column {
+				if tableColumn == layer1Column {
 					layerNr = 0
-				} else if tableColumn == self.layer2Column {
+				} else if tableColumn == layer2Column {
 					layerNr = 1
-				} else if tableColumn == self.layer3Column {
+				} else if tableColumn == layer3Column {
 					layerNr = 2
 				} else {
 					layerNr = 3
 				}
 
-				let layerToneType: SVDPartType = svdLive.layerToneTypes[layerNr]
-				let layerTone: SVDTone? = svdLive.layerTones[layerNr]
-				let layerName: String? = svdLive.layerNames[layerNr]
+				let layerToneType = svdLive.layerToneTypes[layerNr]
+				let layerTone = svdLive.layerTones[layerNr]
+				let layerName = svdLive.layerNames[layerNr]
 
 				columnValue = layerName!
 
 				if layerTone != nil {
-					textColor = self.textColorForToneName(columnValue)
+					textColor = textColorForToneName(columnValue)
 				} else if layerName != nil {
-					textColor = self.textColorForPartType(layerToneType)
+					textColor = textColorForPartType(layerToneType)
 				}
-			}
-		} else if tableView == self.regsTableView {
-			if tableColumn == self.regNameColumn {
-				columnValue = self.regsTableData[row].regName
-			} else if tableColumn == self.regOrderColumn {
-				columnValue = "\(self.regsTableData[row].orderNr)"
 			}
 		}
 
@@ -154,10 +152,10 @@ class LiveSetsListViewController: SuperListViewController {
 	}
 
 	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
-		if tableView == self.regsTableView {
-			self.regsTableData = (self.regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
+		if tableView == regsTableView {
+			regsTableData = (regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		} else {
-			self.tableData = (self.tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
+			tableData = (tableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
 		}
 
 		tableView.reloadData()
@@ -166,12 +164,10 @@ class LiveSetsListViewController: SuperListViewController {
 	func tableViewSelectionDidChange(_ notification: Notification) {
 		let tableView = notification.object as! NSTableView
 
-		if tableView == self.listTableView {
-			self.buildSelectionList()
-			self.buildDependencyList(&self.regsTableData)
-			self.regsTableView.reloadData()
+		if tableView == listTableView {
+			buildSelectionList()
+			buildDependencyList(&regsTableData)
+			regsTableView.reloadData()
 		}
 	}
-
 }
- 
