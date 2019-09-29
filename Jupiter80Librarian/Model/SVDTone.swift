@@ -29,15 +29,15 @@ class SVDTone: SVDType {
 	private var partial2PCMBytes = SVDBytes(location: 0x73, length: 0x2)
 	private var partial3PCMBytes = SVDBytes(location: 0xA1, length: 0x2)
 
-	let toneName: String
 	var registrations: [SVDRegistration] = []
 	var liveSets: [SVDLiveSet] = []
-
 	var partialOscTypes: [SVDOscType] = []
-	var partialNames: [String] = []
-	var partial1Name: String!
-	var partial2Name: String!
-	var partial3Name: String!
+    var partialNames: [String] = []
+
+    @objc let toneName: String
+	@objc var partial1Name: String!
+	@objc var partial2Name: String!
+	@objc var partial3Name: String!
 
 	init(svdFile: SVDFile, toneBytes: SVDBytes, orderNr: Int) {
         let toneNameBytes = SVDBytes(location: toneBytes.location, length: toneNameLength)

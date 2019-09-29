@@ -16,15 +16,16 @@ class SVDLiveSet: SVDType {
 	private var liveLayer3Bytes = SVDBytes(location: 0x1EB, length: 0x3)
 	private var liveLayer4Bytes = SVDBytes(location: 0x211, length: 0x3)
 
-	let liveName: String
-	var registrations: [SVDRegistration] = []
-	var layerToneTypes: [SVDPartType] = []
-	var layerTones: [SVDTone?] = []
-	var layerNames: [String?] = []
-	var layer1Name: String!
-	var layer2Name: String!
-	var layer3Name: String!
-	var layer4Name: String!
+    var registrations: [SVDRegistration] = []
+    var layerToneTypes: [SVDPartType] = []
+    var layerTones: [SVDTone?] = []
+    var layerNames: [String?] = []
+
+    @objc let liveName: String
+	@objc var layer1Name: String!
+	@objc var layer2Name: String!
+	@objc var layer3Name: String!
+	@objc var layer4Name: String!
 
 	init(svdFile: SVDFile, liveBytes: SVDBytes, orderNr: Int) {
         let liveNameBytes = SVDBytes(location: liveBytes.location, length: kLiveNameLength)

@@ -21,17 +21,18 @@ class SVDRegistration: SVDType {
 	private var regSoloTypeBytes = SVDBytes(location: 0x92, length: 0x1)
 	private var regPercTypeBytes = SVDBytes(location: 0x99, length: 0x1)
 
-	let regName: String
-	var upperName: String!
-	var lowerName: String!
-	var soloName: String!
-	var percName: String!
-	var upperLiveSet: SVDLiveSet!
-	var lowerLiveSet: SVDLiveSet!
-	var soloToneType: SVDPartType!
-	var percToneType: SVDPartType!
-	var soloTone: SVDTone?
-	var percTone: SVDTone?
+    @objc let regName: String
+	@objc var upperName: String!
+	@objc var lowerName: String!
+	@objc var soloName: String!
+	@objc var percName: String!
+
+    private var upperLiveSet: SVDLiveSet!
+	private var lowerLiveSet: SVDLiveSet!
+	private(set) var soloToneType: SVDPartType!
+	private(set) var percToneType: SVDPartType!
+	private(set) var soloTone: SVDTone?
+	private(set) var percTone: SVDTone?
 
 	init(svdFile: SVDFile, regBytes: SVDBytes, regBytesOffset: Int, orderNr: Int) {
         let regNameBytes = SVDBytes(location: regBytes.location, length: kRegNameLength)
