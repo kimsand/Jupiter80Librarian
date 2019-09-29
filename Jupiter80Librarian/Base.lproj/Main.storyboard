@@ -159,12 +159,12 @@
         <scene sceneID="Wpb-3a-l1u">
             <objects>
                 <viewController id="3Ww-72-gvd" customClass="RegistrationsListViewController" customModule="Jupiter_80_Librarian" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="qlx-up-juK">
-                        <rect key="frame" x="0.0" y="0.0" width="691" height="400"/>
+                    <view key="view" misplaced="YES" id="qlx-up-juK">
+                        <rect key="frame" x="0.0" y="0.0" width="696" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xgZ-f6-Fov">
-                                <rect key="frame" x="8" y="375" width="50" height="21"/>
+                                <rect key="frame" x="10" y="375" width="50" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="1ng-I3-vEw"/>
                                 </constraints>
@@ -178,7 +178,7 @@
                                 </connections>
                             </textField>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zGD-wn-XWJ">
-                                <rect key="frame" x="61" y="374" width="130" height="22"/>
+                                <rect key="frame" x="63" y="374" width="130" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="ZVF-rn-TOF"/>
                                 </constraints>
@@ -192,7 +192,7 @@
                                 </connections>
                             </searchField>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2N-xf-jDg">
-                                <rect key="frame" x="194" y="374" width="130" height="22"/>
+                                <rect key="frame" x="196" y="374" width="130" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="N8W-D3-6zI"/>
                                 </constraints>
@@ -206,7 +206,7 @@
                                 </connections>
                             </searchField>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lru-yG-GJv">
-                                <rect key="frame" x="327" y="374" width="130" height="22"/>
+                                <rect key="frame" x="329" y="374" width="130" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="e8h-cY-wv2"/>
                                 </constraints>
@@ -220,7 +220,7 @@
                                 </connections>
                             </searchField>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pAR-kq-GJx">
-                                <rect key="frame" x="460" y="374" width="110" height="22"/>
+                                <rect key="frame" x="462" y="374" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="sMD-a7-bUv"/>
                                 </constraints>
@@ -234,7 +234,7 @@
                                 </connections>
                             </searchField>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L6X-Vc-oAP">
-                                <rect key="frame" x="573" y="374" width="110" height="22"/>
+                                <rect key="frame" x="575" y="374" width="110" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="56R-4N-cWQ"/>
                                 </constraints>
@@ -248,9 +248,9 @@
                                 </connections>
                             </searchField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-pY-YV9" userLabel="Registrations List Scroll View">
-                                <rect key="frame" x="8" y="29" width="675" height="342"/>
+                                <rect key="frame" x="8" y="29" width="680" height="342"/>
                                 <clipView key="contentView" id="5qS-B2-psh">
-                                    <rect key="frame" x="1" y="0.0" width="673" height="341"/>
+                                    <rect key="frame" x="1" y="0.0" width="678" height="341"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="16" rowSizeStyle="automatic" headerView="BXz-sl-4ov" viewBased="YES" id="wmi-dU-VAB">
@@ -499,8 +499,8 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
-                                    <rect key="frame" x="1" y="325" width="673" height="16"/>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="EXZ-5F-SFX">
+                                    <rect key="frame" x="1" y="325" width="675" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="naT-4D-ebz">
@@ -536,15 +536,15 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="8" id="ARV-3a-GhK"/>
-                            <constraint firstItem="Kap-pY-YV9" firstAttribute="trailing" secondItem="L6X-Vc-oAP" secondAttribute="trailing" id="C77-BN-oz5"/>
                             <constraint firstItem="L6X-Vc-oAP" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="IdZ-yE-0gD"/>
                             <constraint firstItem="NKg-Je-Ilr" firstAttribute="top" secondItem="Kap-pY-YV9" secondAttribute="bottom" constant="4" id="JiJ-pg-2Dq"/>
                             <constraint firstItem="X2N-xf-jDg" firstAttribute="leading" secondItem="zGD-wn-XWJ" secondAttribute="trailing" constant="3" id="QX5-Do-ikP"/>
                             <constraint firstItem="Lru-yG-GJv" firstAttribute="leading" secondItem="X2N-xf-jDg" secondAttribute="trailing" constant="3" id="Syk-zA-laR"/>
                             <constraint firstItem="L6X-Vc-oAP" firstAttribute="leading" secondItem="pAR-kq-GJx" secondAttribute="trailing" constant="3" id="U7L-Zu-N01"/>
-                            <constraint firstItem="Kap-pY-YV9" firstAttribute="leading" secondItem="xgZ-f6-Fov" secondAttribute="leading" id="WNN-Io-oe5"/>
+                            <constraint firstItem="xgZ-f6-Fov" firstAttribute="leading" secondItem="qlx-up-juK" secondAttribute="leading" constant="10" id="ZmZ-QD-CNU"/>
                             <constraint firstItem="pAR-kq-GJx" firstAttribute="leading" secondItem="Lru-yG-GJv" secondAttribute="trailing" constant="3" id="aN0-I2-CEg"/>
                             <constraint firstItem="ct6-Sw-b04" firstAttribute="centerY" secondItem="NKg-Je-Ilr" secondAttribute="centerY" constant="-1" id="avM-Sz-nhg"/>
+                            <constraint firstItem="Kap-pY-YV9" firstAttribute="trailing" secondItem="L6X-Vc-oAP" secondAttribute="trailing" constant="3" id="cpe-Ts-eBk"/>
                             <constraint firstItem="Kap-pY-YV9" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="bottom" constant="4" id="dIh-KL-Wis"/>
                             <constraint firstItem="pAR-kq-GJx" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="ePx-Pr-8vc"/>
                             <constraint firstItem="X2N-xf-jDg" firstAttribute="top" secondItem="xgZ-f6-Fov" secondAttribute="top" id="fFf-fu-9W8"/>
