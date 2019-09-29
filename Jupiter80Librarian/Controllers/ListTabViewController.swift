@@ -42,10 +42,12 @@ class ListTabViewController: NSTabViewController {
 
     override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         // Animate window resizing so it appears smooth
-        NSAnimationContext.runAnimationGroup { (context) in
-            context.allowsImplicitAnimation = true
-            if let window = NSApplication.shared.mainWindow {
-                window.layoutIfNeeded()
+        if #available(OSX 10.12, *) {
+            NSAnimationContext.runAnimationGroup { (context) in
+                context.allowsImplicitAnimation = true
+                if let window = NSApplication.shared.mainWindow {
+                    window.layoutIfNeeded()
+                }
             }
         }
     }
