@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class TonesListViewController: SuperListViewController {
+class TonesListViewController: SuperListViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var partial1Column: NSTableColumn!
 	@IBOutlet var partial2Column: NSTableColumn!
 	@IBOutlet var partial3Column: NSTableColumn!
@@ -86,7 +86,7 @@ class TonesListViewController: SuperListViewController {
 
 	// MARK: Table view
 
-	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+    @objc func numberOfRows(in tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == listTableView {
@@ -100,7 +100,7 @@ class TonesListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    @objc func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
@@ -156,7 +156,7 @@ class TonesListViewController: SuperListViewController {
 		return result
 	}
 
-	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
 		if tableView == livesTableView {
 			livesTableData = (livesTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDLiveSet]
 		} else if tableView == regsTableView {

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class LiveSetsListViewController: SuperListViewController {
+class LiveSetsListViewController: SuperListViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var layer1Column: NSTableColumn!
 	@IBOutlet var layer2Column: NSTableColumn!
 	@IBOutlet var layer3Column: NSTableColumn!
@@ -79,7 +79,7 @@ class LiveSetsListViewController: SuperListViewController {
 
 	// MARK: - Table view
 
-	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+    @objc func numberOfRows(in tableView: NSTableView) -> Int {
 		var nrOfRows = 0
 
 		if tableView == listTableView {
@@ -91,7 +91,7 @@ class LiveSetsListViewController: SuperListViewController {
 		return nrOfRows
 	}
 
-	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    @objc func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView
 
 		result.textField?.textColor = .labelColor
@@ -151,7 +151,7 @@ class LiveSetsListViewController: SuperListViewController {
 		return result
 	}
 
-	func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
 		if tableView == regsTableView {
 			regsTableData = (regsTableData as NSArray).sortedArray(using: tableView.sortDescriptors) as! [SVDRegistration]
 		} else {

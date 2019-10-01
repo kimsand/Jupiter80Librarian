@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class RegistrationsListViewController: SuperListViewController {
+class RegistrationsListViewController: SuperListViewController, NSTableViewDataSource, NSTableViewDelegate {
 	@IBOutlet var upperColumn: NSTableColumn!
 	@IBOutlet var lowerColumn: NSTableColumn!
 	@IBOutlet var soloColumn: NSTableColumn!
@@ -73,13 +73,13 @@ class RegistrationsListViewController: SuperListViewController {
 
 	// MARK: Table view
 
-	@objc func numberOfRowsInTableView(_ tableView: NSTableView) -> Int {
+    @objc func numberOfRows(in tableView: NSTableView) -> Int {
 		let nrOfRows = tableData.count
 
 		return nrOfRows
 	}
 
-	@objc func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    @objc func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		// Retrieve to get the view from the pool or,
 		// if no version is available in the pool, load the Interface Builder version
 		let result = tableView.makeView(withIdentifier: tableColumn!.identifier, owner:self) as! NSTableCellView

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class SuperListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class SuperListViewController: NSViewController {
 	enum DependencySegment: Int {
 		case all = 1
 		case selected
