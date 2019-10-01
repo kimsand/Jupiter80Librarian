@@ -36,6 +36,7 @@
 		E8546FF41A423275009EF6E3 /* TonesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TonesListViewController.swift; path = Controllers/TonesListViewController.swift; sourceTree = "<group>"; };
 		E8546FF61A460C13009EF6E3 /* Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mapping.swift; path = Model/Mapping.swift; sourceTree = "<group>"; };
 		E8546FF81A461ABA009EF6E3 /* ListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListWindowController.swift; path = Controllers/ListWindowController.swift; sourceTree = "<group>"; };
+		E87A85B5234300E9002A8A44 /* Jupiter-80 Librarian.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Jupiter-80 Librarian.entitlements"; sourceTree = "<group>"; };
 		E89EC6621A34333F0076FE95 /* SVDFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDFile.swift; path = Model/SVDFile.swift; sourceTree = "<group>"; };
 		E89EC6681A34BAAD0076FE95 /* SVDRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDRegistration.swift; path = Model/SVDRegistration.swift; sourceTree = "<group>"; };
 		E8B2BF4B1A3790B600FC669D /* SVDLiveSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDLiveSet.swift; path = Model/SVDLiveSet.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 			children = (
 				E8E4AB701A1D131C00FCF1B5 /* Images.xcassets */,
 				E8E4AB6B1A1D131C00FCF1B5 /* Info.plist */,
+				E87A85B5234300E9002A8A44 /* Jupiter-80 Librarian.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -273,7 +275,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "$(PROJECT)/Jupiter-80 Librarian.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -329,7 +332,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "$(PROJECT)/Jupiter-80 Librarian.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -353,7 +357,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -369,7 +372,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
 				ENABLE_HARDENED_RUNTIME = YES;
