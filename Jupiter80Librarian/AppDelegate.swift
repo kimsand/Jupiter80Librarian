@@ -10,15 +10,7 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-	var model: Model!
-
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		model = Model.singleton
-	}
-
-	func applicationWillTerminate(_ aNotification: Notification) {
-		// Insert code here to tear down your application
-	}
+    var windowService = WindowService()
 
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		let fileURL = URL(fileURLWithPath: filename)
@@ -28,34 +20,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	func openFileURL(_ fileURL: URL) {
-		model.fileName = fileURL.lastPathComponent
-		NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileWasChosen"), object: nil)
-		NSDocumentController.shared.noteNewRecentDocumentURL(fileURL)
+		DLog("File URL: \(fileURL)")
 
-		DLog("fileURL: \(fileURL)")
-
-		var error: NSError?
-		let fileData: Data?
 		do {
-			fileData = try Data(contentsOf: fileURL, options: [])
-		} catch let error1 as NSError {
-			error = error1
-			fileData = nil
-		} catch {
-			fatalError()
+			let fileData = try Data(contentsOf: fileURL, options: [])
+            DLog("File size: \(fileData.count)")
+
+            let svdFile = SVDFile(fileData: fileData)
+            guard svdFile.isFileValid else {
+                DLog("Not a valid Jupiter-80/50 SVD file")
+                return
+            }
+
+            let fileName = fileURL.lastPathComponent
+
+            let model = Model()
+            model.openedSVDFile = svdFile
+            model.fileName = fileName
+
+            let windowController = ListWindowController.create(model: model)
+            windowService.createWindow(newWindowController: windowController, ordered: .above)
+            windowController.showWindow(self)
+
+            NSDocumentController.shared.noteNewRecentDocumentURL(fileURL)
+		} catch let error as NSError {
+            DLog("File error: \(error)")
 		}
-
-		if fileData != nil && error == nil {
-			DLog("file length:\(fileData!.count)")
-
-			let svdFile = SVDFile(fileData: fileData!)
-			model.openedSVDFile = svdFile
-
-			NotificationCenter.default.post(name: Notification.Name(rawValue: "svdFileDidUpdate"), object: nil)
-		} else if error != nil {
-			DLog("error:\(error!)")
-		}
-	}
+    }
 
     // MARK: - Actions
 
@@ -68,19 +59,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let status = openPanel.runModal()
 
-        var fileURL: URL?
+        guard
+            status == NSApplication.ModalResponse.OK,
+            let fileURL = openPanel.urls.first as URL?
+        else { return }
 
-        if status == NSApplication.ModalResponse.OK {
-            fileURL = openPanel.urls.first as URL?
-
-            openPanel.close()
-        }
+        openPanel.close()
 
         // Give the open dialog time to close to avoid it staying open on breakpoints
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { () -> Void in
-            if let fileURL = fileURL {
-                self.openFileURL(fileURL)
-            }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { () -> Void in
+            self.openFileURL(fileURL)
         })
     }
 }

@@ -16,22 +16,17 @@ class RegistrationsListViewController: SuperListViewController, NSTableViewDataS
 
 	// MARK: Lifecycle
 
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		svdSubType = .registration
-	}
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        svdSubType = .registration
+    }
 
-    override func viewDidLoad() {
-		NotificationCenter.default.addObserver(self, selector: #selector(RegistrationsListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
-        super.viewDidLoad()
-
-		updateSVD()
-	}
-
-	// MARK: Member methods
+    // MARK: Member methods
 
 	private func buildSelectionList() {
-		let selectedRowIndexes = listTableView.selectedRowIndexes
+        guard let model = model else { return }
+
+        let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedRegs: [SVDRegistration] = []
 
 		for index in selectedRowIndexes {

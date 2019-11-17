@@ -8,8 +8,6 @@
 
 import Cocoa
 
-private let sharedInstance = Model()
-
 class Model: NSObject {
 	var fileName: String?
 	var openedSVDFile: SVDFile?
@@ -21,8 +19,4 @@ class Model: NSObject {
 	var filteredRegistrations: [SVDRegistration] = []
 	var filteredLiveSets: [SVDLiveSet] = []
 	var filteredTones: [SVDTone] = []
-
-	class var singleton: Model {
-		return sharedInstance
-	}
 }

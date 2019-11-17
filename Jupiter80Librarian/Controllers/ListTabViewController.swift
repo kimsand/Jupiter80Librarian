@@ -13,17 +13,15 @@ class ListTabViewController: NSTabViewController {
 	@IBOutlet var liveTabViewItem: NSTabViewItem!
 	@IBOutlet var toneTabViewItem: NSTabViewItem!
 
-	private let model = Model.singleton
-	private var svdFile: SVDFile?
-
-    // MARK: - Lifecycle
-
-	override func viewDidLoad() {
-		NotificationCenter.default.addObserver(self, selector: #selector(ListTabViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
-		super.viewDidLoad()
-	}
-
     // MARK: - Tab view delegate
+
+    func loadModel(_ model: Model) {
+        tabViewItems.forEach({ tabViewItem in
+            if let viewController = tabViewItem.viewController as? SuperListViewController {
+                viewController.loadModel(model)
+            }
+        })
+    }
 
     override func tabView(_ tabView: NSTabView, willSelect tabViewItem: NSTabViewItem?) {
         // In a tab view that has different widths for its tabs, the inactive
@@ -48,22 +46,6 @@ class ListTabViewController: NSTabViewController {
                 if let window = NSApplication.shared.mainWindow {
                     window.layoutIfNeeded()
                 }
-            }
-        }
-    }
-}
-
-// MARK: - Notifications
-
-extension ListTabViewController {
-    @objc func svdFileDidUpdate(_ notification: Notification) {
-        DispatchQueue.main.async {
-            self.svdFile = self.model.openedSVDFile
-
-            if let svdFile = self.svdFile {
-                self.regTabViewItem.label = "Registrations (\(svdFile.nrOfRegs))"
-                self.liveTabViewItem.label = "Live sets (\(svdFile.nrOfLives))"
-                self.toneTabViewItem.label = "Tones (\(svdFile.nrOfTones))"
             }
         }
     }

@@ -11,6 +11,9 @@
 		E820EFAA1C8C4290000EC965 /* SVDType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E820EFA91C8C4290000EC965 /* SVDType.swift */; };
 		E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */; };
 		E82402481A3D7DF000FA4F09 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82402461A3D7DF000FA4F09 /* Model.swift */; };
+		E848A708238158A400CA62D8 /* WindowController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E848A706238158A400CA62D8 /* WindowController.storyboard */; };
+		E848A70A2381609000CA62D8 /* WindowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848A7092381609000CA62D8 /* WindowService.swift */; };
+		E848A70C2381614300CA62D8 /* NotificationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848A70B2381614300CA62D8 /* NotificationToken.swift */; };
 		E8546FF11A421B63009EF6E3 /* ListTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8546FF01A421B63009EF6E3 /* ListTabViewController.swift */; };
 		E8546FF31A422124009EF6E3 /* LiveSetsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8546FF21A422124009EF6E3 /* LiveSetsListViewController.swift */; };
 		E8546FF51A423275009EF6E3 /* TonesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8546FF41A423275009EF6E3 /* TonesListViewController.swift */; };
@@ -31,6 +34,9 @@
 		E820EFA91C8C4290000EC965 /* SVDType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVDType.swift; path = Model/SVDType.swift; sourceTree = "<group>"; };
 		E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationsListViewController.swift; path = Controllers/RegistrationsListViewController.swift; sourceTree = "<group>"; };
 		E82402461A3D7DF000FA4F09 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Model.swift; path = Model/Model.swift; sourceTree = "<group>"; };
+		E848A707238158A400CA62D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/WindowController.storyboard; sourceTree = "<group>"; };
+		E848A7092381609000CA62D8 /* WindowService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WindowService.swift; path = Controllers/WindowService.swift; sourceTree = "<group>"; };
+		E848A70B2381614300CA62D8 /* NotificationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationToken.swift; path = Utility/NotificationToken.swift; sourceTree = "<group>"; };
 		E8546FF01A421B63009EF6E3 /* ListTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListTabViewController.swift; path = Controllers/ListTabViewController.swift; sourceTree = "<group>"; };
 		E8546FF21A422124009EF6E3 /* LiveSetsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiveSetsListViewController.swift; path = Controllers/LiveSetsListViewController.swift; sourceTree = "<group>"; };
 		E8546FF41A423275009EF6E3 /* TonesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TonesListViewController.swift; path = Controllers/TonesListViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +75,7 @@
 				E82402431A3D61EA00FA4F09 /* RegistrationsListViewController.swift */,
 				E820EFA71C8C1FAF000EC965 /* SuperListViewController.swift */,
 				E8546FF41A423275009EF6E3 /* TonesListViewController.swift */,
+				E848A7092381609000CA62D8 /* WindowService.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -77,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */,
+				E848A706238158A400CA62D8 /* WindowController.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -99,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E8D493E91C4B7A3500763598 /* Macros.swift */,
+				E848A70B2381614300CA62D8 /* NotificationToken.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -205,6 +214,7 @@
 			files = (
 				E8E4AB711A1D131C00FCF1B5 /* Images.xcassets in Resources */,
 				E8E4AB741A1D131C00FCF1B5 /* Main.storyboard in Resources */,
+				E848A708238158A400CA62D8 /* WindowController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +232,11 @@
 				E8B2BF4C1A3790B600FC669D /* SVDLiveSet.swift in Sources */,
 				E820EFA81C8C1FAF000EC965 /* SuperListViewController.swift in Sources */,
 				E8E4AB6D1A1D131C00FCF1B5 /* AppDelegate.swift in Sources */,
+				E848A70A2381609000CA62D8 /* WindowService.swift in Sources */,
 				E8546FF71A460C13009EF6E3 /* Mapping.swift in Sources */,
 				E89EC6631A34333F0076FE95 /* SVDFile.swift in Sources */,
 				E82402441A3D61EA00FA4F09 /* RegistrationsListViewController.swift in Sources */,
+				E848A70C2381614300CA62D8 /* NotificationToken.swift in Sources */,
 				E89EC6691A34BAAD0076FE95 /* SVDRegistration.swift in Sources */,
 				E8546FF91A461ABA009EF6E3 /* ListWindowController.swift in Sources */,
 				E8D493EA1C4B7A3500763598 /* Macros.swift in Sources */,
@@ -236,6 +248,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		E848A706238158A400CA62D8 /* WindowController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E848A707238158A400CA62D8 /* Base */,
+			);
+			name = WindowController.storyboard;
+			sourceTree = "<group>";
+		};
 		E8E4AB721A1D131C00FCF1B5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

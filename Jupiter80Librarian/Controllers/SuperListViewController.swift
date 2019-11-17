@@ -30,7 +30,7 @@ class SuperListViewController: NSViewController {
 	@IBOutlet var dependencySegmentedControl: NSSegmentedControl!
     @IBOutlet var breakingLayoutConstraint: NSLayoutConstraint!
 
-    let model = Model.singleton
+    var model: Model?
 	var svdFile: SVDFile?
 	var isInitSound = false
 
@@ -43,16 +43,15 @@ class SuperListViewController: NSViewController {
 
 	// MARK: - Lifecycle
 
-	required init?(coder: NSCoder) {
-		// Set a dummy value to satisfy compiler. The actual value is set by the sub class.
-		svdSubType = .registration
-		super.init(coder: coder)
-	}
+    required init?(coder: NSCoder) {
+        svdSubType = .registration
+        super.init(coder: coder)
+    }
 
 	override func viewDidAppear() {
 		super.viewDidAppear()
 
-		NSApplication.shared.mainWindow?.makeFirstResponder(listTableView)
+        NSApplication.shared.mainWindow?.makeFirstResponder(listTableView)
 	}
 
     func deactivateBreakingLayoutConstraint() {
@@ -65,8 +64,10 @@ class SuperListViewController: NSViewController {
 
     // MARK: - Member methods
 
-	func updateSVD() {
-		svdFile = model.openedSVDFile
+    func loadModel(_ model: Model) {
+        self.model = model
+
+        svdFile = model.openedSVDFile
 
 		if let svdFile = svdFile {
 			tableData.removeAll(keepingCapacity: true)
@@ -84,8 +85,10 @@ class SuperListViewController: NSViewController {
 		listTableView.reloadData()
 	}
 
-	private func indexSetFromTypes() -> IndexSet {
-		let indexSet = NSMutableIndexSet()
+	private func indexSetFromTypes() -> IndexSet? {
+        guard let model = model else { return nil }
+
+        let indexSet = NSMutableIndexSet()
 
 		let selectedTypes: [SVDType]
 
@@ -119,13 +122,14 @@ class SuperListViewController: NSViewController {
 
 		listTableView.reloadData()
 
-		let indexSet = indexSetFromTypes()
-		listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+        if let indexSet = indexSetFromTypes() {
+            listTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+        }
 	}
 
     private func filterTable() {
         // Reset to the list filtered by the dependency segment
-        var filteredTypes = typeListFilteredOnDependencies()
+        guard var filteredTypes = typeListFilteredOnDependencies() else { return }
 
         // Filter based on the content of ALL filter text fields
         filteredTypes = typeListFilteredOnTextFieldsForTypeList(filteredTypes)
@@ -142,8 +146,9 @@ class SuperListViewController: NSViewController {
 	}
 
 	func buildDependencyList(_ regsTableData: inout [SVDRegistration], livesTableData: inout [SVDLiveSet], includeRegsFromLiveSets: Bool = false) {
-		let selectedRowIndexes = indexSetFromTypes()
-		let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
+        guard let selectedRowIndexes = indexSetFromTypes() else { return }
+
+        let regSet = NSMutableSet(capacity: selectedRowIndexes.count)
 		let liveSet = NSMutableSet(capacity: selectedRowIndexes.count)
 
 		(selectedRowIndexes as NSIndexSet).enumerate({
@@ -183,8 +188,10 @@ class SuperListViewController: NSViewController {
 		livesTableData += liveList
 	}
 
-	private func typeListFilteredOnDependencies(ignoreSearchFilter doIgnoreSearchFilter: Bool = true) -> [SVDType] {
-		var filteredTypes: [SVDType] = []
+	private func typeListFilteredOnDependencies(ignoreSearchFilter doIgnoreSearchFilter: Bool = true) -> [SVDType]? {
+        guard let model = model else { return nil }
+
+        var filteredTypes: [SVDType] = []
 
 		guard let svdFile = svdFile else {
 			return filteredTypes
@@ -503,7 +510,9 @@ class SuperListViewController: NSViewController {
 	}
 
 	private func resetTextFieldFiltersFromTypeList(_ typeList: [SVDType]) {
-		switch svdSubType {
+        guard let model = model else { return }
+
+        switch svdSubType {
 		case .registration:
 			if let filteredRegs = typeList as? [SVDRegistration] {
 				model.filteredRegistrations = filteredRegs
@@ -668,15 +677,8 @@ extension SuperListViewController: NSControlTextEditingDelegate {
 
 extension SuperListViewController {
 	@IBAction func dependencySegmentedControlAction(_ sender: NSSegmentedControl) {
-		let filteredTypes = typeListFilteredOnDependencies(ignoreSearchFilter: false)
-		updateTableFromTypeList(filteredTypes)
-	}
-
-	// MARK: Notifications
-
-	@objc func svdFileDidUpdate(_ notification: Notification) {
-		DispatchQueue.main.async {
-            self.updateSVD()
-		}
+        if let filteredTypes = typeListFilteredOnDependencies(ignoreSearchFilter: false) {
+            updateTableFromTypeList(filteredTypes)
+        }
 	}
 }

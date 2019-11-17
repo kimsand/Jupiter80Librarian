@@ -28,23 +28,23 @@ class TonesListViewController: SuperListViewController, NSTableViewDataSource, N
 
 	// MARK: Lifecycle
 
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		svdSubType = .tone
-	}
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        svdSubType = .tone
+    }
 
 	override func viewDidLoad() {
-		NotificationCenter.default.addObserver(self, selector: #selector(TonesListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
         deactivateBreakingLayoutConstraint()
-		updateSVD()
 	}
 
 	// MARK: Member methods
 
 	private func buildSelectionList() {
-		let selectedRowIndexes = listTableView.selectedRowIndexes
+        guard let model = model else { return }
+
+        let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedTones: [SVDTone] = []
 
 		for index in selectedRowIndexes {

@@ -93,7 +93,7 @@ class SVDFile: NSObject {
 
 	private let fileData: Data
 
-	private var isFileValid = false
+	private(set) var isFileValid = false
 
 	var headerOffset: Int = 0x0
 
@@ -200,9 +200,7 @@ class SVDFile: NSObject {
 		nrOfTones = numberFromBytes(nrOfTonesBytes)
 		toneBytes.location = nrOfTonesBytes.location + nrOfTonesBytes.length + kToneMetaLength
 
-		DLog("Nr of regs: \(nrOfRegs)")
-		DLog("Nr of lives: \(nrOfLives)")
-		DLog("Nr of tones: \(nrOfTones)")
+		DLog("Nr of regs: \(nrOfRegs), lives: \(nrOfLives), tones: \(nrOfTones)")
 	}
 
 	private func findRegistrations() {

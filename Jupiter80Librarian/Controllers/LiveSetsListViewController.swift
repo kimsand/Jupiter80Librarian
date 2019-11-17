@@ -22,23 +22,23 @@ class LiveSetsListViewController: SuperListViewController, NSTableViewDataSource
 
 	// MARK: - Lifecycle
 
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		svdSubType = .liveSet
-	}
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        svdSubType = .liveSet
+    }
 
 	override func viewDidLoad() {
-		NotificationCenter.default.addObserver(self, selector: #selector(LiveSetsListViewController.svdFileDidUpdate(_:)), name: NSNotification.Name(rawValue: "svdFileDidUpdate"), object: nil)
 		super.viewDidLoad()
 
         deactivateBreakingLayoutConstraint()
-		updateSVD()
 	}
 
 	// MARK: - Member methods
 
 	private func buildSelectionList() {
-		let selectedRowIndexes = listTableView.selectedRowIndexes
+        guard let model = model else { return }
+
+        let selectedRowIndexes = listTableView.selectedRowIndexes
 		var selectedLiveSets: [SVDLiveSet] = []
 
 		for index in selectedRowIndexes {
