@@ -48,11 +48,11 @@ class SuperListViewController: NSViewController {
         super.init(coder: coder)
     }
 
-	override func viewDidAppear() {
-		super.viewDidAppear()
+    override func viewDidLayout() {
+        super.viewDidLayout()
 
         NSApplication.shared.mainWindow?.makeFirstResponder(listTableView)
-	}
+    }
 
     func deactivateBreakingLayoutConstraint() {
         NSLayoutConstraint.deactivate([breakingLayoutConstraint])
