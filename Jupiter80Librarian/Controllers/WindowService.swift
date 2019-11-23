@@ -15,7 +15,7 @@ class WindowService {
         let closingSubscription: NotificationToken
     }
 
-    fileprivate(set) var managedWindows: [ManagedWindow] = []
+    private(set) var managedWindows: [ManagedWindow] = []
 
     func createWindow(newWindowController: ListWindowController,
                    ordered orderingMode: NSWindow.OrderingMode) {

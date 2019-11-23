@@ -9,19 +9,22 @@
 import Cocoa
 
 class ListWindowController: NSWindowController {
+    private(set) var hasLoadedModel = false
+
     // MARK: - Lifecycle
+
+    static func createBlank() -> ListWindowController {
+        let windowStoryboard = NSStoryboard(name: "WindowController", bundle: nil)
+        let windowController = windowStoryboard.instantiateInitialController() as! ListWindowController
+
+        return windowController
+    }
 
     static func create(model: Model) -> ListWindowController {
         let windowStoryboard = NSStoryboard(name: "WindowController", bundle: nil)
         let windowController = windowStoryboard.instantiateInitialController() as! ListWindowController
 
-        if let fileName = model.fileName {
-            windowController.window?.title = fileName
-        }
-
-        if let tabBarController = windowController.window?.contentViewController as? ListTabViewController {
-            tabBarController.loadModel(model)
-        }
+        windowController.load(model: model)
 
         return windowController
     }
@@ -30,5 +33,19 @@ class ListWindowController: NSWindowController {
 		super.windowDidLoad()
 
 		window?.title = "Open a Jupiter-80/50 SVD file"
+    }
+
+    // MARK: - Member methods
+
+    func load(model: Model) {
+        if let fileName = model.fileName {
+            window?.title = fileName
+        }
+
+        if let tabBarController = window?.contentViewController as? ListTabViewController {
+            tabBarController.loadModel(model)
+        }
+
+        hasLoadedModel = true
     }
 }

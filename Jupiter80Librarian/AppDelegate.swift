@@ -12,6 +12,13 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var windowService = WindowService()
 
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        // Start with a blank window to show the UI before a file is loaded
+        let windowController = ListWindowController.createBlank()
+        windowService.createWindow(newWindowController: windowController, ordered: .above)
+        windowController.showWindow(self)
+    }
+
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		let fileURL = URL(fileURLWithPath: filename)
 		openFileURL(fileURL)
@@ -38,8 +45,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             model.openedSVDFile = svdFile
             model.fileName = fileName
 
-            let windowController = ListWindowController.create(model: model)
-            windowService.createWindow(newWindowController: windowController, ordered: .above)
+            let windowController: ListWindowController
+
+            // Reuse the blank window if it is the only window opened
+            if
+                windowService.managedWindows.count == 1,
+                let blankController = windowService.managedWindows.first?.windowController as? ListWindowController,
+                !blankController.hasLoadedModel {
+                windowController = blankController
+                windowController.load(model: model)
+            } else {
+                windowController = ListWindowController.create(model: model)
+                windowService.createWindow(newWindowController: windowController, ordered: .above)
+            }
+
             windowController.showWindow(self)
 
             NSDocumentController.shared.noteNewRecentDocumentURL(fileURL)
