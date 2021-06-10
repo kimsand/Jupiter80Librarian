@@ -242,7 +242,11 @@ class SVDFile: NSObject {
 
 	func compareData(_ byteStruct: SVDBytes) -> Bool {
 		let byteData = dataFromBytes(byteStruct)
-		let byteCheck = Data(bytes: UnsafePointer<UInt8>(byteStruct.bytes), count: byteStruct.length)
+		var byteCheck = Data()
+
+        byteStruct.bytes.withUnsafeBufferPointer { pointer in
+            byteCheck.append(contentsOf: pointer)
+        }
 
 		return (byteData == byteCheck)
 	}
@@ -340,7 +344,11 @@ class SVDFile: NSObject {
 			unshiftedBytes.append(oneByte)
 		}
 
-		let unshiftedData = Data(bytes: UnsafePointer<UInt8>(unshiftedBytes), count: unshiftedBytes.count)
+		var unshiftedData = Data()
+
+        unshiftedBytes.withUnsafeBufferPointer { pointer in
+            unshiftedData.append(contentsOf: pointer)
+        }
 
 		return unshiftedData
 	}
