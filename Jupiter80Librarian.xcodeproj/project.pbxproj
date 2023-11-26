@@ -185,7 +185,6 @@
 				TargetAttributes = {
 					E8E4AB661A1D131C00FCF1B5 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = AWJM6V23RK;
 						LastSwiftMigration = 1030;
 					};
 				};
@@ -388,6 +387,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Jupiter80Librarian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -410,6 +410,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = AWJM6V23RK;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Jupiter80Librarian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

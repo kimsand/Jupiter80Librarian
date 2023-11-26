@@ -3,7 +3,6 @@
 //  Jupiter80Librarian
 //
 //  Created by Kim André Sand on 14/12/14.
-//  Copyright (c) 2014 Kim André Sand. All rights reserved.
 //
 
 import Cocoa

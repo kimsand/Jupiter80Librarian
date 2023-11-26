@@ -3,7 +3,6 @@
 //  Jupiter-80 Librarian
 //
 //  Created by Kim André Sand on 17/11/2019.
-//  Copyright © 2019 Kim André Sand. All rights reserved.
 //
 
 import Cocoa
